@@ -5,9 +5,12 @@
 {% block content %}
 <h1>NFL Team Injury Report</h1>
     <ul>
-        {% if teams|length > 0 %}
-            {% for team in teams %}
-                <li>{{team}}</li>
+        {% if all_injuries|length > 0 %}
+            {% for injury_url in all_injuries %}
+                <li>{{injury_url}}</li>
+                <ul>
+                    <li>{{injuries_list_item}}</li>
+                </ul>
             {% endfor %}
         {% else %}
             <li>No injury data available.</li>
