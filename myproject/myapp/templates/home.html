@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>NFL Team Injury Report</h1>
+    <ul>
+        {% if teams|length > 0 %}
+            {% for team in teams %}
+                <li>{{team}}</li>
+            {% endfor %}
+        {% else %}
+            <li>No injury data available.</li>
+        {% endif %}
+    </ul>
+{% endblock %}
