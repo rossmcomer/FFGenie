@@ -10,7 +10,9 @@
                 <li><strong>{{injury.status}}</strong></li>
                 <ul>
                     <li>{{ injury.longComment }}</li>
+                    {% if injury.details.returnDate %}
                     <li>Return Date: {{injury.details.returnDate}}</li>
+                    {% endif %}
                 </ul>
             {% endfor %}
         {% else %}
