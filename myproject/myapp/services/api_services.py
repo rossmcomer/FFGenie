@@ -14,21 +14,35 @@ def get_teams_injuries_url():
         print(f"Error fetching team injury urls: {e}")
         return []
 
-def get_all_injuries():
+def get_all_injuries_urls():
     teams_injuries_urls = get_teams_injuries_url()
-    all_injuries = []
+    all_injuries_urls = []
 
     for injury_url in teams_injuries_urls:
         try:
             response = requests.get(injury_url)
             response.raise_for_status()
-            injury_data = response.json()
-            injury_links = [item["$ref"] for item in injury_data.get("items", [])]
-            print(injury_links)
-            # Add injury items to the all_injuries list
-            all_injuries.extend(injury_links)
+            team_injury_data = response.json()
+            injury_links = [item["$ref"] for item in team_injury_data.get("items", [])]
+            all_injuries_urls.extend(injury_links)
         except requests.exceptions.RequestException as e:
             print(f"Error fetching injury data for {injury_url}: {e}")
             continue
 
-    return all_injuries
+    return all_injuries_urls
+
+def get_all_injuries_data():
+    all_injuries_urls = get_all_injuries_urls()
+    all_injuries_data = []
+
+    for injury_url in all_injuries_urls:
+        try:
+            response = requests.get(injury_url)
+            response.raise_for_status()
+            injury_data = response.json()
+            all_injuries_data.append(injury_data)
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching injury data for {injury_url}: {e}")
+            continue
+
+    return all_injuries_data

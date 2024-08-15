@@ -1,13 +1,13 @@
 import requests
 from django.shortcuts import render
-from ..services.api_services import get_teams_injuries_url, get_all_injuries
+from ..services.api_services import get_all_injuries_data
 
 def home(request):
-    teams_injuries_urls = get_teams_injuries_url()
-    all_injuries = get_all_injuries()
+    all_injuries_data = get_all_injuries_data()
+    
+    print(all_injuries_data[0])
 
     context = {
-            'teams_injuries_urls': teams_injuries_urls,
-            'all_injuries': all_injuries
+            'all_injuries_data': all_injuries_data
         }
     return render(request, 'home.html', context)

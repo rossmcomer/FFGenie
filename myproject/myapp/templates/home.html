@@ -3,13 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>NFL Team Injury Report</h1>
+<h1>NJRY</h1>
     <ul>
-        {% if all_injuries|length > 0 %}
-            {% for injury_url in all_injuries %}
-                <li>{{injury_url}}</li>
+        {% if all_injuries_data|length > 0 %}
+            {% for injury in all_injuries_data %}
+                <li><strong>{{injury.status}}</strong></li>
                 <ul>
-                    <li>{{injuries_list_item}}</li>
+                    <li>{{ injury.longComment }}</li>
+                    <li>Return Date: {{injury.details.returnDate}}</li>
                 </ul>
             {% endfor %}
         {% else %}
