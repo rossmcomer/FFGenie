@@ -6,7 +6,7 @@
 <h1>NJRY</h1>
         {% if all_injuries_data|length > 0 %}
             {% for injury in all_injuries_data %}
-                <div><strong><img src={{injury.athlete_data.headshot.href}}/>{{injury.athlete_data.fullName}}</strong></div>
+                <div><strong><img src={{injury.athlete_data.headshot.href}}>{{injury.athlete_data.fullName}}</strong></div>
                 <div>{{injury.athlete_data.position.abbreviation}}/{{injury.athlete_data.jersey}}</div>
                 <ul>
                     <li><strong>{{injury.status}}</strong></li>

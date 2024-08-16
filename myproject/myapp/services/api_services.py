@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 def get_teams_injuries_url():
     teams_url = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/teams"
@@ -59,5 +60,7 @@ def get_all_injuries_data():
         except requests.exceptions.RequestException as e:
             print(f"Error fetching data for {injury_url}: {e}")
             continue
+
+        all_injuries_data.sort(key=lambda injury: datetime.strptime(injury['date'], "%Y-%m-%dT%H:%MZ"))
 
     return all_injuries_data
