@@ -1,0 +1,26 @@
+body {
+
+}
+
+.navBarContainer {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items:flex-end;
+}
+
+div a {
+    color: white;
+    text-decoration: none;
+}
+
+a :active{
+    color: white;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
