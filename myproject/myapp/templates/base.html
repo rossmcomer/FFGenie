@@ -11,13 +11,16 @@
 </head>
 <body>
     <div class="wrapper">
-        <!-- Include the NavBar here -->
-        {% include 'navbar.html' %}
-
-        <!-- Main content will go here -->
-        <div class="content">
-            {% block content %}{% endblock %}
+        <div class="headerContainer">
+            <div></div>
+            <div class="title">NJRY</div>
+            <!-- Include the NavBar here -->
+            {% include 'navbar.html' %}
         </div>
+            <!-- Main content will go here -->
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
     </div>
 </body>
 </html>

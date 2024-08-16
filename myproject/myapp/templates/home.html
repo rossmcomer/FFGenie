@@ -3,14 +3,16 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>NJRY</h1>
     {% if all_injuries_data|length > 0 %}
+        <div class="injuriesContainer">
         {% for injury in all_injuries_data %}
-        <div class="injuryContainer">
+        <div class="injuryContainer" 
+        style="background-image: url('{{injury.team_data.logos.0.href}}'); background-size: cover; background-position: center;">
             <div>
                 <strong>
-                <img src="{{injury.team_data.logos.0.href}}" style="width:100px"/>
-                <img src="{{injury.athlete_data.headshot.href}}" style="width:100px"/>{{injury.athlete_data.fullName}}
+                <img src="{{injury.athlete_data.headshot.href}}" 
+                class="headshot"
+                onerror="this.onerror=null; this.src='/static/images/defaultPhoto.png';" />{{injury.athlete_data.fullName}}
                 </strong>
             </div>
             <div>{{injury.athlete_data.position.abbreviation}}/{{injury.athlete_data.jersey}}</div>
@@ -26,5 +28,6 @@
             </ul>
         </div>
         {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
