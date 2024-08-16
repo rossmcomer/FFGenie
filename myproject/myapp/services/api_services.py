@@ -41,9 +41,23 @@ def get_all_injuries_data():
             response = requests.get(injury_url)
             response.raise_for_status()
             injury_data = response.json()
+
+            athlete_url = injury_data['athlete']['$ref']
+            athlete_response = requests.get(athlete_url)
+            athlete_response.raise_for_status()
+            athlete_data = athlete_response.json()
+
+            team_url = injury_data['team']['$ref']
+            team_response = requests.get(team_url)
+            team_response.raise_for_status()
+            team_data = team_response.json()
+
+            injury_data['athlete_data'] = athlete_data
+            injury_data['team_data'] = team_data
+
             all_injuries_data.append(injury_data)
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching injury data for {injury_url}: {e}")
+            print(f"Error fetching data for {injury_url}: {e}")
             continue
 
     return all_injuries_data

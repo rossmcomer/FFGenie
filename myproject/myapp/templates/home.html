@@ -4,19 +4,22 @@
 
 {% block content %}
 <h1>NJRY</h1>
-    <ul>
         {% if all_injuries_data|length > 0 %}
             {% for injury in all_injuries_data %}
-                <li><strong>{{injury.status}}</strong></li>
+                <div><strong><img src={{injury.athlete_data.headshot.href}}/>{{injury.athlete_data.fullName}}</strong></div>
+                <div>{{injury.athlete_data.position.abbreviation}}/{{injury.athlete_data.jersey}}</div>
                 <ul>
+                    <li><strong>{{injury.status}}</strong></li>
                     <li>{{ injury.longComment }}</li>
                     {% if injury.details.returnDate %}
-                    <li>Return Date: {{injury.details.returnDate}}</li>
+                    <li><b>Type:</b> {{ injury.details.type }}</li>
+                    <li><b>Location:</b> {{ injury.details.location }}</li>
+                    <li><b>Side:</b> {{ injury.details.side }}</li>
+                    <li><b>Return Date:</b> {{injury.details.returnDate}}</li>
                     {% endif %}
                 </ul>
             {% endfor %}
         {% else %}
-            <li>No injury data available.</li>
+            <div>No injury data available.</div>
         {% endif %}
-    </ul>
 {% endblock %}
