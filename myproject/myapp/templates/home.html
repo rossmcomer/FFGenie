@@ -21,6 +21,7 @@
                 <li><strong>{{injury.status}}</strong></li>
                 <li>{{ injury.longComment }}</li>
                 {% if injury.details.returnDate %}
+                <li><b>Date:</b> {{ injury.date }}</li>
                 <li><b>Type:</b> {{ injury.details.type }}</li>
                 <li><b>Location:</b> {{ injury.details.location }}</li>
                 <li><b>Side:</b> {{ injury.details.side }}</li>

@@ -34,10 +34,9 @@ def get_all_injuries_urls():
 
 def get_all_injuries_data():
     all_injuries_urls = get_all_injuries_urls()
-    top_20_urls = all_injuries_urls[:10]
     all_injuries_data = []
 
-    for injury_url in top_20_urls:
+    for injury_url in all_injuries_urls:
         try:
             response = requests.get(injury_url)
             response.raise_for_status()
