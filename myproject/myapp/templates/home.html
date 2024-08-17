@@ -6,28 +6,30 @@
     {% if all_injuries_data|length > 0 %}
         <div class="injuriesContainer">
         {% for injury in all_injuries_data %}
-        <div class="injuryContainer" 
+        <div class="injuryBackgroundContainer" 
         style="background-image: url('{{injury.team_data.logos.0.href}}'); background-size: cover; background-position: center;">
-            <div class="injuryHeaderContainer">
-                <img src="{{injury.athlete_data.headshot.href}}" 
-                class="headshot"
-                onerror="this.onerror=null; this.src='/static/images/defaultPhoto.png';" />
-                <div class="nameNumberPos">
-                    <strong>{{injury.athlete_data.fullName}}</strong>
-                    <div>{{injury.athlete_data.position.abbreviation}}/{{injury.athlete_data.jersey}}</div>
+            <div class="injuryContainer">    
+                <div class="injuryHeaderContainer">
+                    <img src="{{injury.athlete_data.headshot.href}}" 
+                    class="headshot"
+                    onerror="this.onerror=null; this.src='/static/images/defaultPhoto.png';" />
+                    <div class="nameNumberPos">
+                        <strong>{{injury.athlete_data.fullName}}</strong>
+                        <div>{{injury.athlete_data.position.abbreviation}}/{{injury.athlete_data.jersey}}</div>
+                    </div>
                 </div>
+                <ul>
+                    <li><strong>{{injury.status}}</strong></li>
+                    <li>{{ injury.longComment }}</li>
+                    {% if injury.details.returnDate %}
+                    <li><b>Date:</b> {{ injury.date }}</li>
+                    <li><b>Type:</b> {{ injury.details.type }}</li>
+                    <li><b>Location:</b> {{ injury.details.location }}</li>
+                    <li><b>Side:</b> {{ injury.details.side }}</li>
+                    <li><b>Return Date:</b> {{injury.details.returnDate}}</li>
+                    {% endif %}
+                </ul>
             </div>
-            <ul>
-                <li><strong>{{injury.status}}</strong></li>
-                <li>{{ injury.longComment }}</li>
-                {% if injury.details.returnDate %}
-                <li><b>Date:</b> {{ injury.date }}</li>
-                <li><b>Type:</b> {{ injury.details.type }}</li>
-                <li><b>Location:</b> {{ injury.details.location }}</li>
-                <li><b>Side:</b> {{ injury.details.side }}</li>
-                <li><b>Return Date:</b> {{injury.details.returnDate}}</li>
-                {% endif %}
-            </ul>
         </div>
         {% endfor %}
         </div>
