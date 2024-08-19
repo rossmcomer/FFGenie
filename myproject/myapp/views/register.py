@@ -1,4 +1,9 @@
-from django.http import HttpResponse
+from ..services.api_services import get_all_NFL_injuries
 
 def register(request):
-    return HttpResponse("Register")
+    all_injuries_data = get_all_NFL_injuries()
+
+    context = {
+            'all_injuries_data': all_injuries_data
+        }
+    return render(request, 'register.html', context)
