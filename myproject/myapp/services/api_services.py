@@ -65,23 +65,23 @@ def get_all_injuries_data():
 
     return all_injuries_data
 
-def get_all_NFL_injuries():
+# def get_all_NFL_injuries():
 
-    url = "https://nfl-api-data.p.rapidapi.com/nfl-team-injuries"
+#     url = "https://nfl-api-data.p.rapidapi.com/nfl-team-injuries"
 
-    querystring = {"id":"22"}
+#     querystring = {"id":"22"}
 
-    headers = {
-        "x-rapidapi-key": "806bac7309mshe33e6b811e491c2p142642jsn5fd6cfddea8b",
-        "x-rapidapi-host": "nfl-api-data.p.rapidapi.com"
-    }
+#     headers = {
+#         "x-rapidapi-key": "806bac7309mshe33e6b811e491c2p142642jsn5fd6cfddea8b",
+#         "x-rapidapi-host": "nfl-api-data.p.rapidapi.com"
+#     }
 
-    try:
-        response = requests.get(url, headers=headers, params=querystring)
-        response.raise_for_status()
-        injury_data = response.json()
+#     try:
+#         response = requests.get(url, headers=headers, params=querystring)
+#         response.raise_for_status()
+#         injury_data = response.json()
 
-    except requests.exceptions.RequestException as e:
-                print(f"Error fetching data for {url}: {e}")
+#     except requests.exceptions.RequestException as e:
+#                 print(f"Error fetching data for {url}: {e}")
 
-    return injury_data
+#     return injury_data
