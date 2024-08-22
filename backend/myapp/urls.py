@@ -1,10 +1,8 @@
 from django.urls import path
-from .views.home import home
+from .views.players import players
 from .views.watchlist import watchlist
 from .views.register import register
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('watchlist/', watchlist, name='watchlist'),
-    path('register/', register, name='register'),
+    path('api/players', players, name='players'),
 ]

@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from ..services.api_services import get_all_injuries_data
+from ..services.api_services import get_all_NFL_injuries
 
 def home(request):
-    all_injuries_data = get_all_injuries_data()
+    all_injuries_data = get_all_NFL_injuries()
     
     print(all_injuries_data[0])
 
