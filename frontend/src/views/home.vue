@@ -1,5 +1,21 @@
 <script lang="ts">
-import PlayersService from "../services/players"
+import { ref, onMounted } from 'vue';
+import injuriesService from "../services/injuries"
+
+const injuries = ref([]);
+
+const fetchInjuries = async () => {
+  try {
+    const data = await injuriesService.getAllInjuries();
+    injuries.value = data;
+  } catch (error) {
+    console.error('Failed to fetch injuries:', error);
+  }
+};
+
+onMounted(() => {
+  fetchInjuries();
+});
 </script>
 
 <template>

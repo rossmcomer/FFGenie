@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from .controllers.injuries import get_all_injuries_data
 
-def players(request):
+def injuries(request):
     all_injuries_data = get_all_injuries_data()
 
     print(all_injuries_data[0])
