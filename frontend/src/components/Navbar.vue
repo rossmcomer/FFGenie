@@ -1,7 +1,9 @@
 <template>
-    <div>
-        
+    <nav>
+    <div class="navBarContainer">
+        <router-link to="/">Home</router-link>
     </div>
+</nav>
 </template>
 <script lang="ts">
 // defineProps<{ msg: string }>()
