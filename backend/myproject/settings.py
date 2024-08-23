@@ -58,9 +58,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'livereload',
+    'corsheaders',
     'django.contrib.staticfiles',
     'myapp',
-    'corsheaders'
 ]
 
 MIDDLEWARE = [

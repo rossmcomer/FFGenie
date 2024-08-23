@@ -33,7 +33,7 @@ def get_all_injuries_urls():
     return all_injuries_urls
 
 def get_all_injuries_data():
-    all_injuries_urls = get_all_injuries_urls()
+    all_injuries_urls = get_all_injuries_urls()[:5]
     all_injuries_data = []
 
     for injury_url in all_injuries_urls:
