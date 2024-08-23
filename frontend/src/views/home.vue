@@ -1,4 +1,5 @@
 <script lang="ts">
+import PlayersService from "../services/players"
 </script>
 
 <template>
