@@ -1,5 +1,5 @@
-export interface InjuryBasic {
-    id: number;
-    name: string;
-    description: string;
-  }
+// export interface InjuryBasic {
+//     id: number;
+//     name: string;
+//     description: string;
+//   }

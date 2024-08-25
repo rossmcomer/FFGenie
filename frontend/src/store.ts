@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import injuriesService from '../services/injuries'
+// import injuriesService from '../services/injuries'
 
 interface State {
     injuries: any[]

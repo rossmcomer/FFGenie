@@ -16,6 +16,8 @@ export default {
   background-color: rgb(36, 184, 85);
   position: fixed;
   min-width: 344px;
+  z-index: 1;
+  top: 0;
 }
     
 </style>

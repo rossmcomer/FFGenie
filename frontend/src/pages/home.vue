@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import injuriesService from "../services/injuries"
-import { InjuryBasic } from '../types';
+// import { InjuryBasic } from '../types'
 
 const injuries = ref([])
 
@@ -21,8 +21,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>test</div>
+    <div class="pageContainer">test</div>
 </template>
 
-<style scoped>
+<style>
+.pageContainer {
+  margin-top:80px;
+}
 </style>
