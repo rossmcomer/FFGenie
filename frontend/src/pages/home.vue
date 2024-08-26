@@ -1,43 +1,31 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import injuriesService from "../services/injuries"
-// import { InjuryBasic } from '../types'
+import sleeperUserService from "../services/sleeperUser"
 
-const injuries = ref<Record<string, any>[]>([])
+const sleeperUser = ref<{ avatar: string; display_name: string } | null>(null)
 
-
-const fetchInjuries = async () => {
+const fetchSleeperUser = async () => {
   try {
-    const data= await injuriesService.getAllInjuries()
-    injuries.value = data.all_injuries_data
-    console.log(injuries.value)
+    const data= await sleeperUserService.getSleeperUser()
+    sleeperUser.value = data
+    console.log(sleeperUser.value)
   } catch (error) {
-    console.error('Failed to fetch injuries:', error)
+    console.error('Failed to fetch sleeperUser', error)
   }
 }
 
 onMounted(() => {
-  fetchInjuries()
+  fetchSleeperUser()
 })
 
 </script>
 
 <template>
-    <div class="pageContainer">
-      <div v-if="injuries.length > 0" class="injuriesContainer">
-        <div
-          v-for="(injury, index) in injuries"
-          :key="index"
-          class="injuryBackgroundContainer"
-          :style="{
-            backgroundImage: `url(${injury.team_data.logos[0].href})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }"
-        >
-        </div>
-      </div>
+  <div class="pageContainer">
+    <div v-if="sleeperUser" class="userContainer">
+      
     </div>
+  </div>
 </template>
 
 <style>
