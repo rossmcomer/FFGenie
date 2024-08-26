@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import injuriesService from "../services/injuries"
 // import { InjuryBasic } from '../types'
 
-const injuries = ref([])
+const injuries = ref<Record<string, any>[]>([])
 
 const fetchInjuries = async () => {
   try {
@@ -23,7 +23,7 @@ onMounted(() => {
 <template>
     <div class="pageContainer">
       <div v-for="(injury, index) in injuries" :key="index">
-      injury id
+      {{injury.id}}
       </div>
     </div>
 </template>
