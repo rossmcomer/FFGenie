@@ -8,7 +8,7 @@ const injuries = ref([])
 const fetchInjuries = async () => {
   try {
     const data= await injuriesService.getAllInjuries()
-    injuries.value = data
+    injuries.value = data.all_injuries_data
     console.log(injuries.value)
   } catch (error) {
     console.error('Failed to fetch injuries:', error)
@@ -21,7 +21,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="pageContainer">test</div>
+    <div class="pageContainer">
+      <div v-for="(injury, index) in injuries" :key="index">
+      injury id
+      </div>
+    </div>
 </template>
 
 <style>
