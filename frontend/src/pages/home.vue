@@ -5,6 +5,7 @@ import injuriesService from "../services/injuries"
 
 const injuries = ref<Record<string, any>[]>([])
 
+
 const fetchInjuries = async () => {
   try {
     const data= await injuriesService.getAllInjuries()
@@ -18,12 +19,23 @@ const fetchInjuries = async () => {
 onMounted(() => {
   fetchInjuries()
 })
+
 </script>
 
 <template>
     <div class="pageContainer">
-      <div v-for="(injury, index) in injuries" :key="index">
-      {{injury.id}}
+      <div v-if="injuries.length > 0" class="injuriesContainer">
+        <div
+          v-for="(injury, index) in injuries"
+          :key="index"
+          class="injuryBackgroundContainer"
+          :style="{
+            backgroundImage: `url(${injury.team_data.logos[0].href})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }"
+        >
+        </div>
       </div>
     </div>
 </template>
@@ -31,5 +43,25 @@ onMounted(() => {
 <style>
 .pageContainer {
   margin-top:80px;
+}
+
+.injuriesContainer {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+}
+.injuryBackgroundContainer {
+    box-shadow: rgb(143, 143, 143) 2px 10px 10px;
+    background-color:black;
+    color: white;
+    margin: 10px;
+    width:340px;
+}
+
+.injuryContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    height: 100%;
+    width: 100%;
 }
 </style>
