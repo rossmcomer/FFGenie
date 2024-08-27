@@ -1,4 +1,4 @@
-import type { Outcome, Market, Bookmaker, GameInfo, ReducedGameInfo } from '../types'
+import type { GameInfo, ReducedGameInfo } from '../types'
 
 const getNflOdds = async () => {
     const response = await fetch(`https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds?apiKey=${import.meta.env.VITE_ODDS_API_KEY}&bookmakers=draftkings&markets=totals,h2h`)
@@ -14,4 +14,4 @@ const getNflOdds = async () => {
     return reducedData
     }
     
-export default getNflOdds
+export default { getNflOdds }
