@@ -1,28 +1,36 @@
 import { createStore } from 'vuex'
-// import injuriesService from '../services/injuries'
+import type { ReducedGameInfo } from './types'
+import nflOddsService from "./services/nflOdds"
 
 interface State {
-    injuries: any[]
+    nflOdds: ReducedGameInfo[]
 }
 
 const store = createStore<State>({
-state () {
-    return {
-        injuries: []
+    state () {
+        return {
+            nflOdds: []
+        }
+    },
+    mutations: {
+        setNflOdds(state, nflOdds: ReducedGameInfo[]) {
+        state.nflOdds = nflOdds
+        }
+    },
+    actions: {
+        async fetchNflOdds({ state, commit }) {
+            if (state.nflOdds.length > 0) {
+                return
+            }
+
+            try {
+                const response = await nflOddsService.getNflOdds()
+                commit('setNflOdds', response)
+            } catch (error) {
+                console.error('Failed to fetch NFL odds from DraftKings', error)
+            }
+        }
     }
-},
-mutations: {
-    setInjuries(state, injuries: any[]) {
-    state.injuries = injuries
-    }
-},
-actions: {
-    async fetchInjuries({ commit }) {
-    const response = await fetch('/api/injuries')
-    const data = await response.json()
-    commit('setInjuries', data)
-    }
-}
-})
+    })
   
-  export default store
+export default store
