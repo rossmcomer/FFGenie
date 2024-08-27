@@ -1,5 +1,40 @@
-// export interface InjuryBasic {
-//     id: number;
-//     name: string;
-//     description: string;
-//   }
+//nflOdds service begin
+
+export interface Outcome {
+  name: string
+  price: number
+  point: number
+}
+
+export interface Market {
+  key: string
+  last_update: Date
+  outcomes: Outcome[]
+}
+
+export interface Bookmaker {
+  key: string
+  title: string
+  last_update: Date
+  markets: Market[]
+}
+
+export interface GameInfo {
+  id: string
+  sport_key: string
+  sport_title: string
+  commence_time: Date
+  home_team: string
+  away_team: string
+  bookmakers: Bookmaker[]
+}
+
+export interface ReducedGameInfo {
+  commence_time: Date
+  home_team: string
+  away_team: string
+  over_under: number
+  last_update: Date
+}
+
+//nflOdds service end
