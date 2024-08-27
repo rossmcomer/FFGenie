@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
 import sleeperUserService from "../services/sleeperUser"
-import nflOddsService from "../services/nflOdds"
-import type { ReducedGameInfo } from "../types"
+
+const store = useStore()
 
 const sleeperUser = ref<{ user_id: string; display_name: string } | null>(null)
-const nflOdds = ref<ReducedGameInfo[] | null>(null)
+const nflOdds = computed(() => store.state.nflOdds)
 
 const fetchSleeperUser = async () => {
   try {
@@ -17,19 +18,8 @@ const fetchSleeperUser = async () => {
   }
 }
 
-const fetchNflOdds = async () => {
-  try {
-    const data= await nflOddsService.getNflOdds()
-    nflOdds.value = data
-    console.log(nflOdds.value)
-  } catch (error) {
-    console.error('Failed to fetch NFL odds from DraftKings', error)
-  }
-}
-
 onMounted(() => {
   fetchSleeperUser()
-  fetchNflOdds()
 })
 
 </script>

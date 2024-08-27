@@ -22,10 +22,10 @@ const store = createStore<State>({
             if (state.nflOdds.length > 0) {
                 return
             }
-
             try {
                 const response = await nflOddsService.getNflOdds()
                 commit('setNflOdds', response)
+                console.log('nflOdds state',state.nflOdds)
             } catch (error) {
                 console.error('Failed to fetch NFL odds from DraftKings', error)
             }
