@@ -12,4 +12,12 @@ const getSleeperUserLeagues = async (userId: string) => {
     return { league_id, avatar }
 }
 
+const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) => {
+    const response = await fetch (`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
+    const data = await response.json()
+    const userRoster = data.filter((t: any) => t.owner_id == userId)
+    const { players, reserve} = userRoster
+    return { players, reserve }
+}
+
 export default { getSleeperUser, getSleeperUserLeagues}
