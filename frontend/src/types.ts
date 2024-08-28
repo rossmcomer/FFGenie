@@ -3,6 +3,7 @@
 export interface SleeperUser {
   user_id: string
   display_name: string
+  avatar: string
 }
 
 //sleeperUser end

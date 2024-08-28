@@ -19,7 +19,7 @@ const fetchUser = () => {
 
 <template>
   <div class="pageContainer">
-    <div v-if="sleeperUser" class="userContainer">
+    <div class="userContainer">
       <form @submit.prevent="fetchUser">
         <input 
           v-model="username" 
@@ -27,9 +27,12 @@ const fetchUser = () => {
           placeholder="Sleeper username" 
         />
         <button type="submit">Fetch User</button>
-    </form>
-      <div>sleeperDisplayName: {{sleeperUser.display_name}}</div>
-      <div>sleeperUserId: {{sleeperUser.user_id}}</div>
+      </form>
+      <div v-if="sleeperUser.display_name != ''">
+        <div>sleeperDisplayName: {{sleeperUser.display_name}}</div>
+        <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" alt="sleeper Avatar"/>
+        <div>sleeperUserId: {{sleeperUser.user_id}}</div>
+      </div>
     </div>
     <div v-if="nflOdds" class="oddsContainer">
       <div v-for="(oddsObject, index) in nflOdds" :key="index" class="oddsItem">

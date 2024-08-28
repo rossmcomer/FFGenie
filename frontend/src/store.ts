@@ -14,7 +14,8 @@ const store = createStore<State>({
             nflOdds: [],
             sleeperUser: {
                 user_id: '',
-                display_name: ''
+                display_name: '',
+                avatar:''
             } as SleeperUser
         }
     },
