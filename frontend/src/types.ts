@@ -4,6 +4,7 @@ export interface SleeperUser {
   user_id: string
   display_name: string
   avatar: string
+  leagueIds: string[]
 }
 
 //sleeperUser end

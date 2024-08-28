@@ -7,11 +7,11 @@ const store = useStore()
 const nflOdds = computed(() => store.state.nflOdds)
 const sleeperUser = computed(() => store.state.sleeperUser)
 
-const username = ref('');
+const username = ref<string>('');
 
 const fetchUser = () => {
   if (username.value) {
-    store.dispatch('fetchSleeperUser', username.value);
+    store.dispatch('fetchSleeperUser', username.value)
   }
 }
 
@@ -32,6 +32,8 @@ const fetchUser = () => {
         <div>sleeperDisplayName: {{sleeperUser.display_name}}</div>
         <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" alt="sleeper Avatar"/>
         <div>sleeperUserId: {{sleeperUser.user_id}}</div>
+        <div>{{ sleeperUser.leagueIds }}</div>
+        <!-- <div v-for="(leagueId, index) in sleeperUser.leagueIds" :key="index" class="leagueId"></div> -->
       </div>
     </div>
     <div v-if="nflOdds" class="oddsContainer">

@@ -10,7 +10,6 @@ const getNflOdds = async () => {
         last_update: new Date(item.bookmakers[0].last_update),
         over_under: item.bookmakers[0].markets[0].outcomes[0].point,
         }))
-    
     return reducedData
     }
     

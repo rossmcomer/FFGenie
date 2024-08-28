@@ -11,21 +11,22 @@ interface State {
 const store = createStore<State>({
     state () {
         return {
-            nflOdds: [],
+            nflOdds: [] as ReducedGameInfo[],
             sleeperUser: {
                 user_id: '',
                 display_name: '',
-                avatar:''
+                avatar:'',
+                leagueIds:[]
             } as SleeperUser
         }
     },
     mutations: {
         setNflOdds(state, nflOdds: ReducedGameInfo[]) {
-        state.nflOdds = nflOdds
+            state.nflOdds = nflOdds
         },
         setSleeperUser(state, sleeperUser: SleeperUser) {
             state.sleeperUser = sleeperUser
-        }
+        },
     },
     actions: {
         async fetchNflOdds({ state, commit }) {
@@ -42,11 +43,13 @@ const store = createStore<State>({
         async fetchSleeperUser({ commit }, username: string) {
             try {
               const response = await sleeperUserService.getSleeperUser(username)
+              const leagueIds = await sleeperUserService.getSleeperUserLeagues(response.user_id)
+              response.leagueIds= leagueIds
               commit('setSleeperUser', response)
             } catch (error) {
               console.error('Failed to fetch Sleeper user', error)
             }
-          }
+        },
     }
     })
   
