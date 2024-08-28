@@ -5,4 +5,11 @@ const getSleeperUser = async (username: string) => {
     return { display_name, user_id, avatar }
 }
 
-export default { getSleeperUser }
+const getSleeperUserLeagues = async (userId: string) => {
+    const response = await fetch(`https://api.sleeper.app/v1/user/${userId}/leagues/<sport>/2024`)
+    const data = await response.json()
+    const { league_id, avatar } = data
+    return { league_id, avatar }
+}
+
+export default { getSleeperUser, getSleeperUserLeagues}
