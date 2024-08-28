@@ -1,3 +1,12 @@
+//sleeperUser begin
+
+export interface SleeperUser {
+  user_id: string
+  display_name: string
+}
+
+//sleeperUser end
+
 //nflOdds service begin
 
 export interface Outcome {

@@ -1,33 +1,35 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import sleeperUserService from "../services/sleeperUser"
 
 const store = useStore()
 
-const sleeperUser = ref<{ user_id: string; display_name: string } | null>(null)
 const nflOdds = computed(() => store.state.nflOdds)
+const sleeperUser = computed(() => store.state.sleeperUser)
 
-const fetchSleeperUser = async () => {
-  try {
-    const data= await sleeperUserService.getSleeperUser()
-    sleeperUser.value = data
-    console.log(sleeperUser.value)
-  } catch (error) {
-    console.error('Failed to fetch sleeperUser', error)
+const username = ref('');
+
+const fetchUser = () => {
+  if (username.value) {
+    store.dispatch('fetchSleeperUser', username.value);
   }
 }
-
-onMounted(() => {
-  fetchSleeperUser()
-})
 
 </script>
 
 <template>
   <div class="pageContainer">
     <div v-if="sleeperUser" class="userContainer">
-      <div>sleeperUserId: {{sleeperUser.display_name}}</div>
+      <form @submit.prevent="fetchUser">
+        <input 
+          v-model="username" 
+          type="text" 
+          placeholder="Sleeper username" 
+        />
+        <button type="submit">Fetch User</button>
+    </form>
+      <div>sleeperDisplayName: {{sleeperUser.display_name}}</div>
+      <div>sleeperUserId: {{sleeperUser.user_id}}</div>
     </div>
     <div v-if="nflOdds" class="oddsContainer">
       <div v-for="(oddsObject, index) in nflOdds" :key="index" class="oddsItem">

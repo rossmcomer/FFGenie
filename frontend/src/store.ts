@@ -1,20 +1,29 @@
 import { createStore } from 'vuex'
-import type { ReducedGameInfo } from './types'
+import type { ReducedGameInfo, SleeperUser } from './types'
 import nflOddsService from "./services/nflOdds"
+import sleeperUserService from "./services/sleeperUser"
 
 interface State {
     nflOdds: ReducedGameInfo[]
+    sleeperUser: SleeperUser
 }
 
 const store = createStore<State>({
     state () {
         return {
-            nflOdds: []
+            nflOdds: [],
+            sleeperUser: {
+                user_id: '',
+                display_name: ''
+            } as SleeperUser
         }
     },
     mutations: {
         setNflOdds(state, nflOdds: ReducedGameInfo[]) {
         state.nflOdds = nflOdds
+        },
+        setSleeperUser(state, sleeperUser: SleeperUser) {
+            state.sleeperUser = sleeperUser
         }
     },
     actions: {
@@ -25,11 +34,18 @@ const store = createStore<State>({
             try {
                 const response = await nflOddsService.getNflOdds()
                 commit('setNflOdds', response)
-                console.log('nflOdds state',state.nflOdds)
             } catch (error) {
                 console.error('Failed to fetch NFL odds from DraftKings', error)
             }
-        }
+        },
+        async fetchSleeperUser({ commit }, username: string) {
+            try {
+              const response = await sleeperUserService.getSleeperUser(username)
+              commit('setSleeperUser', response)
+            } catch (error) {
+              console.error('Failed to fetch Sleeper user', error)
+            }
+          }
     }
     })
   
