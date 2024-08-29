@@ -9,6 +9,7 @@ const store = useStore()
 const nflOdds = computed(() => store.state.nflOdds)
 const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
+const playersDetailed = computed(() => store.state.playersDetailed)
 
 const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
@@ -63,6 +64,14 @@ const fetchRoster = () => {
       <div v-if="selectedRoster.players[0] != null">
         <div>roster {{ selectedRoster.players }}</div>
         <div>reserve {{ selectedRoster.reserve }}</div>
+        <div v-for="(player, index) in playersDetailed" :key="index" class="playersDetailed">
+          <div class="playerCardContainer">
+            <div>{{ player.full_name }}</div>
+            <div>{{ player.position }}</div>
+            <div>{{ player.team }}</div>
+            <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`"/>
+          </div>
+        </div>
       </div>
     </div>
     <div v-if="nflOdds" class="oddsContainer">
