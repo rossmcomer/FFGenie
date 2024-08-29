@@ -1,11 +1,12 @@
 import { createStore } from 'vuex'
-import type { ReducedGameInfo, SleeperUser } from './types'
+import type { ReducedGameInfo, SleeperUser, SelectedRoster, League } from './types'
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
 
 interface State {
     nflOdds: ReducedGameInfo[]
     sleeperUser: SleeperUser
+    selectedRoster: SelectedRoster
 }
 
 const store = createStore<State>({
@@ -16,8 +17,12 @@ const store = createStore<State>({
                 user_id: '',
                 display_name: '',
                 avatar:'',
-                leagueIds:[]
-            } as SleeperUser
+                leagues:[]
+            } as SleeperUser,
+            selectedRoster: {
+                roster: [],
+                reserve: []
+            } as SelectedRoster
         }
     },
     mutations: {
@@ -27,6 +32,9 @@ const store = createStore<State>({
         setSleeperUser(state, sleeperUser: SleeperUser) {
             state.sleeperUser = sleeperUser
         },
+        setSelectedRoster(state, selectedRoster: SelectedRoster) {
+            state.selectedRoster = selectedRoster
+        }
     },
     actions: {
         async fetchNflOdds({ state, commit }) {
@@ -43,13 +51,22 @@ const store = createStore<State>({
         async fetchSleeperUser({ commit }, username: string) {
             try {
               const response = await sleeperUserService.getSleeperUser(username)
-              const leagueIds = await sleeperUserService.getSleeperUserLeagues(response.user_id)
-              response.leagueIds= leagueIds
+              const leagues = await sleeperUserService.getSleeperUserLeagues(response.user_id)
+              response.leagues= leagues
               commit('setSleeperUser', response)
             } catch (error) {
               console.error('Failed to fetch Sleeper user', error)
             }
         },
+        async fetchRosterFromLeague({ commit }, { userId, leagueId }: { userId: string, leagueId: string }) {
+            try {
+              const response = await sleeperUserService.getSleeperUserRosterFromLeague(userId, leagueId)
+              commit('setSelectedRoster', response)
+              console.log(response)
+            } catch (error) {
+              console.error('Failed to fetch roster from league', error)
+            }
+        }
     }
     })
   

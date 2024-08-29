@@ -4,7 +4,17 @@ export interface SleeperUser {
   user_id: string
   display_name: string
   avatar: string
-  leagueIds: string[]
+  leagues: League[]
+}
+
+export interface League {
+  league_id: string;
+  name: string;
+}
+
+export interface SelectedRoster {
+  roster: string[]
+  reserve: string[]
 }
 
 //sleeperUser end
