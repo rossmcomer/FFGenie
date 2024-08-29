@@ -7,7 +7,7 @@ interface State {
     nflOdds: ReducedGameInfo[]
     sleeperUser: SleeperUser
     selectedRoster: SelectedRoster
-    playersDetailed: playersDetailed
+    playersDetailed: any[]
 }
 
 const store = createStore<State>({
@@ -24,7 +24,7 @@ const store = createStore<State>({
                 players: [],
                 reserve: []
             } as SelectedRoster,
-            playersDetailed: [] as playersDetailed
+            playersDetailed: []
         }
     },
     mutations: {
@@ -55,6 +55,12 @@ const store = createStore<State>({
         },
         async fetchSleeperUser({ commit }, username: string) {
             try {
+              commit('setSleeperUser', {
+                user_id: '',
+                display_name: '',
+                avatar: '',
+                leagues: []
+              })
               const response = await sleeperUserService.getSleeperUser(username)
               const leagues = await sleeperUserService.getSleeperUserLeagues(response.user_id)
               response.leagues= leagues

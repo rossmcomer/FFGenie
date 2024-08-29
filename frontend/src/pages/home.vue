@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import type { League } from '../types'
 
@@ -14,6 +14,10 @@ const playersDetailed = computed(() => store.state.playersDetailed)
 const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
 
+// watch(selectedRoster, (newValue) => {
+//   console.log('Selected Roster changed:', newValue);
+// });
+
 const fetchUser = () => {
   if (username.value) {
     store.dispatch('fetchSleeperUser', username.value)
@@ -23,14 +27,15 @@ const fetchUser = () => {
 const fetchRoster = () => {
   if (selectedLeague.value.league_id != '') {
     const league = sleeperUser.value.leagues.find((l: League) => l.name === selectedLeague.value.name)
+    console.log('league', league)
     if (league) {
       store.dispatch('fetchRosterFromLeague', { userId: sleeperUser.value.user_id, leagueId: league.league_id })
       .then(() => {
-          store.dispatch('fetchPlayerDetails', { players: selectedRoster.value.players, reserve: selectedRoster.value.reserve });
+          store.dispatch('fetchPlayerDetails', { players: selectedRoster.value.players, reserve: selectedRoster.value.reserve })
         })
         .catch((error) => {
-          console.error('Failed to fetch roster or player details:', error);
-        });
+          console.error('Failed to fetch roster or player details:', error)
+        })
     }
   }
 }
@@ -61,7 +66,7 @@ const fetchRoster = () => {
         <div>{{ sleeperUser.leagues }}</div>
         <!-- <div v-for="(leagueId, index) in sleeperUser.leagueIds" :key="index" class="leagueId"></div> -->
       </div>
-      <div v-if="selectedRoster.players[0] != null">
+      <div v-if="selectedRoster.players[0]">
         <div>roster {{ selectedRoster.players }}</div>
         <div>reserve {{ selectedRoster.reserve }}</div>
         <div v-for="(player, index) in playersDetailed" :key="index" class="playersDetailed">

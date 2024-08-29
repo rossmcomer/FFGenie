@@ -28,14 +28,15 @@ const getAllPlayersFromRoster = async (players: string[], reserve: string[]) => 
     const data = await response.json()
     let allPlayersDetailed: any[] = []
 
-    for(let i=0; i<players.length; i++){
+    for (let i=0; i<players.length; i++) {
         const playerToAdd = data[players[i]]
         allPlayersDetailed.push(playerToAdd)
     }
-
+    if (reserve) {
     for (let i = 0; i < reserve.length; i++) {
         const playerToAdd = data[reserve[i]]
         allPlayersDetailed.push(playerToAdd)
+    }
     }
     console.log(allPlayersDetailed)
     return allPlayersDetailed
