@@ -13,9 +13,19 @@ export interface League {
 }
 
 export interface SelectedRoster {
-  roster: string[]
+  players: string[]
   reserve: string[]
 }
+
+export interface Player {
+  player_id: string;
+  name: string;
+  team: string;
+  position?: string
+}
+
+export type playersDetailed = any[]
+
 
 //sleeperUser end
 

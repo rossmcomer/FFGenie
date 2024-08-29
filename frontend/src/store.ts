@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import type { ReducedGameInfo, SleeperUser, SelectedRoster, League } from './types'
+import type { ReducedGameInfo, SleeperUser, SelectedRoster, playersDetailed } from './types'
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
 
@@ -7,6 +7,7 @@ interface State {
     nflOdds: ReducedGameInfo[]
     sleeperUser: SleeperUser
     selectedRoster: SelectedRoster
+    playersDetailed: playersDetailed
 }
 
 const store = createStore<State>({
@@ -20,9 +21,10 @@ const store = createStore<State>({
                 leagues:[]
             } as SleeperUser,
             selectedRoster: {
-                roster: [],
+                players: [],
                 reserve: []
-            } as SelectedRoster
+            } as SelectedRoster,
+            playersDetailed: [] as playersDetailed
         }
     },
     mutations: {
@@ -34,6 +36,9 @@ const store = createStore<State>({
         },
         setSelectedRoster(state, selectedRoster: SelectedRoster) {
             state.selectedRoster = selectedRoster
+        },
+        setPlayersDetailed(state, playersDetailed: playersDetailed) {
+            state.playersDetailed = playersDetailed
         }
     },
     actions: {
@@ -62,9 +67,16 @@ const store = createStore<State>({
             try {
               const response = await sleeperUserService.getSleeperUserRosterFromLeague(userId, leagueId)
               commit('setSelectedRoster', response)
-              console.log(response)
             } catch (error) {
               console.error('Failed to fetch roster from league', error)
+            }
+        },
+        async fetchPlayerDetails({ commit }, { players, reserve }: { players: string[], reserve: string[] }) {
+            try {
+              const response = await sleeperUserService.getAllPlayersFromRoster(players, reserve)
+              commit('setPlayersDetailed', response)
+            } catch (error) {
+              console.error('Failed to fetch player details from roster', error)
             }
         }
     }

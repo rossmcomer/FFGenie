@@ -23,21 +23,22 @@ const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) 
     return { players, reserve }
 }
 
-const getAllPlayersFromRoster = async (roster: string[], reserve: string[]) => {
+const getAllPlayersFromRoster = async (players: string[], reserve: string[]) => {
     const response = await fetch (`https://api.sleeper.app/v1/players/nfl`)
     const data = await response.json()
-    let players: {[key: string]: any} = {}
-    for(let i=0; i<roster.length; i++){
-        const playerToAdd = data.roster[i]
-        players[roster[i]] = playerToAdd
+    let allPlayersDetailed: any[] = []
+
+    for(let i=0; i<players.length; i++){
+        const playerToAdd = data[players[i]]
+        allPlayersDetailed.push(playerToAdd)
     }
+
     for (let i = 0; i < reserve.length; i++) {
         const playerToAdd = data[reserve[i]]
-        if (playerToAdd) {
-            players[reserve[i]] = playerToAdd
-        }
+        allPlayersDetailed.push(playerToAdd)
     }
-    return players
+    console.log(allPlayersDetailed)
+    return allPlayersDetailed
 }
 
 export default { getSleeperUser, getSleeperUserLeagues, getSleeperUserRosterFromLeague, getAllPlayersFromRoster }

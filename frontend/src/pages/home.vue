@@ -11,7 +11,7 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 
 const username = ref<string>('')
-const selectedLeague = ref<League>([])
+const selectedLeague = ref<League>({league_id:'', name: ''})
 
 const fetchUser = () => {
   if (username.value) {
@@ -20,13 +20,16 @@ const fetchUser = () => {
 }
 
 const fetchRoster = () => {
-  if (selectedLeague.value) {
-    console.log(selectedLeague.value)
-    console.log(sleeperUser.value)
+  if (selectedLeague.value.league_id != '') {
     const league = sleeperUser.value.leagues.find((l: League) => l.name === selectedLeague.value.name)
     if (league) {
-      console.log(league)
-      store.dispatch('fetchRosterFromLeague', { userId: sleeperUser.value.user_id, leagueId: league.league_id });
+      store.dispatch('fetchRosterFromLeague', { userId: sleeperUser.value.user_id, leagueId: league.league_id })
+      .then(() => {
+          store.dispatch('fetchPlayerDetails', { players: selectedRoster.value.players, reserve: selectedRoster.value.reserve });
+        })
+        .catch((error) => {
+          console.error('Failed to fetch roster or player details:', error);
+        });
     }
   }
 }
@@ -38,12 +41,13 @@ const fetchRoster = () => {
       <form @submit.prevent="fetchUser">
         <input 
           v-model="username" 
+          name="usernameInput"
           type="text" 
           placeholder="Sleeper username" 
         />
         <button type="submit">Fetch User</button>
       </form>
-      <select v-model="selectedLeague" @change="fetchRoster">
+      <select v-model="selectedLeague" @change="fetchRoster" name="leagueSelector">
           <option disabled value="">Select League</option>
           <option v-for="league in sleeperUser.leagues" :key="league" :value="league">
             {{ league.name }}
@@ -56,8 +60,8 @@ const fetchRoster = () => {
         <div>{{ sleeperUser.leagues }}</div>
         <!-- <div v-for="(leagueId, index) in sleeperUser.leagueIds" :key="index" class="leagueId"></div> -->
       </div>
-      <div v-if="selectedRoster[0] != null">
-        <div>roster {{ selectedRoster.roster }}</div>
+      <div v-if="selectedRoster.players[0] != null">
+        <div>roster {{ selectedRoster.players }}</div>
         <div>reserve {{ selectedRoster.reserve }}</div>
       </div>
     </div>
