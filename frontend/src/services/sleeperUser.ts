@@ -27,7 +27,6 @@ const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) 
 
 const getAllPlayersDetailed = async (players: string[], reserve: string[], allPlayers: allPlayers) => {
     const data = allPlayers
-    console.log(data, 'getAllPlayersDetailed')
     let allPlayersDetailed: any[] = []
 
     for (let i=0; i<players.length; i++) {

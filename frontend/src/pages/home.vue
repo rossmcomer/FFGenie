@@ -81,7 +81,7 @@ const fetchRoster = () => {
     <div v-if="nflOdds" class="oddsContainer">
       <div v-for="(oddsObject, index) in nflOdds" :key="index" class="oddsItem">
       <div>Start time:{{ oddsObject.commence_time }}</div>
-      <div>{{ oddsObject.home_team }}</div>
+      <div>Home Team:{{ oddsObject.home_team }}</div>
       <div>{{ oddsObject.away_team }}</div>
       <div>O/U{{ oddsObject.over_under }}</div>
       <div><i>last updated:</i>{{ oddsObject.last_update }}</div>

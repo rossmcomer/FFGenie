@@ -1,0 +1,162 @@
+[
+    {
+        "team": "Arizona Cardinals",
+        "stadium": "State Farm Stadium",
+        "zipcode": "85305"
+    },
+    {
+        "team": "Atlanta Falcons",
+        "stadium": "Mercedes-Benz Stadium",
+        "zipcode": "30313"
+    },
+    {
+        "team": "Baltimore Ravens",
+        "stadium": "M&T Bank Stadium",
+        "zipcode": "21230"
+    },
+    {
+        "team": "Buffalo Bills",
+        "stadium": "Highmark Stadium",
+        "zipcode": "14227"
+    },
+    {
+        "team": "Carolina Panthers",
+        "stadium": "Bank of America Stadium",
+        "zipcode": "28202"
+    },
+    {
+        "team": "Chicago Bears",
+        "stadium": "Soldier Field",
+        "zipcode": "60605"
+    },
+    {
+        "team": "Cincinnati Bengals",
+        "stadium": "Paycor Stadium",
+        "zipcode": "45202"
+    },
+    {
+        "team": "Cleveland Browns",
+        "stadium": "Cleveland Browns Stadium",
+        "zipcode": "44114"
+    },
+    {
+        "team": "Dallas Cowboys",
+        "stadium": "AT&T Stadium",
+        "zipcode": "76011"
+    },
+    {
+        "team": "Denver Broncos",
+        "stadium": "Empower Field at Mile High",
+        "zipcode": "80204"
+    },
+    {
+        "team": "Detroit Lions",
+        "stadium": "Ford Field",
+        "zipcode": "48226"
+    },
+    {
+        "team": "Green Bay Packers",
+        "stadium": "Lambeau Field",
+        "zipcode": "54304"
+    },
+    {
+        "team": "Houston Texans",
+        "stadium": "NRG Stadium",
+        "zipcode": "77054"
+    },
+    {
+        "team": "Indianapolis Colts",
+        "stadium": "Lucas Oil Stadium",
+        "zipcode": "46225"
+    },
+    {
+        "team": "Jacksonville Jaguars",
+        "stadium": "TIAA Bank Field",
+        "zipcode": "32202"
+    },
+    {
+        "team": "Kansas City Chiefs",
+        "stadium": "Arrowhead Stadium",
+        "zipcode": "64129"
+    },
+    {
+        "team": "Las Vegas Raiders",
+        "stadium": "Allegiant Stadium",
+        "zipcode": "89118"
+    },
+    {
+        "team": "Los Angeles Chargers",
+        "stadium": "SoFi Stadium",
+        "zipcode": "90301"
+    },
+    {
+        "team": "Los Angeles Rams",
+        "stadium": "SoFi Stadium",
+        "zipcode": "90301"
+    },
+    {
+        "team": "Miami Dolphins",
+        "stadium": "Hard Rock Stadium",
+        "zipcode": "33056"
+    },
+    {
+        "team": "Minnesota Vikings",
+        "stadium": "U.S. Bank Stadium",
+        "zipcode": "55415"
+    },
+    {
+        "team": "New England Patriots",
+        "stadium": "Gillette Stadium",
+        "zipcode": "02035"
+    },
+    {
+        "team": "New Orleans Saints",
+        "stadium": "Caesars Superdome",
+        "zipcode": "70112"
+    },
+    {
+        "team": "New York Giants",
+        "stadium": "MetLife Stadium",
+        "zipcode": "07073"
+    },
+    {
+        "team": "New York Jets",
+        "stadium": "MetLife Stadium",
+        "zipcode": "07073"
+    },
+    {
+        "team": "Philadelphia Eagles",
+        "stadium": "Lincoln Financial Field",
+        "zipcode": "19148"
+    },
+    {
+        "team": "Pittsburgh Steelers",
+        "stadium": "Acrisure Stadium",
+        "zipcode": "15212"
+    },
+    {
+        "team": "San Francisco 49ers",
+        "stadium": "Levi's Stadium",
+        "zipcode": "95054"
+    },
+    {
+        "team": "Seattle Seahawks",
+        "stadium": "Lumen Field",
+        "zipcode": "98134"
+    },
+    {
+        "team": "Tampa Bay Buccaneers",
+        "stadium": "Raymond James Stadium",
+        "zipcode": "33607"
+    },
+    {
+        "team": "Tennessee Titans",
+        "stadium": "Nissan Stadium",
+        "zipcode": "37219"
+    },
+    {
+        "team": "Washington Commanders",
+        "stadium": "FedExField",
+        "zipcode": "20785"
+    }
+]
