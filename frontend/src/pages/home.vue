@@ -5,7 +5,6 @@ import type { League } from '../types'
 
 
 const store = useStore()
-
 const nflOdds = computed(() => store.state.nflOdds)
 const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
@@ -33,9 +32,9 @@ const fetchRoster = () => {
       .then(() => {
           store.dispatch('fetchPlayerDetails', { players: selectedRoster.value.players, reserve: selectedRoster.value.reserve })
         })
-        .catch((error) => {
-          console.error('Failed to fetch roster or player details:', error)
-        })
+      .catch((error) => {
+        console.error('Failed to fetch roster or player details:', error)
+      })
     }
   }
 }

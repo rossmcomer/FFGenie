@@ -1,3 +1,5 @@
+import type {allPlayers} from '../types'
+
 const getSleeperUser = async (username: string) => {
     const response = await fetch(`https://api.sleeper.app/v1/user/${username}`)
     const data = await response.json()
@@ -23,9 +25,9 @@ const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) 
     return { players, reserve }
 }
 
-const getAllPlayersFromRoster = async (players: string[], reserve: string[]) => {
-    const response = await fetch (`https://api.sleeper.app/v1/players/nfl`)
-    const data = await response.json()
+const getAllPlayersDetailed = async (players: string[], reserve: string[], allPlayers: allPlayers) => {
+    const data = allPlayers
+    console.log(data, 'getAllPlayersDetailed')
     let allPlayersDetailed: any[] = []
 
     for (let i=0; i<players.length; i++) {
@@ -42,4 +44,4 @@ const getAllPlayersFromRoster = async (players: string[], reserve: string[]) => 
     return allPlayersDetailed
 }
 
-export default { getSleeperUser, getSleeperUserLeagues, getSleeperUserRosterFromLeague, getAllPlayersFromRoster }
+export default { getSleeperUser, getSleeperUserLeagues, getSleeperUserRosterFromLeague, getAllPlayersDetailed }

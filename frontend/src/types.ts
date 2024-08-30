@@ -17,11 +17,8 @@ export interface SelectedRoster {
   reserve: string[]
 }
 
-export interface Player {
-  player_id: string;
-  name: string;
-  team: string;
-  position?: string
+export interface allPlayers {
+  [key:string]: any
 }
 
 export type playersDetailed = any[]

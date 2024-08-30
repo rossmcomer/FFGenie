@@ -1,12 +1,14 @@
 import { createStore } from 'vuex'
-import type { ReducedGameInfo, SleeperUser, SelectedRoster, playersDetailed } from './types'
+import type { ReducedGameInfo, SleeperUser, SelectedRoster, allPlayers, playersDetailed } from './types'
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
+import getAllPlayersService from './services/getAllPlayers'
 
 interface State {
     nflOdds: ReducedGameInfo[]
     sleeperUser: SleeperUser
     selectedRoster: SelectedRoster
+    allPlayers: allPlayers
     playersDetailed: any[]
 }
 
@@ -24,7 +26,8 @@ const store = createStore<State>({
                 players: [],
                 reserve: []
             } as SelectedRoster,
-            playersDetailed: []
+            playersDetailed: [],
+            allPlayers: {} as allPlayers
         }
     },
     mutations: {
@@ -36,6 +39,9 @@ const store = createStore<State>({
         },
         setSelectedRoster(state, selectedRoster: SelectedRoster) {
             state.selectedRoster = selectedRoster
+        },
+        setAllPlayers(state, allPlayers: allPlayers) {
+            state.allPlayers = allPlayers
         },
         setPlayersDetailed(state, playersDetailed: playersDetailed) {
             state.playersDetailed = playersDetailed
@@ -77,9 +83,18 @@ const store = createStore<State>({
               console.error('Failed to fetch roster from league', error)
             }
         },
-        async fetchPlayerDetails({ commit }, { players, reserve }: { players: string[], reserve: string[] }) {
+        async fetchAllPlayers({ commit }) {
             try {
-              const response = await sleeperUserService.getAllPlayersFromRoster(players, reserve)
+              const response = await getAllPlayersService.getAllPlayers()
+              commit('setAllPlayers', response)
+            } catch (error) {
+              console.error('Failed to fetch all NFL players', error)
+            }
+        },
+        async fetchPlayerDetails({ commit, state }, { players, reserve }: { players: string[], reserve: string[] }) {
+            try {
+              const allPlayers = state.allPlayers
+              const response = await sleeperUserService.getAllPlayersDetailed(players, reserve, allPlayers)
               commit('setPlayersDetailed', response)
             } catch (error) {
               console.error('Failed to fetch player details from roster', error)
