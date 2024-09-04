@@ -66,3 +66,12 @@ export interface ReducedGameInfo {
 }
 
 //nflOdds service end
+
+//international games start
+
+export interface InternationalGameLocation {
+  gameId: string
+  stadium: string
+  lat: number
+  lon: number
+}
