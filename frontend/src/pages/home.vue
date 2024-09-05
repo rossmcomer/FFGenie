@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-import type { League } from '../types'
+import type { League, ReducedGameInfo } from '../types'
+import { parseISO, isWithinInterval, addDays, startOfDay } from 'date-fns'
 
 
 const store = useStore()
@@ -12,6 +13,11 @@ const playersDetailed = computed(() => store.state.playersDetailed)
 
 const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
+const selectedWeek = ref<number | ''>('')
+const selectedGames = ref<ReducedGameInfo[]>([])
+
+const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
+const seasonStartDate = new Date('2024-09-05T00:00:00Z')
 
 // watch(selectedRoster, (newValue) => {
 //   console.log('Selected Roster changed:', newValue);
@@ -38,6 +44,27 @@ const fetchRoster = () => {
     }
   }
 }
+
+const handleWeekChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  const week = Number(target.value)
+  fetchWeeklyGames(week)
+}
+
+const fetchWeeklyGames = (week: number) => {
+  if (!week) return
+  
+  const startOfWeek = addDays(seasonStartDate, (week - 1) * 7)
+  const endOfWeek = addDays(startOfWeek, 6)
+
+  console.log(`Fetching games for week ${week}: ${startOfWeek.toISOString()} to ${endOfWeek.toISOString()}`)
+
+  const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
+    return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeek), end: startOfDay(endOfWeek) })
+  })
+  console.log(`Fetching games for week ${week}`)
+  selectedGames.value = filteredGames
+}
 </script>
 
 <template>
@@ -56,6 +83,12 @@ const fetchRoster = () => {
           <option disabled value="">Select League</option>
           <option v-for="league in sleeperUser.leagues" :key="league" :value="league">
             {{ league.name }}
+          </option>
+      </select>
+      <select v-model="selectedWeek" @change="handleWeekChange" name="weekSelector">
+          <option disabled value="">Select Week</option>
+          <option v-for="week in weeks" :key="week" :value="week">
+            Week {{ week }}
           </option>
       </select>
       <div v-if="sleeperUser.display_name != ''">
@@ -78,13 +111,13 @@ const fetchRoster = () => {
         </div>
       </div>
     </div>
-    <div v-if="nflOdds" class="oddsContainer">
-      <div v-for="(oddsObject, index) in nflOdds" :key="index" class="oddsItem">
-      <div>Start time:{{ oddsObject.commence_time }}</div>
-      <div>Home Team:{{ oddsObject.home_team }}</div>
-      <div>{{ oddsObject.away_team }}</div>
-      <div>O/U{{ oddsObject.over_under }}</div>
-      <div><i>last updated:</i>{{ oddsObject.last_update }}</div>
+    <div v-if="selectedGames.length > 0" class="oddsContainer">
+      <div v-for="(game, index) in selectedGames" :key="index" class="oddsItem">
+      <div>Start time:{{ game.commence_time }}</div>
+      <div>Home Team:{{ game.home_team }}</div>
+      <div>{{ game.away_team }}</div>
+      <div>O/U{{ game.over_under }}</div>
+      <div><i>last updated:</i>{{ game.last_update }}</div>
     </div>
     </div>
   </div>

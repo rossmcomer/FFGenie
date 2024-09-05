@@ -58,6 +58,7 @@ export interface GameInfo {
 }
 
 export interface ReducedGameInfo {
+  id: string
   commence_time: Date
   home_team: string
   away_team: string
