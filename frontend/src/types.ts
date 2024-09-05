@@ -76,3 +76,5 @@ export interface GameLocation {
   lat: number
   lon: number
 }
+
+//international games end

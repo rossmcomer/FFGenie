@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo } from '../types'
-import { parseISO, isWithinInterval, addDays, startOfDay } from 'date-fns'
+import type { League, ReducedGameInfo, GameLocation } from '../types'
+import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 
 
 const store = useStore()
@@ -15,13 +15,10 @@ const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
+const locations = ref<GameLocation[]>([])
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
-
-// watch(selectedRoster, (newValue) => {
-//   console.log('Selected Roster changed:', newValue);
-// });
 
 const fetchUser = () => {
   if (username.value) {
