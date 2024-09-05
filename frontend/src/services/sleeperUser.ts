@@ -21,23 +21,17 @@ const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) 
     const response = await fetch (`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
     const rosters = await response.json()
     const userRoster = rosters.find((team: any) => team.owner_id == userId)
-    const { players, reserve } = userRoster
-    return { players, reserve }
+    const { players } = userRoster
+    return { players }
 }
 
-const getAllPlayersDetailed = async (players: string[], reserve: string[], allPlayers: allPlayers) => {
+const getAllPlayersDetailed = async (players: string[], allPlayers: allPlayers) => {
     const data = allPlayers
     let allPlayersDetailed: any[] = []
 
     for (let i=0; i<players.length; i++) {
         const playerToAdd = data[players[i]]
         allPlayersDetailed.push(playerToAdd)
-    }
-    if (reserve) {
-    for (let i = 0; i < reserve.length; i++) {
-        const playerToAdd = data[reserve[i]]
-        allPlayersDetailed.push(playerToAdd)
-    }
     }
     console.log(allPlayersDetailed)
     return allPlayersDetailed

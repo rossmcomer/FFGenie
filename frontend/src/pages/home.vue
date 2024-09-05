@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo, GameLocation } from '../types'
+import type { League, ReducedGameInfo, Stadium, InternationalStadium } from '../types'
 import { isWithinInterval, addDays, startOfDay } from 'date-fns'
+import internationalGames from '../assets/internationalGames.json'
+import stadiums from '../assets/stadiums.json'
+import teams from '../assets/teams.json'
 
 
 const store = useStore()
@@ -15,7 +18,7 @@ const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
-const locations = ref<GameLocation[]>([])
+const selectedStadiums = ref<Stadium[]>(stadiums)
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
@@ -54,12 +57,10 @@ const fetchWeeklyGames = (week: number) => {
   const startOfWeek = addDays(seasonStartDate, (week - 1) * 7)
   const endOfWeek = addDays(startOfWeek, 6)
 
-  console.log(`Fetching games for week ${week}: ${startOfWeek.toISOString()} to ${endOfWeek.toISOString()}`)
-
   const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
     return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeek), end: startOfDay(endOfWeek) })
   })
-  console.log(`Fetching games for week ${week}`)
+
   selectedGames.value = filteredGames
 }
 </script>

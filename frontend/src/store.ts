@@ -23,8 +23,7 @@ const store = createStore<State>({
                 leagues:[]
             } as SleeperUser,
             selectedRoster: {
-                players: [],
-                reserve: []
+                players: []
             } as SelectedRoster,
             playersDetailed: [],
             allPlayers: {} as allPlayers
@@ -91,10 +90,10 @@ const store = createStore<State>({
               console.error('Failed to fetch all NFL players', error)
             }
         },
-        async fetchPlayerDetails({ commit, state }, { players, reserve }: { players: string[], reserve: string[] }) {
+        async fetchPlayerDetails({ commit, state }, { players }: { players: string[] }) {
             try {
               const allPlayers = state.allPlayers
-              const response = await sleeperUserService.getAllPlayersDetailed(players, reserve, allPlayers)
+              const response = await sleeperUserService.getAllPlayersDetailed(players, allPlayers)
               commit('setPlayersDetailed', response)
             } catch (error) {
               console.error('Failed to fetch player details from roster', error)

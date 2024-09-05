@@ -14,7 +14,6 @@ export interface League {
 
 export interface SelectedRoster {
   players: string[]
-  reserve: string[]
 }
 
 export interface allPlayers {
@@ -68,13 +67,20 @@ export interface ReducedGameInfo {
 
 //nflOdds service end
 
-//international games start
+//stadiums start
 
-export interface GameLocation {
+export interface InternationalStadium {
   gameId: string
   stadium: string
   lat: number
   lon: number
 }
 
-//international games end
+export interface Stadium {
+  team: string
+  stadium: string
+  lat: number
+  lon: number
+}
+
+//stadiums end
