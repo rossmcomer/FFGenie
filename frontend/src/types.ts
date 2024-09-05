@@ -69,7 +69,7 @@ export interface ReducedGameInfo {
 
 //international games start
 
-export interface InternationalGameLocation {
+export interface GameLocation {
   gameId: string
   stadium: string
   lat: number
