@@ -79,13 +79,13 @@ const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]) => {
     } else {
       const stadium = stadiums.find(stadium => stadium.team == game.home_team)
       if (stadium){
-      selectedStadiums.value.push({
-        home_team: game.home_team,
-        away_team: game.away_team,
-        stadium: stadium.stadium,
-        lat: stadium.lat,
-        lon: stadium.lon
-      })
+        selectedStadiums.value.push({
+          home_team: game.home_team,
+          away_team: game.away_team,
+          stadium: stadium.stadium,
+          lat: stadium.lat,
+          lon: stadium.lon
+        })
       }
     }
   })
