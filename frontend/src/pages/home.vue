@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo, Stadium, InternationalGame, selectedWeather } from '../types'
+import type { League, ReducedGameInfo, Stadium, InternationalGame, Weather } from '../types'
 import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
@@ -20,7 +20,7 @@ const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
-const selectedWeather = ref<selectedWeather[]>([])
+const selectedWeather = ref<Weather[]>([])
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
@@ -56,8 +56,7 @@ const handleWeekChange = async (event: Event) => {
 
     await fetchSelectedStadiums(selectedGames.value)
 
-    const weatherData = await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
-    selectedWeather.value = weatherData
+    await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
     console.log(selectedWeather)
   } catch (error) {
     console.error("Error fetching data:", error)
@@ -110,16 +109,14 @@ const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]): Promise<void> 
   })
 }
 
-const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], selectedStadiums: Stadium[]): Promise<any[]> => {
+const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], selectedStadiums: Stadium[]): Promise<void> => {
   const weatherData = await Promise.all(
     selectedGames.map(async (game: ReducedGameInfo) => {
       const stadium = selectedStadiums.find(stadium => stadium.home_team === game.home_team)
 
       if (stadium) {
-        const gameTime = Math.floor(new Date(game.commence_time).getTime() / 1000)
-
         try {
-          const weather = await weatherService.getWeather(stadium, gameTime)
+          const weather = await weatherService.getWeather(stadium)
 
           return {
             home_team: game.home_team,
@@ -138,7 +135,7 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
     })
   )
 
-  selectedWeather.value = weatherData.filter(data => data !== null)
+  selectedWeather.value = weatherData.filter(data => data !== null) as Weather[]
 }
 </script>
 
