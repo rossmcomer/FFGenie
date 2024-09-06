@@ -69,15 +69,18 @@ export interface ReducedGameInfo {
 
 //stadiums start
 
-export interface InternationalStadium {
+export interface InternationalGame {
   gameId: string
+  home_team: string
+  away_team: string
   stadium: string
   lat: number
   lon: number
 }
 
 export interface Stadium {
-  team: string
+  home_team: string
+  away_team: string
   stadium: string
   lat: number
   lon: number

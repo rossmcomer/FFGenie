@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo, Stadium, InternationalStadium } from '../types'
+import type { League, ReducedGameInfo, Stadium, InternationalGame } from '../types'
 import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
@@ -18,7 +18,7 @@ const username = ref<string>('')
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
-const selectedStadiums = ref<Stadium[]>(stadiums)
+const selectedStadiums = ref<Stadium[]>([])
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
@@ -62,6 +62,33 @@ const fetchWeeklyGames = (week: number) => {
   })
 
   selectedGames.value = filteredGames
+}
+
+const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]) => {
+  selectedGames.forEach((game:ReducedGameInfo) => {
+    const matchedInternationalGame = internationalGames.find((internationalGame: InternationalGame )=> internationalGame.gameId === game.id) || null
+
+    if (matchedInternationalGame) {
+      selectedStadiums.value.push({
+        home_team: matchedInternationalGame.home_team,
+        away_team: matchedInternationalGame.away_team,
+        stadium: matchedInternationalGame.stadium,
+        lat: matchedInternationalGame.lat,
+        lon: matchedInternationalGame.lon
+      })
+    } else {
+      const stadium = stadiums.find(stadium => stadium.team == game.home_team)
+      if (stadium){
+      selectedStadiums.value.push({
+        home_team: game.home_team,
+        away_team: game.away_team,
+        stadium: stadium.stadium,
+        lat: stadium.lat,
+        lon: stadium.lon
+      })
+      }
+    }
+  })
 }
 </script>
 
