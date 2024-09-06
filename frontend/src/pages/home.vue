@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo, Stadium, InternationalGame } from '../types'
+import type { League, ReducedGameInfo, Stadium, InternationalGame, selectedWeather } from '../types'
 import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
@@ -20,7 +20,7 @@ const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
-const selectedWeather = ref<Weather[]>([])
+const selectedWeather = ref<selectedWeather[]>([])
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
@@ -138,7 +138,7 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
     })
   )
 
-  return weatherData
+  selectedWeather.value = weatherData.filter(data => data !== null)
 }
 </script>
 
