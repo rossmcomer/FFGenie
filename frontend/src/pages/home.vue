@@ -6,6 +6,7 @@ import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
 import teams from '../assets/teams.json'
+import weatherService from '../services/weather'
 
 
 const store = useStore()
@@ -19,6 +20,7 @@ const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
+const selectedWeather = ref<Weather[]>([])
 
 const weeks = Array.from({ length: 18 }, (_, i) => i + 1)
 const seasonStartDate = new Date('2024-09-05T00:00:00Z')
@@ -45,50 +47,98 @@ const fetchRoster = () => {
   }
 }
 
-const handleWeekChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
+const handleWeekChange = async (event: Event) => {
+  const target = event.target as HTMLSelectElement
   const week = Number(target.value)
-  fetchWeeklyGames(week)
+
+  try {
+    await fetchWeeklyGames(week)
+
+    await fetchSelectedStadiums(selectedGames.value)
+
+    const weatherData = await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
+    selectedWeather.value = weatherData
+    console.log(selectedWeather)
+  } catch (error) {
+    console.error("Error fetching data:", error)
+  }
 }
 
-const fetchWeeklyGames = (week: number) => {
-  if (!week) return
-  
-  const startOfWeek = addDays(seasonStartDate, (week - 1) * 7)
-  const endOfWeek = addDays(startOfWeek, 6)
+const fetchWeeklyGames = (week: number): Promise<void> => {
+  return new Promise((resolve) => {
+    if (!week) return resolve()
+    
+    const startOfWeek = addDays(seasonStartDate, (week - 1) * 7)
+    const endOfWeek = addDays(startOfWeek, 6)
 
-  const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
-    return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeek), end: startOfDay(endOfWeek) })
+    const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
+      return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeek), end: startOfDay(endOfWeek) })
+    })
+
+    selectedGames.value = filteredGames
+    resolve()
   })
-
-  selectedGames.value = filteredGames
 }
 
-const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]) => {
-  selectedGames.forEach((game:ReducedGameInfo) => {
-    const matchedInternationalGame = internationalGames.find((internationalGame: InternationalGame )=> internationalGame.gameId === game.id) || null
+const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]): Promise<void> => {
+  return new Promise((resolve) => {
+    selectedGames.forEach((game: ReducedGameInfo) => {
+      const matchedInternationalGame = internationalGames.find((internationalGame: InternationalGame) => internationalGame.gameId === game.id) || null
 
-    if (matchedInternationalGame) {
-      selectedStadiums.value.push({
-        home_team: matchedInternationalGame.home_team,
-        away_team: matchedInternationalGame.away_team,
-        stadium: matchedInternationalGame.stadium,
-        lat: matchedInternationalGame.lat,
-        lon: matchedInternationalGame.lon
-      })
-    } else {
-      const stadium = stadiums.find(stadium => stadium.team == game.home_team)
-      if (stadium){
+      if (matchedInternationalGame) {
         selectedStadiums.value.push({
-          home_team: game.home_team,
-          away_team: game.away_team,
-          stadium: stadium.stadium,
-          lat: stadium.lat,
-          lon: stadium.lon
+          home_team: matchedInternationalGame.home_team,
+          away_team: matchedInternationalGame.away_team,
+          stadium: matchedInternationalGame.stadium,
+          lat: matchedInternationalGame.lat,
+          lon: matchedInternationalGame.lon,
         })
+      } else {
+        const stadium = stadiums.find(stadium => stadium.team === game.home_team)
+        if (stadium) {
+          selectedStadiums.value.push({
+            home_team: game.home_team,
+            away_team: game.away_team,
+            stadium: stadium.stadium,
+            lat: stadium.lat,
+            lon: stadium.lon,
+          })
+        }
       }
-    }
+    })
+    resolve()
   })
+}
+
+const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], selectedStadiums: Stadium[]): Promise<any[]> => {
+  const weatherData = await Promise.all(
+    selectedGames.map(async (game: ReducedGameInfo) => {
+      const stadium = selectedStadiums.find(stadium => stadium.home_team === game.home_team)
+
+      if (stadium) {
+        const gameTime = Math.floor(new Date(game.commence_time).getTime() / 1000)
+
+        try {
+          const weather = await weatherService.getWeather(stadium, gameTime)
+
+          return {
+            home_team: game.home_team,
+            away_team: game.away_team,
+            stadium: stadium.stadium,
+            weather
+          }
+        } catch (error) {
+          console.error(`Error fetching weather for game ${game.home_team} vs ${game.away_team}:`, error)
+          return null
+        }
+      } else {
+        console.error(`Stadium not found for game with home team: ${game.home_team}`)
+        return null
+      }
+    })
+  )
+
+  return weatherData
 }
 </script>
 

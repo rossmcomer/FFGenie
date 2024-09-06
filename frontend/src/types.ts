@@ -87,3 +87,10 @@ export interface Stadium {
 }
 
 //stadiums end
+
+//weather start
+
+export interface Weather {
+  
+}
+//weather end
