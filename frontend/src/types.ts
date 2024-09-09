@@ -22,8 +22,15 @@ export interface allPlayers {
 
 export type playersDetailed = any[]
 
-
 //sleeperUser end
+
+// teams.json begin
+
+export interface TeamAbbreviation {
+  name: string
+  abbreviation: string
+}
+// teams.json end
 
 //nflOdds service begin
 
