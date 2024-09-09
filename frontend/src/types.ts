@@ -96,7 +96,7 @@ export interface Weather {
   home_team: string,
   away_team: string,
   stadium: string,
-  weather: WeatherResponse
+  weather: WeatherResponse | string
 }
 
 type WeatherResponse = {
