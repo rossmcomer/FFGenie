@@ -91,6 +91,7 @@ const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]): Promise<void> 
           stadium: matchedInternationalGame.stadium,
           lat: matchedInternationalGame.lat,
           lon: matchedInternationalGame.lon,
+          dome: matchedInternationalGame.dome
         })
       } else {
         const stadium = stadiums.find(stadium => stadium.team === game.home_team)
@@ -101,6 +102,7 @@ const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]): Promise<void> 
             stadium: stadium.stadium,
             lat: stadium.lat,
             lon: stadium.lon,
+            dome: stadium.dome
           })
         }
       }

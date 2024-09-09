@@ -76,6 +76,7 @@ export interface InternationalGame {
   stadium: string
   lat: number
   lon: number
+  dome: Boolean
 }
 
 export interface Stadium {
@@ -84,6 +85,7 @@ export interface Stadium {
   stadium: string
   lat: number
   lon: number
+  dome: Boolean
 }
 
 //stadiums end
