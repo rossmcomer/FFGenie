@@ -1,55 +1,73 @@
-  <script lang="ts" setup>
-  import { computed, PropType } from 'vue';
-  import teams from '../assets/teams.json'; // Import your teams JSON
-  import { PlayerDetailed, Weather, Stadium, Team } from '../types'; // Import relevant types
-  
-  // Props to receive data from the parent (Home.vue)
-  const props = defineProps<{
-    playersDetailed: PlayerDetailed[];
-    selectedWeather: Weather[];
-  }>();
-  
-  // Helper function to get the player's team from teams.json
-  const getPlayerTeam = (player: PlayerDetailed): Team | undefined => {
-    return teams.find((team: Team) => team.abbreviation === player.team);
-  };
-  
-  // Helper function to get weather data for the player's team
-  const getWeatherForTeam = (player: PlayerDetailed): Weather | undefined => {
+<script lang="ts" setup>
+import { computed, PropType } from 'vue'
+import teams from '../assets/teams.json'
+import type { PlayerDetailed, PlayersDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
+
+const props = defineProps<{
+    playersDetailed: PlayersDetailed
+    selectedWeather: Weather[]
+    selectedStadiums: Stadium[]
+}>()
+
+const getPlayerTeam = (player: PlayerDetailed): TeamAbbreviation | undefined => {
+    return teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
+}
+
+const getPlayerStadium = (player: PlayerDetailed): Stadium | undefined => {
+    const team = getPlayerTeam(player)
+    if (!team) return undefined
+    return props.selectedStadiums.find((stadium: Stadium) => stadium.home_team === team.name || stadium.away_team === team.name)
+}
+
+const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string | undefined => {
     const playerTeam = getPlayerTeam(player);
     if (!playerTeam) return undefined;
-  
-    const weatherForTeam = props.selectedWeather.find(
-      weather =>
+
+    const weatherForPlayer = props.selectedWeather.find(
+        weather =>
         weather.home_team === playerTeam.name || weather.away_team === playerTeam.name
-    );
-  
-    return weatherForTeam
-      ? { ...weatherForTeam, weatherString: typeof weatherForTeam.weather === 'string' ? weatherForTeam.weather : weatherForTeam.weather.condition }
-      : undefined;
-  };
+    )
+
+    if (weatherForPlayer){
+        const { weather } = weatherForPlayer
+        return weather
+    }
+    
+    return undefined
+}
+
+const isWeatherResponse = (data: WeatherResponse | string | undefined): data is WeatherResponse => {
+  return typeof data === 'object' && data !== null
+}
+
+const isString = (data: WeatherResponse | string | undefined): data is string => {
+  return typeof data === 'string'
+}
   </script>
 
 <template>
     <div>
-      <div v-for="player in playersDetailed" :key="player.id">
+      <div v-for="player in playersDetailed" :key="player.player_id">
         <div v-if="getPlayerTeam(player)">
-          <h3>Player: {{ player.name }}</h3>
-          <p>Team: {{ getPlayerTeam(player).name }}</p>
+          <h3>Player: {{ player.first_name }}{{ player.last_name }}</h3>
+          <p>Team: {{ getPlayerTeam(player)?.name }}</p>
+          <p>Stadium: {{ getPlayerStadium(player)?.stadium }}</p>
   
-          <div v-if="getWeatherForTeam(player)">
+          <div v-if="isWeatherResponse(getWeatherForPlayer(player))">
             <h4>Weather Information</h4>
-            <p>Home Team: {{ getWeatherForTeam(player)?.home_team }}</p>
-            <p>Away Team: {{ getWeatherForTeam(player)?.away_team }}</p>
-            <p>Weather: {{ getWeatherForTeam(player)?.weatherString }}</p>
+            <p>Temp: {{ getWeatherForPlayer(player)?.weather.description }}</p>
+            <p>Descrtiption: {{ getWeatherForPlayer(player)?.weatherString }}</p>
+            <p>Icon: {{ getWeatherForPlayer(player)?.weatherString }}</p>
+            <p>Wind: {{ getWeatherForPlayer(player)?.weatherString }}</p>
+            <p>Clouds: {{ getWeatherForPlayer(player)?.weatherString }}</p>
           </div>
-          <p v-else>No weather information available for this player's game</p>
+          <p v-else-if="isString(getWeatherForPlayer(player))">No weather information available for this player's game</p>
         </div>
       </div>
     </div>
-  </template>
-  
-  <style scoped>
-  
-  </style>
+</template>
+
+<style scoped>
+
+</style>
   

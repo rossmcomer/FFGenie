@@ -5,7 +5,6 @@ import type { League, ReducedGameInfo, Stadium, InternationalGame, Weather } fro
 import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
-import teams from '../assets/teams.json'
 import weatherService from '../services/weather'
 
 

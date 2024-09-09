@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import type { ReducedGameInfo, SleeperUser, SelectedRoster, allPlayers, playersDetailed } from './types'
+import type { ReducedGameInfo, SleeperUser, SelectedRoster, allPlayers, PlayersDetailed } from './types'
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
 import getAllPlayersService from './services/getAllPlayers'
@@ -25,7 +25,7 @@ const store = createStore<State>({
             selectedRoster: {
                 players: []
             } as SelectedRoster,
-            playersDetailed: [],
+            playersDetailed: [] as PlayersDetailed,
             allPlayers: {} as allPlayers
         }
     },
@@ -42,7 +42,7 @@ const store = createStore<State>({
         setAllPlayers(state, allPlayers: allPlayers) {
             state.allPlayers = allPlayers
         },
-        setPlayersDetailed(state, playersDetailed: playersDetailed) {
+        setPlayersDetailed(state, playersDetailed: PlayersDetailed) {
             state.playersDetailed = playersDetailed
         }
     },
