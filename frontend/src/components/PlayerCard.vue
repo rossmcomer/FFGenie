@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-import { computed, PropType } from 'vue'
+import { ref, onMounted } from 'vue'
 import teams from '../assets/teams.json'
-import type { PlayerDetailed, PlayersDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
+import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
 
 const props = defineProps<{
-    playersDetailed: PlayersDetailed
+    player: PlayerDetailed
     selectedWeather: Weather[]
     selectedStadiums: Stadium[]
 }>()
+
+const team = ref<TeamAbbreviation | undefined>(undefined)
+const stadium = ref<Stadium | undefined>(undefined)
+const weather = ref<WeatherResponse | string | undefined>(undefined)
 
 const getPlayerTeam = (player: PlayerDetailed): TeamAbbreviation | undefined => {
     return teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
@@ -37,23 +41,40 @@ const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string |
 }
 
 const isWeatherResponse = (data: WeatherResponse | string | undefined): data is WeatherResponse => {
-  return typeof data === 'object' && data !== null
+  return typeof data === 'object' && data !== null 
 }
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
   return typeof data === 'string'
 }
-  </script>
+
+const fetchWeatherDetails = async () => {
+    team.value = getPlayerTeam(props.player)
+
+    if (team.value) {
+        stadium.value = getPlayerStadium(props.player)
+    }
+
+    if (stadium.value) {
+        weather.value = getWeatherForPlayer(props.player)
+    }
+}
+
+onMounted(() => {
+    fetchWeatherDetails()
+})
+
+</script>
 
 <template>
     <div>
-      <div v-for="player in playersDetailed" :key="player.player_id">
+      <div>
         <div v-if="getPlayerTeam(player)">
           <h3>Player: {{ player.first_name }}{{ player.last_name }}</h3>
           <p>Team: {{ getPlayerTeam(player)?.name }}</p>
           <p>Stadium: {{ getPlayerStadium(player)?.stadium }}</p>
   
-          <div v-if="isWeatherResponse(getWeatherForPlayer(player))">
+          <!-- <div v-if="isWeatherResponse(weather)">
             <h4>Weather Information</h4>
             <p>Temp: {{ getWeatherForPlayer(player)?.weather.description }}</p>
             <p>Descrtiption: {{ getWeatherForPlayer(player)?.weatherString }}</p>
@@ -61,7 +82,7 @@ const isString = (data: WeatherResponse | string | undefined): data is string =>
             <p>Wind: {{ getWeatherForPlayer(player)?.weatherString }}</p>
             <p>Clouds: {{ getWeatherForPlayer(player)?.weatherString }}</p>
           </div>
-          <p v-else-if="isString(getWeatherForPlayer(player))">No weather information available for this player's game</p>
+          <p v-else-if="isString(weather))">No weather information available for this player's game</p> -->
         </div>
       </div>
     </div>
