@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import teams from '../assets/teams.json'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
 
@@ -24,45 +24,52 @@ const getPlayerStadium = (player: PlayerDetailed): Stadium | undefined => {
 }
 
 const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string | undefined => {
-    const playerTeam = getPlayerTeam(player);
-    if (!playerTeam) return undefined;
+    const playerTeam = getPlayerTeam(player)
+    if (!playerTeam) return undefined
 
     const weatherForPlayer = props.selectedWeather.find(
         weather =>
         weather.home_team === playerTeam.name || weather.away_team === playerTeam.name
     )
 
-    if (weatherForPlayer){
-        const { weather } = weatherForPlayer
-        return weather
+    if (weatherForPlayer) {
+        if (weatherForPlayer.dome) {
+        return 'dome'
+        }
+
+    return weatherForPlayer.weather
     }
-    
-    return undefined
-}
 
-const isWeatherResponse = (data: WeatherResponse | string | undefined): data is WeatherResponse => {
-  return typeof data === 'object' && data !== null 
-}
-
-const isString = (data: WeatherResponse | string | undefined): data is string => {
-  return typeof data === 'string'
+  return undefined // No matching game or weather found
 }
 
 const fetchWeatherDetails = async () => {
     team.value = getPlayerTeam(props.player)
+    await nextTick()
 
     if (team.value) {
         stadium.value = getPlayerStadium(props.player)
+        await nextTick()
     }
 
     if (stadium.value) {
         weather.value = getWeatherForPlayer(props.player)
+        await nextTick()
+        console.log(weather.value, 'weathervalue', props.player.full_name)
     }
 }
 
 onMounted(() => {
     fetchWeatherDetails()
 })
+
+const isString = (data: WeatherResponse | string | undefined): data is string => {
+    return typeof data === 'string'
+}
+
+const kelvinToFahrenheit = (kelvin: number): number => {
+  return (kelvin - 273.15) * 9/5 + 32
+}
 
 </script>
 
@@ -71,18 +78,20 @@ onMounted(() => {
       <div>
         <div v-if="getPlayerTeam(player)">
           <h3>Player: {{ player.first_name }}{{ player.last_name }}</h3>
-          <p>Team: {{ getPlayerTeam(player)?.name }}</p>
-          <p>Stadium: {{ getPlayerStadium(player)?.stadium }}</p>
-  
-          <!-- <div v-if="isWeatherResponse(weather)">
+          <p>Team: {{ team?.abbreviation }}</p>
+          <p>Stadium: {{ stadium?.stadium }}</p>
+
+          <p v-if="weather === 'dome'">No weather information available for this player's game</p>
+          <div v-if="weather && !isString(weather)">
             <h4>Weather Information</h4>
-            <p>Temp: {{ getWeatherForPlayer(player)?.weather.description }}</p>
-            <p>Descrtiption: {{ getWeatherForPlayer(player)?.weatherString }}</p>
-            <p>Icon: {{ getWeatherForPlayer(player)?.weatherString }}</p>
-            <p>Wind: {{ getWeatherForPlayer(player)?.weatherString }}</p>
-            <p>Clouds: {{ getWeatherForPlayer(player)?.weatherString }}</p>
+            <p>Temp: {{ kelvinToFahrenheit(weather.main.temp) }}</p>
+            <p>Descrtiption: {{ weather.weather[0].description }}</p>
+            <img :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" alt="Weather icon">
+            <p>Wind: {{ weather.wind.speed }}</p>
+            <p>Gust: {{ weather.wind.gust }}</p>
+            <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
           </div>
-          <p v-else-if="isString(weather))">No weather information available for this player's game</p> -->
+          
         </div>
       </div>
     </div>

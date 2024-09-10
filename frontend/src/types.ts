@@ -38,6 +38,7 @@ export type PlayerDetailed = {
   college: string;
   fantasy_data_id: number;
   injury_status: string | null;
+  full_name: string;
   player_id: string;
   height: string;
   search_full_name: string;
@@ -138,7 +139,8 @@ export interface Weather {
   home_team: string,
   away_team: string,
   stadium: string,
-  weather: WeatherResponse | string
+  weather: WeatherResponse
+  dome?: Boolean
 }
 
 export type WeatherResponse = {

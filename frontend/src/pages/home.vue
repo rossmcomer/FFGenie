@@ -53,11 +53,11 @@ const handleWeekChange = async (event: Event) => {
 
   try {
     await fetchWeeklyGames(week)
-    console.log(selectedGames, 'selectedGames')
+    
     await fetchSelectedStadiums(selectedGames.value)
-    console.log(selectedStadiums, 'selectedStadiums')
+    
     await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
-    console.log(selectedWeather, 'selectedWeather')
+    
   } catch (error) {
     console.error("Error fetching data:", error)
   }
@@ -69,12 +69,10 @@ const fetchWeeklyGames = (week: number): Promise<void> => {
     
     const startOfWeek = addDays(seasonStartDate, (week - 1) * 7)
     const endOfWeek = addDays(startOfWeek, 6)
-    console.log(nflOdds)
 
     const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
       return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeek), end: startOfDay(endOfWeek) })
     })
-    console.log(filteredGames, 'filteredGames')
 
     selectedGames.value = filteredGames
     resolve()
@@ -84,6 +82,7 @@ const fetchWeeklyGames = (week: number): Promise<void> => {
 const fetchSelectedStadiums = (selectedGames: ReducedGameInfo[]): Promise<void> => {
   return new Promise((resolve) => {
     selectedStadiums.value = []
+
     selectedGames.forEach((game: ReducedGameInfo) => {
       const matchedInternationalGame = internationalGames.find((internationalGame: InternationalGame) => internationalGame.gameId === game.id) || null
 
@@ -119,7 +118,7 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
     selectedGames.map(async (game: ReducedGameInfo) => {
       const stadium = selectedStadiums.find(stadium => stadium.home_team === game.home_team)
 
-      if (stadium) {
+      if (stadium && !stadium.dome) {
         try {
           const weather = await weatherService.getWeather(stadium)
 
@@ -133,8 +132,15 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
           console.error(`Error fetching weather for game ${game.home_team} vs ${game.away_team}:`, error)
           return null
         }
+      } else if (stadium){
+        return {
+            home_team: game.home_team,
+            away_team: game.away_team,
+            stadium: stadium.stadium,
+            weather: null,
+            dome: true
+          }
       } else {
-        console.error(`Stadium not found for game with home team: ${game.home_team}`)
         return null
       }
     })
