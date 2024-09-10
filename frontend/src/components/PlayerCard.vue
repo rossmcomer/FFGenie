@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import teams from '../assets/teams.json'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
 
@@ -43,24 +43,20 @@ const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string |
   return undefined // No matching game or weather found
 }
 
-const fetchWeatherDetails = async () => {
-    team.value = getPlayerTeam(props.player)
-    await nextTick()
+onMounted(() => {
+    getPlayerTeam(props.player)
+})
 
+watch(team, () => {
     if (team.value) {
         stadium.value = getPlayerStadium(props.player)
-        await nextTick()
     }
+})
 
-    if (stadium.value) {
+watch(stadium, () => {
+    if (team.value) {
         weather.value = getWeatherForPlayer(props.player)
-        await nextTick()
-        console.log(weather.value, 'weathervalue', props.player.full_name)
     }
-}
-
-onMounted(() => {
-    fetchWeatherDetails()
 })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
