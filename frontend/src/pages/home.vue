@@ -175,15 +175,10 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
           </option>
       </select>
       <div v-if="sleeperUser.display_name != ''">
-        <div>sleeperDisplayName: {{sleeperUser.display_name}}</div>
-        <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" alt="sleeper Avatar"/>
-        <div>sleeperUserId: {{sleeperUser.user_id}}</div>
-        <div>{{ sleeperUser.leagues }}</div>
-        <!-- <div v-for="(leagueId, index) in sleeperUser.leagueIds" :key="index" class="leagueId"></div> -->
+        <div>{{sleeperUser.display_name}}</div>
+        <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>
       </div>
       <div v-if="selectedRoster.players[0]">
-        <div>roster {{ selectedRoster.players }}</div>
-        <div>reserve {{ selectedRoster.reserve }}</div>
         <div v-for="(player, index) in playersDetailed" :key="index" class="playersDetailed">
           <div class="playerCardContainer">
             <PlayerCard :player="player"
@@ -212,5 +207,10 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
 <style>
 .pageContainer {
   margin-top:80px;
+}
+
+.profilePic {
+  height: 40px;
+  width: 40px
 }
 </style>

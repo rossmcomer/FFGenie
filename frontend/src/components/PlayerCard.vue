@@ -44,7 +44,7 @@ const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string |
 }
 
 onMounted(() => {
-    getPlayerTeam(props.player)
+    team.value = getPlayerTeam(props.player)
 })
 
 watch(team, () => {

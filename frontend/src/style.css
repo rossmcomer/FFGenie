@@ -12,6 +12,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 344px;
+  min-height: 100vh;
+  background-image: url('./assets/FootballField.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 a {
   font-weight: 500;
   color: #0a2b10;
@@ -19,12 +30,6 @@ a {
 }
 a:hover {
   color: #000000;
-}
-
-body {
-  margin: 0;
-  min-width: 344px;
-  min-height: 100vh;
 }
 
 button {

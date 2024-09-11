@@ -14,7 +14,7 @@ export default {
 .navBarContainer {
   width: 100%;
   height: 80px;
-  background-color: rgb(36, 184, 85);
+  background-color: #5E9942;
   position: fixed;
   min-width: 344px;
   z-index: 1;
