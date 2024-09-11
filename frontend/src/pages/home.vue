@@ -178,39 +178,42 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
         <div>{{sleeperUser.display_name}}</div>
         <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>
       </div>
-      <div v-if="selectedRoster.players[0]">
-        <div v-for="(player, index) in playersDetailed" :key="index" class="playersDetailed">
-          <div class="playerCardContainer">
-            <PlayerCard :player="player"
-                        :selectedWeather="selectedWeather"
-                        :selectedStadiums="selectedStadiums"/>
-            <div>{{ player.full_name }}</div>
-            <div>{{ player.position }}</div>
-            <div>{{ player.team }}</div>
-            <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`"/>
-          </div>
-        </div>
+    </div>
+    <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
+      <div v-for="(player, index) in playersDetailed" :key="index">
+          <PlayerCard :player="player"
+                      :selectedWeather="selectedWeather"
+                      :selectedStadiums="selectedStadiums"/>
       </div>
     </div>
-    <div v-if="selectedGames.length > 0" class="oddsContainer">
+    
+    <!-- <div v-if="selectedGames.length > 0" class="oddsContainer">
       <div v-for="(game, index) in selectedGames" :key="index" class="oddsItem">
-      <div>Start time:{{ game.commence_time }}</div>
-      <div>Home Team:{{ game.home_team }}</div>
-      <div>{{ game.away_team }}</div>
-      <div>O/U{{ game.over_under }}</div>
-      <div><i>last updated:</i>{{ game.last_update }}</div>
-    </div>
-    </div>
+        <div>Start time:{{ game.commence_time }}</div>
+        <div>Home Team:{{ game.home_team }}</div>
+        <div>{{ game.away_team }}</div>
+        <div>O/U{{ game.over_under }}</div>
+        <div><i>last updated:</i>{{ game.last_update }}</div>
+      </div>
+    </div> -->
   </div>
 </template>
 
 <style>
 .pageContainer {
   margin-top:80px;
+  display:flex;
+  flex-wrap: wrap;
 }
 
 .profilePic {
   height: 40px;
   width: 40px
+}
+
+.playerCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 </style>

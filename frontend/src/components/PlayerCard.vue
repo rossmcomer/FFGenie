@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue'
 import teams from '../assets/teams.json'
+import domeIcon from '../assets/dome-icon.png'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
 
 const props = defineProps<{
@@ -45,12 +46,16 @@ const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string |
 
 onMounted(() => {
     team.value = getPlayerTeam(props.player)
+    console.log('team updated')
 })
 
 watch(team, () => {
+    console.log('stadium updating start')
     if (team.value) {
         stadium.value = getPlayerStadium(props.player)
+        console.log('stadium value set')
     }
+    console.log('stadium updating finish')
 })
 
 watch(stadium, () => {
@@ -70,30 +75,33 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 </script>
 
 <template>
-    <div>
-      <div>
-        <div v-if="getPlayerTeam(player)">
-          <h3>Player: {{ player.first_name }}{{ player.last_name }}</h3>
-          <p>Team: {{ team?.abbreviation }}</p>
-          <p>Stadium: {{ stadium?.stadium }}</p>
-
-          <p v-if="weather === 'dome'">No weather information available for this player's game</p>
-          <div v-if="weather && !isString(weather)">
-            <h4>Weather Information</h4>
-            <p>Temp: {{ kelvinToFahrenheit(weather.main.temp) }}</p>
+    <div v-if="team" class="playerCardContainer">
+        <div>{{ player.full_name }}</div>
+        <div>{{ player.position }}</div>
+        <div>{{ player.team }}</div>
+        <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+        <p>@ {{ stadium?.stadium }}</p>
+        <div v-if="weather && !isString(weather)" class="weatherContainer">
+            <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
             <p>Descrtiption: {{ weather.weather[0].description }}</p>
             <img :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" alt="Weather icon">
             <p>Wind: {{ weather.wind.speed }}</p>
             <p>Gust: {{ weather.wind.gust }}</p>
             <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
-          </div>
-          
         </div>
-      </div>
+        <div v-if="weather === 'dome'" class="weatherContainer">
+            <img :src="`${domeIcon}`" alt="Dome icon">
+        </div>
     </div>
 </template>
 
 <style scoped>
+.playerCardContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
+.playerPic {
+    height:40px;
+}
 </style>
   
