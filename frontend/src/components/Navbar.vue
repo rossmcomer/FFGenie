@@ -1,6 +1,6 @@
 <template>
     <nav class="navBarContainer">
-        <router-link to="/">FFGenie</router-link>
+        <router-link to="/" class="link">FFGenie</router-link>
     </nav>
 </template>
 <script lang="ts">
@@ -21,6 +21,11 @@ export default {
   display:flex;
   justify-content: center;
   align-items: center;
+  font-size: 60px;
+  border-bottom: 4px solid #213547;
+}
+.link {
+  font-style: italic;
 }
     
 </style>

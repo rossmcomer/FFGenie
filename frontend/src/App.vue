@@ -9,4 +9,5 @@ import Navbar from './components/Navbar.vue'
 </template>
 
 <style scoped>
+
 </style>
