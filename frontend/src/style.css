@@ -5,6 +5,10 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  background-image: url('./assets/FootballField.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position:center;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,10 +21,6 @@ body {
   padding: 0;
   min-width: 344px;
   min-height: 100vh;
-  background-image: url('./assets/FootballField.svg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 a {

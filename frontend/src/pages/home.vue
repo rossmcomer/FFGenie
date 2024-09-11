@@ -15,7 +15,7 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 
-const username = ref<string>('')
+const username = ref<string>()
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number | ''>('')
 const selectedGames = ref<ReducedGameInfo[]>([])

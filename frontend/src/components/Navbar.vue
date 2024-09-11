@@ -1,7 +1,6 @@
 <template>
     <nav class="navBarContainer">
-        <router-link to="/">Home</router-link>
-        <router-link to="/MyTeam">My Team</router-link>
+        <router-link to="/">FFGenie</router-link>
     </nav>
 </template>
 <script lang="ts">
@@ -19,6 +18,9 @@ export default {
   min-width: 344px;
   z-index: 1;
   top: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
     
 </style>
