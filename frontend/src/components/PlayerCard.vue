@@ -18,19 +18,17 @@ const getPlayerTeam = (player: PlayerDetailed): TeamAbbreviation | undefined => 
     return teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
 }
 
-const getPlayerStadium = (player: PlayerDetailed): Stadium | undefined => {
-    const team = getPlayerTeam(player)
+const getPlayerStadium = (): Stadium | undefined => {
     if (!team) return undefined
-    return props.selectedStadiums.find((stadium: Stadium) => stadium.home_team === team.name || stadium.away_team === team.name)
+    return props.selectedStadiums.find((stadium: Stadium) => stadium.home_team === team.value?.name || stadium.away_team === team.value?.name)
 }
 
-const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string | undefined => {
-    const playerTeam = getPlayerTeam(player)
-    if (!playerTeam) return undefined
+const getWeatherForPlayer = (): WeatherResponse | string | undefined => {
+    if (!team) return undefined
 
     const weatherForPlayer = props.selectedWeather.find(
         weather =>
-        weather.home_team === playerTeam.name || weather.away_team === playerTeam.name
+        weather.home_team === team.value?.name || weather.away_team === team.value?.name
     )
 
     if (weatherForPlayer) {
@@ -44,23 +42,20 @@ const getWeatherForPlayer = (player: PlayerDetailed): WeatherResponse | string |
   return undefined // No matching game or weather found
 }
 
-onMounted(() => {
-    team.value = getPlayerTeam(props.player)
+onMounted( () => {
+    team.value =  getPlayerTeam(props.player)
     console.log('team updated')
 })
 
 watch(team, () => {
-    console.log('stadium updating start')
     if (team.value) {
-        stadium.value = getPlayerStadium(props.player)
-        console.log('stadium value set')
+        stadium.value = getPlayerStadium()
     }
-    console.log('stadium updating finish')
 })
 
 watch(stadium, () => {
     if (team.value) {
-        weather.value = getWeatherForPlayer(props.player)
+        weather.value = getWeatherForPlayer()
     }
 })
 
@@ -80,7 +75,7 @@ const kelvinToFahrenheit = (kelvin: number): number => {
         <div>{{ player.position }}</div>
         <div>{{ player.team }}</div>
         <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
-        <p>@ {{ stadium?.stadium }}</p>
+        <p v-if="stadium">@ {{ stadium?.stadium }}</p>
         <div v-if="weather && !isString(weather)" class="weatherContainer">
             <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
             <p>Descrtiption: {{ weather.weather[0].description }}</p>
@@ -97,7 +92,7 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 
 <style scoped>
 .playerCardContainer {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .playerPic {
