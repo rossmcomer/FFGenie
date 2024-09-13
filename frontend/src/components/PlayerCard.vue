@@ -1,62 +1,81 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import teams from '../assets/teams.json'
 import domeIcon from '../assets/dome-icon.png'
-import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation } from '../types'
+import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation, ReducedGameInfo } from '../types'
 
 const props = defineProps<{
     player: PlayerDetailed
     selectedWeather: Weather[]
     selectedStadiums: Stadium[]
+    selectedGames: ReducedGameInfo[]
 }>()
 
 const team = ref<TeamAbbreviation | undefined>(undefined)
 const stadium = ref<Stadium | undefined>(undefined)
 const weather = ref<WeatherResponse | string | undefined>(undefined)
 
-const getPlayerTeam = (player: PlayerDetailed): TeamAbbreviation | undefined => {
-    return teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
+const getPlayerTeam = async (player: PlayerDetailed): Promise<TeamAbbreviation | undefined> => {
+    return new Promise((resolve) => {
+        const foundTeam = teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
+        resolve(foundTeam)
+    })
 }
 
-const getPlayerStadium = (): Stadium | undefined => {
-    if (!team) return undefined
-    return props.selectedStadiums.find((stadium: Stadium) => stadium.home_team === team.value?.name || stadium.away_team === team.value?.name)
-}
-
-const getWeatherForPlayer = (): WeatherResponse | string | undefined => {
-    if (!team) return undefined
-
-    const weatherForPlayer = props.selectedWeather.find(
-        weather =>
-        weather.home_team === team.value?.name || weather.away_team === team.value?.name
-    )
-
-    if (weatherForPlayer) {
-        if (weatherForPlayer.dome) {
-        return 'dome'
+const getPlayerStadium = async (): Promise<Stadium | undefined> => {
+    return new Promise((resolve) => {
+        if (!team.value) {
+            resolve(undefined)
+        } else {
+            const foundStadium = props.selectedStadiums.find((stadium: Stadium) => 
+                stadium.home_team === team.value?.name || stadium.away_team === team.value?.name
+            )
+            resolve(foundStadium)
         }
-
-    return weatherForPlayer.weather
-    }
-
-  return undefined // No matching game or weather found
+    })
 }
+
+const getWeatherForPlayer = async (): Promise<WeatherResponse | string | undefined> => {
+    return new Promise((resolve) => {
+        if (!team.value) {
+            resolve(undefined)
+        } else {
+            const weatherForPlayer = props.selectedWeather.find(
+                weather => 
+                weather.home_team === team.value?.name || weather.away_team === team.value?.name
+            )
+
+            if (weatherForPlayer) {
+                if (weatherForPlayer.dome) {
+                    resolve('dome')
+                } else {
+                    resolve(weatherForPlayer.weather)
+                }
+            } else {
+                resolve(undefined)
+            }
+        }
+    })
+}
+
+const fetchData = async () => {
+      try {
+        team.value = await getPlayerTeam(props.player)
+        console.log('team updated:', team.value)
+
+          stadium.value = await getPlayerStadium()
+          console.log('stadium updated:', stadium.value)
+
+          weather.value = await getWeatherForPlayer()
+          console.log('weather updated:', weather.value)
+        
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
 
 onMounted( () => {
-    team.value =  getPlayerTeam(props.player)
-    console.log('team updated')
-})
-
-watch(team, () => {
-    if (team.value) {
-        stadium.value = getPlayerStadium()
-    }
-})
-
-watch(stadium, () => {
-    if (team.value) {
-        weather.value = getWeatherForPlayer()
-    }
+    fetchData()
 })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
