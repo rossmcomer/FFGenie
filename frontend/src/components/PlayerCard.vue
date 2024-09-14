@@ -69,19 +69,16 @@ const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
 onMounted(async () => {
     try {
         team.value = await getPlayerTeam(props.player)
-        console.log('team updated:', team.value)
 
-          stadium.value = await getPlayerStadium()
-          console.log('stadium updated:', stadium.value)
+        stadium.value = await getPlayerStadium()
 
-          weather.value = await getWeatherForPlayer()
-          console.log('weather updated:', weather.value)
+        weather.value = await getWeatherForPlayer()
 
-          odds.value = await getOddsForPlayer()
+        odds.value = await getOddsForPlayer()
         
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+    } catch (error) {
+    console.error('Error fetching data:', error)
+    }
 })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
@@ -102,7 +99,12 @@ const kelvinToFahrenheit = (kelvin: number): number => {
         <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
         <div v-if="odds">
-        <div>{{ odds.over_under }}</div>
+            <div>{{ odds.over_under }}</div>
+            <div>Start time:{{ odds.commence_time }}</div>
+            <div>Home Team:{{ odds.home_team }}</div>
+            <div>{{ odds.away_team }}</div>
+            <div>O/U{{ odds.over_under }}</div>
+            <div><i>last updated:</i>{{ odds.last_update }}</div>
         </div>
         <div v-if="weather && !isString(weather)" class="weatherContainer">
             <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
@@ -120,7 +122,8 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 
 <style scoped>
 .playerCardContainer {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(10, 43, 16, 0.9);
+    width: 350px;
 }
 
 .playerPic {
