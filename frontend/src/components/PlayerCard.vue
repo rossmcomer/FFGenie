@@ -14,12 +14,12 @@ const props = defineProps<{
 const team = ref<TeamAbbreviation | undefined>(undefined)
 const stadium = ref<Stadium | undefined>(undefined)
 const weather = ref<WeatherResponse | string | undefined>(undefined)
+const odds = ref<ReducedGameInfo | undefined>(undefined)
 
 const getPlayerTeam = async (player: PlayerDetailed): Promise<TeamAbbreviation | undefined> => {
-    return new Promise((resolve) => {
         const foundTeam = teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
-        resolve(foundTeam)
-    })
+
+        return foundTeam
 }
 
 const getPlayerStadium = async (): Promise<Stadium | undefined> => {
@@ -58,8 +58,16 @@ const getWeatherForPlayer = async (): Promise<WeatherResponse | string | undefin
     })
 }
 
-const fetchData = async () => {
-      try {
+const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
+    const oddsForPlayer = props.selectedGames.find(
+        game =>  game.home_team === team.value?.name || game.away_team === team.value?.name
+        )
+
+    return oddsForPlayer
+}
+
+onMounted(async () => {
+    try {
         team.value = await getPlayerTeam(props.player)
         console.log('team updated:', team.value)
 
@@ -68,14 +76,12 @@ const fetchData = async () => {
 
           weather.value = await getWeatherForPlayer()
           console.log('weather updated:', weather.value)
+
+          odds.value = await getOddsForPlayer()
         
       } catch (error) {
         console.error('Error fetching data:', error)
       }
-    }
-
-onMounted( () => {
-    fetchData()
 })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
@@ -95,6 +101,9 @@ const kelvinToFahrenheit = (kelvin: number): number => {
         <div>{{ player.team }}</div>
         <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
+        <div v-if="odds">
+        <div>{{ odds.over_under }}</div>
+        </div>
         <div v-if="weather && !isString(weather)" class="weatherContainer">
             <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
             <p>Descrtiption: {{ weather.weather[0].description }}</p>

@@ -147,6 +147,9 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
 
 onMounted(async () => {
   try {
+
+    await store.dispatch('fetchNflOdds')
+    
     const week = await getWeekNumber()
     console.log('fetchedweek', week)
     console.log('fetchinggames')

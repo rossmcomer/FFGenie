@@ -9,7 +9,6 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 
-store.dispatch('fetchNflOdds')
 store.dispatch('fetchAllPlayers')
 
 app.mount('#app');
