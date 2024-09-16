@@ -50,25 +50,17 @@ const getWeekNumber = async (): Promise<number> => {
   const daysSinceStart = differenceInDays(todaysDate, seasonStartDate)
   const weekNumber = Math.floor(daysSinceStart / 7) + 1
 
-  selectedWeek.value = weekNumber
-
   return weekNumber
 }
 
 const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
-  console.log(week, 'fetchweeklygames')
+
   const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
   const endOfWeekDate = addDays(startOfWeekDate, 6)
-  console.log(startOfWeekDate, endOfWeekDate)
-console.log(nflOdds.value, 'nflOdds')
+
   const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
     return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeekDate), end: startOfDay(endOfWeekDate) })
   })
-
-  console.log(filteredGames, 'filteredGames')
-
-  selectedGames.value = filteredGames
-  console.log(selectedGames)
 
   return filteredGames
 }
@@ -148,13 +140,13 @@ onMounted(async () => {
 
     await store.dispatch('fetchNflOdds')
 
-    const week = await getWeekNumber()
+    selectedWeek.value = await getWeekNumber()
 
-    const games = await fetchWeeklyGames(week)
+    selectedGames.value = await fetchWeeklyGames(selectedWeek.value)
     
-    selectedStadiums.value = await fetchSelectedStadiums(games)
+    selectedStadiums.value = await fetchSelectedStadiums(selectedGames.value)
     
-    selectedWeather.value = await fetchWeatherForSelectedGames(games, selectedStadiums.value)
+    selectedWeather.value = await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
     
   } catch (error) {
     console.error("Error fetching data:", error)
