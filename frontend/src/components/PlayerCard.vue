@@ -15,6 +15,7 @@ const team = ref<TeamAbbreviation | undefined>(undefined)
 const stadium = ref<Stadium | undefined>(undefined)
 const weather = ref<WeatherResponse | string | undefined>(undefined)
 const odds = ref<ReducedGameInfo | undefined>(undefined)
+const showModal = ref<Boolean>(false)
 
 const getPlayerTeam = async (player: PlayerDetailed): Promise<TeamAbbreviation | undefined> => {
         const foundTeam = teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
@@ -101,23 +102,24 @@ const kelvinToFahrenheit = (kelvin: number): number => {
                     <div>{{ player.position }} /</div>
                     <div>&nbsp;{{ player.team }}</div>
                 </div>
-                <div v-if="odds">
-                    <div>O/U:{{ odds.over_under }}</div>
-                </div>
+                <div v-if="odds">O/U:{{ odds.over_under }}</div>
             </div>
+            <img v-if="weather && !isString(weather)" 
+            :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
+            alt="Weather icon"
+            @mouseover="showModal = true"
+            @mouseleave="showModal = false">
         </div>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
         <div v-if="odds">
             <div>Start time:{{ odds.commence_time }}</div>
             <div>Home Team:{{ odds.home_team }}</div>
             <div>{{ odds.away_team }}</div>
-            <div>O/U{{ odds.over_under }}</div>
             <div><i>last updated:</i>{{ odds.last_update }}</div>
         </div>
-        <div v-if="weather && !isString(weather)" class="weatherContainer">
+        <div v-if="weather && !isString(weather) && showModal" class="weatherContainer">
             <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
             <p>Descrtiption: {{ weather.weather[0].description }}</p>
-            <img :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" alt="Weather icon">
             <p>Wind: {{ weather.wind.speed }}</p>
             <p>Gust: {{ weather.wind.gust }}</p>
             <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
@@ -132,6 +134,7 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 .playerCardContainer {
     background-color: rgba(10, 43, 16, 0.9);
     width: 350px;
+    box-shadow: #000000 2px 2px 4px;
 }
 
 .playerCardHeader {
