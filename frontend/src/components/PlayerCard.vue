@@ -117,15 +117,17 @@ const kelvinToFahrenheit = (kelvin: number): number => {
             <div>{{ odds.away_team }}</div>
             <div><i>last updated:</i>{{ odds.last_update }}</div>
         </div>
-        <div v-if="weather && !isString(weather) && showModal" class="weatherContainer">
-            <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
-            <p>Descrtiption: {{ weather.weather[0].description }}</p>
-            <p>Wind: {{ weather.wind.speed }}</p>
-            <p>Gust: {{ weather.wind.gust }}</p>
-            <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
-        </div>
-        <div v-if="weather === 'dome'" class="weatherContainer">
-            <img :src="`${domeIcon}`" alt="Dome icon">
+        <div v-if="showModal">
+            <div v-if="weather && !isString(weather)" class="weatherContainer">
+                <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
+                <p>Descrtiption: {{ weather.weather[0].description }}</p>
+                <p>Wind: {{ weather.wind.speed }}</p>
+                <p>Gust: {{ weather.wind.gust }}</p>
+                <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
+            </div>
+            <div v-if="weather === 'dome'" class="weatherContainer">
+                <img :src="`${domeIcon}`" alt="Dome icon">
+            </div>
         </div>
     </div>
 </template>
@@ -152,6 +154,12 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 
 .playerPic {
     height:40px;
+}
+
+.weatherContainer {
+    width: 50%;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>
   

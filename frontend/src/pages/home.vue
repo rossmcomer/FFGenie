@@ -74,13 +74,13 @@ console.log(nflOdds.value, 'nflOdds')
 }
 
 const fetchSelectedStadiums = async (games: ReducedGameInfo[]): Promise<Stadium[]> => {
-  selectedStadiums.value = [];
+  const weeklyStadiums = [];
 
   for (const game of games) {
     const matchedInternationalGame = internationalGames.find((internationalGame: InternationalGame) => internationalGame.gameId === game.id)
 
     if (matchedInternationalGame) {
-      selectedStadiums.value.push({
+      weeklyStadiums.push({
         home_team: matchedInternationalGame.home_team,
         away_team: matchedInternationalGame.away_team,
         stadium: matchedInternationalGame.stadium,
@@ -91,7 +91,7 @@ const fetchSelectedStadiums = async (games: ReducedGameInfo[]): Promise<Stadium[
     } else {
       const stadium = stadiums.find(stadium => stadium.team === game.home_team);
       if (stadium) {
-        selectedStadiums.value.push({
+        weeklyStadiums.push({
           home_team: game.home_team,
           away_team: game.away_team,
           stadium: stadium.stadium,
@@ -102,7 +102,6 @@ const fetchSelectedStadiums = async (games: ReducedGameInfo[]): Promise<Stadium[
       }
     }
   }
-  const weeklyStadiums = selectedStadiums.value
 
   return weeklyStadiums
 }
@@ -140,7 +139,6 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
     })
   )
   const weather = weatherData.filter(data => data !== null) as Weather[]
-  selectedWeather.value = weather
 
   return weather
 }
@@ -149,16 +147,14 @@ onMounted(async () => {
   try {
 
     await store.dispatch('fetchNflOdds')
-    
+
     const week = await getWeekNumber()
-    console.log('fetchedweek', week)
-    console.log('fetchinggames')
+
     const games = await fetchWeeklyGames(week)
-    console.log('fetchedgames', games)
     
-    const stadiums = await fetchSelectedStadiums(games)
+    selectedStadiums.value = await fetchSelectedStadiums(games)
     
-    await fetchWeatherForSelectedGames(games, stadiums)
+    selectedWeather.value = await fetchWeatherForSelectedGames(games, selectedStadiums.value)
     
   } catch (error) {
     console.error("Error fetching data:", error)
@@ -184,12 +180,6 @@ onMounted(async () => {
             {{ league.name }}
           </option>
       </select>
-      <!-- <select v-model="selectedWeek" @change="handleWeekChange" name="weekSelector">
-          <option disabled value="">Select Week</option>
-          <option v-for="week in weeks" :key="week" :value="week">
-            Week {{ week }}
-          </option>
-      </select> -->
       <div v-if="sleeperUser.display_name != ''">
         <div>{{sleeperUser.display_name}}</div>
         <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>
@@ -203,16 +193,6 @@ onMounted(async () => {
                       :selectedGames="selectedGames"/>
       </div>
     </div>
-    
-    <!-- <div v-if="selectedGames.length > 0" class="oddsContainer">
-      <div v-for="(game, index) in selectedGames" :key="index" class="oddsItem">
-        <div>Start time:{{ game.commence_time }}</div>
-        <div>Home Team:{{ game.home_team }}</div>
-        <div>{{ game.away_team }}</div>
-        <div>O/U{{ game.over_under }}</div>
-        <div><i>last updated:</i>{{ game.last_update }}</div>
-      </div>
-    </div> -->
   </div>
 </template>
 
