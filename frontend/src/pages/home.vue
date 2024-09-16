@@ -157,25 +157,26 @@ onMounted(async () => {
 <template>
   <div class="pageContainer">
     <div class="userContainer">
-      <form @submit.prevent="fetchUser">
+      <form @submit.prevent="fetchUser" class="userForm">
         <input 
           v-model="username" 
           name="usernameInput"
           type="text" 
-          placeholder="Sleeper username" 
+          placeholder="Sleeper username"
+          class="usernameInput" 
         />
-        <button type="submit">Fetch User</button>
+        <button type="submit" class="fetchUserButton">Fetch User</button>
       </form>
-      <select v-model="selectedLeague" @change="fetchRoster" name="leagueSelector">
+      <select v-model="selectedLeague" @change="fetchRoster" name="leagueSelector" class="leagueSelector">
           <option disabled value="">Select League</option>
           <option v-for="league in sleeperUser.leagues" :key="league" :value="league">
             {{ league.name }}
           </option>
       </select>
-      <div v-if="sleeperUser.display_name != ''">
+      <!-- <div v-if="sleeperUser.display_name != ''">
         <div>{{sleeperUser.display_name}}</div>
         <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>
-      </div>
+      </div> -->
     </div>
     <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
         <div v-for="(player, index) in playersDetailed" :key="index">
@@ -194,6 +195,54 @@ onMounted(async () => {
   display:flex;
   flex-direction: column;
   align-items: center;
+}
+
+.userContainer {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:10px;
+}
+
+.userForm {
+  margin-bottom: 5px;
+  display:flex;
+  justify-content: space-evenly;
+}
+
+.usernameInput {
+  padding:5px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: rgba(10, 43, 16, 0.9);
+}
+
+.fetchUserButton {
+  border-radius: 4px;
+  background-color: rgba(10, 43, 16, 0.9);
+  border: 1px solid transparent;
+  padding: 0.2em .4em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #ffffffb6;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.leagueSelector {
+  font-size: 20px;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: rgba(10, 43, 16, 0.9);
 }
 
 .profilePic {

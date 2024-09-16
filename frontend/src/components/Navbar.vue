@@ -25,6 +25,12 @@ export default {
 }
 .link {
   font-style: italic;
+  font-weight: 500;
+  color: rgb(10, 43, 16);
+}
+
+.link:hover {
+  color: #000000;
 }
     
 </style>
