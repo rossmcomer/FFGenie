@@ -103,7 +103,9 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 <template>
     <div v-if="team" class="playerCardContainer">
         <div class="playerCardHeader">
-            <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+            <div class="playerPicContainer">
+                <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+            </div>
             <div class="playerDescription">
                 <div>{{ player.full_name }}</div>
                 <div class="positionAndTeam">
@@ -150,6 +152,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     background-color: rgba(10, 43, 16, 0.9);
     width: 350px;
     box-shadow: #000000 2px 2px 4px;
+    min-height: 50px;
 }
 
 .playerCardHeader {
@@ -166,14 +169,21 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     display:flex
 }
 
+.playerPicContainer {
+    width:60px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .playerPic {
     height:40px;
+    margin: 2px;
 }
 
 .weatherAndOddsContainer {
     display:flex;
     align-items: center;
-    justify-content: space-evenly;
 }
 
 .weatherContainer {
