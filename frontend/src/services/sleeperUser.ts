@@ -33,7 +33,7 @@ const getAllPlayersDetailed = async (players: string[], allPlayers: allPlayers) 
         const playerToAdd = data[players[i]]
         allPlayersDetailed.push(playerToAdd)
     }
-    console.log(allPlayersDetailed)
+    
     return allPlayersDetailed
 }
 
