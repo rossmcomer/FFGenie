@@ -178,12 +178,12 @@ onMounted(async () => {
       </div>
     </div>
     <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
-      <div v-for="(player, index) in playersDetailed" :key="index">
-          <PlayerCard :player="player"
-                      :selectedWeather="selectedWeather"
-                      :selectedStadiums="selectedStadiums"
-                      :selectedGames="selectedGames"/>
-      </div>
+        <div v-for="(player, index) in playersDetailed" :key="index">
+            <PlayerCard :player="player"
+                        :selectedWeather="selectedWeather"
+                        :selectedStadiums="selectedStadiums"
+                        :selectedGames="selectedGames"/>
+        </div>
     </div>
   </div>
 </template>
@@ -192,7 +192,8 @@ onMounted(async () => {
 .pageContainer {
   margin-top:80px;
   display:flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 
 .profilePic {
@@ -203,6 +204,7 @@ onMounted(async () => {
 .playerCardsContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content:center;
+  align-items: center;
 }
 </style>

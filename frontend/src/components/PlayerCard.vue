@@ -153,6 +153,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     width: 350px;
     box-shadow: #000000 2px 2px 4px;
     min-height: 50px;
+    margin:4px;
 }
 
 .playerCardHeader {
