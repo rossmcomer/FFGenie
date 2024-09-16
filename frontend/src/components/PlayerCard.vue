@@ -101,11 +101,13 @@ const kelvinToFahrenheit = (kelvin: number): number => {
                     <div>{{ player.position }} /</div>
                     <div>&nbsp;{{ player.team }}</div>
                 </div>
+                <div v-if="odds">
+                    <div>O/U:{{ odds.over_under }}</div>
+                </div>
             </div>
         </div>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
         <div v-if="odds">
-            <div>{{ odds.over_under }}</div>
             <div>Start time:{{ odds.commence_time }}</div>
             <div>Home Team:{{ odds.home_team }}</div>
             <div>{{ odds.away_team }}</div>
