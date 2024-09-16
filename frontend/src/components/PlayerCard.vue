@@ -93,10 +93,16 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 
 <template>
     <div v-if="team" class="playerCardContainer">
-        <div>{{ player.full_name }}</div>
-        <div>{{ player.position }}</div>
-        <div>{{ player.team }}</div>
-        <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+        <div class="playerCardHeader">
+            <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+            <div class="playerDescription">
+                <div>{{ player.full_name }}</div>
+                <div class="positionAndTeam">
+                    <div>{{ player.position }} /</div>
+                    <div>&nbsp;{{ player.team }}</div>
+                </div>
+            </div>
+        </div>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
         <div v-if="odds">
             <div>{{ odds.over_under }}</div>
@@ -124,6 +130,19 @@ const kelvinToFahrenheit = (kelvin: number): number => {
 .playerCardContainer {
     background-color: rgba(10, 43, 16, 0.9);
     width: 350px;
+}
+
+.playerCardHeader {
+    display: flex;
+}
+
+.playerDescription {
+    display:flex;
+    flex-direction: column;
+}
+
+.positionAndTeam {
+    display:flex
 }
 
 .playerPic {
