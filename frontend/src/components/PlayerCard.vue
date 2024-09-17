@@ -104,15 +104,17 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     <div v-if="team" class="playerCardContainer"
     :style="`background-image: url(https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbreviation}.png)`">
         <div class="playerCardHeader">
-            <div class="playerPicContainer">
-                <img v-if="player.position !== 'DEF'" :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
-                <img v-if="player.position == 'DEF'" :src="`https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbreviation}.png`" class="playerPic"/>
-            </div>
-            <div class="playerDescription">
-                <div>{{ player.full_name }}</div>
-                <div class="positionAndTeam">
-                    <div>{{ player.position }} /</div>
-                    <div>&nbsp;{{ player.team }}</div>
+            <div class="picAndDescriptionContainer">
+                <div class="playerPicContainer">
+                    <img v-if="player.position !== 'DEF'" :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
+                    <img v-if="player.position == 'DEF'" :src="`https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbreviation}.png`" class="playerPic"/>
+                </div>
+                <div class="playerDescription">
+                    <div class="playerName">{{ player.full_name }}</div>
+                    <div class="positionAndTeam">
+                        <div class="position">{{ player.position }} /</div>
+                        <div>&nbsp;{{ player.team }}</div>
+                    </div>
                 </div>
             </div>
             <div class="weatherAndOddsContainer">
@@ -121,6 +123,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                     alt="Weather icon"
                     @mouseover="showWeatherModal = true"
                     @mouseleave="showWeatherModal = false">
+                <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon">
                 <div v-if="odds" class="oddsIcon"  
                     @mouseover="showOddsModal = true"
                     @mouseleave="showOddsModal = false">
@@ -168,6 +171,15 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 .playerCardHeader {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width:100%;
+    box-sizing: border-box;
+    margin-right: 10px;
+}
+
+.picAndDescriptionContainer {
+    display:flex;
+    align-items: center;
 }
 
 .playerDescription {
@@ -175,8 +187,17 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     flex-direction: column;
 }
 
+.playerName {
+    font-weight: 500;
+}
+
 .positionAndTeam {
-    display:flex
+    display:flex;
+    font-size: 12px;
+}
+
+.position {
+    font-weight: 500;
 }
 
 .playerPicContainer {
@@ -194,6 +215,8 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 .weatherAndOddsContainer {
     display:flex;
     align-items: center;
+    justify-content: space-between;
+    width: 150px
 }
 
 .weatherContainer {

@@ -15,7 +15,7 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 
-const seasonStartDate = new Date('2024-09-03T00:00:00Z')
+const seasonStartDate = new Date('2024-09-05T00:00:00Z')
 const username = ref<string>()
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number>(1)
@@ -48,7 +48,11 @@ const fetchRoster = () => {
 const getWeekNumber = async (): Promise<number> => {
   const todaysDate = new Date()
   const daysSinceStart = differenceInDays(todaysDate, seasonStartDate)
-  const weekNumber = Math.floor(daysSinceStart / 7) + 1
+  const weekNumber = Math.floor(daysSinceStart / 7) + 2
+
+  console.log(daysSinceStart, weekNumber)
+
+  selectedWeek.value = weekNumber
 
   return weekNumber
 }
@@ -58,9 +62,16 @@ const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
   const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
   const endOfWeekDate = addDays(startOfWeekDate, 6)
 
+  console.log(startOfWeekDate, endOfWeekDate)
+console.log(nflOdds.value)
+
   const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
     return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeekDate), end: startOfDay(endOfWeekDate) })
   })
+
+  console.log(filteredGames)
+
+  selectedGames.value = filteredGames
 
   return filteredGames
 }
@@ -94,6 +105,8 @@ const fetchSelectedStadiums = async (games: ReducedGameInfo[]): Promise<Stadium[
       }
     }
   }
+
+  selectedStadiums.value = weeklyStadiums
 
   return weeklyStadiums
 }
@@ -131,6 +144,7 @@ const fetchWeatherForSelectedGames = async (selectedGames: ReducedGameInfo[], se
     })
   )
   const weather = weatherData.filter(data => data !== null) as Weather[]
+  selectedWeather.value = weather
 
   return weather
 }
@@ -140,13 +154,13 @@ onMounted(async () => {
 
     await store.dispatch('fetchNflOdds')
 
-    selectedWeek.value = await getWeekNumber()
+    await getWeekNumber()
 
-    selectedGames.value = await fetchWeeklyGames(selectedWeek.value)
+    await fetchWeeklyGames(selectedWeek.value)
     
-    selectedStadiums.value = await fetchSelectedStadiums(selectedGames.value)
+    await fetchSelectedStadiums(selectedGames.value)
     
-    selectedWeather.value = await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
+    await fetchWeatherForSelectedGames(selectedGames.value, selectedStadiums.value)
     
   } catch (error) {
     console.error("Error fetching data:", error)
@@ -169,7 +183,7 @@ onMounted(async () => {
       </form>
       <select v-model="selectedLeague" @change="fetchRoster" name="leagueSelector" class="leagueSelector">
           <option disabled value="">Select League</option>
-          <option v-for="league in sleeperUser.leagues" :key="league" :value="league">
+          <option v-for="league in sleeperUser.leagues" :key="league" :value="league" class="leagueName">
             {{ league.name }}
           </option>
       </select>
@@ -257,6 +271,10 @@ button:focus-visible {
 
 .leagueSelector:focus {
   outline: none
+}
+
+.leagueName {
+  font-weight: 300;
 }
 
 .profilePic {
