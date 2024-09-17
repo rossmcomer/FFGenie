@@ -118,12 +118,14 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                 </div>
             </div>
             <div class="weatherAndOddsContainer">
-                <img v-if="weather && !isString(weather)" 
-                    :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
-                    alt="Weather icon"
-                    @mouseover="showWeatherModal = true"
-                    @mouseleave="showWeatherModal = false">
-                <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon">
+                <div class="weatherIconContainer">
+                    <img v-if="weather && !isString(weather)" 
+                        :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
+                        alt="Weather icon"
+                        @mouseover="showWeatherModal = true"
+                        @mouseleave="showWeatherModal = false">
+                    <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon">
+                </div>
                 <div v-if="odds" class="oddsIcon"  
                     @mouseover="showOddsModal = true"
                     @mouseleave="showOddsModal = false">
@@ -162,7 +164,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     display:flex;
     align-items: center;
     background-position: left;
-    background-position: center;
+    background-position: 33% center;
     background-size: 50%;
     background-repeat: no-repeat;
     background-blend-mode:soft-light;
@@ -215,8 +217,22 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 .weatherAndOddsContainer {
     display:flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 150px
+}
+
+.weatherIconContainer {
+    width: 56px;
+    border: solid #ffffff 2px;
+    border-radius: 50%;
+    display:flex;
+    justify-content: center;
+}
+
+.oddsIcon {
+    width:75px;
+    display:flex;
+    justify-content: flex-end;
 }
 
 .weatherContainer {
