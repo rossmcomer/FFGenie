@@ -15,7 +15,7 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 
-const seasonStartDate = new Date('2024-09-05T00:00:00Z')
+const seasonStartDate = new Date('2024-09-03T00:00:00Z')
 const username = ref<string>()
 const selectedLeague = ref<League>({league_id:'', name: ''})
 const selectedWeek = ref<number>(1)
@@ -202,12 +202,12 @@ onMounted(async () => {
   flex-direction: column;
   justify-content: center;
   margin:10px;
+  width: 350px
 }
 
 .userForm {
   margin-bottom: 5px;
   display:flex;
-  justify-content: space-evenly;
 }
 
 .usernameInput {
@@ -215,6 +215,13 @@ onMounted(async () => {
   border-radius: 4px;
   border: 1px solid transparent;
   background-color: rgba(10, 43, 16, 0.9);
+  width: 200px;
+  margin: 0px 5px;
+  box-sizing: border-box;
+}
+
+.usernameInput:focus {
+  outline: none
 }
 
 .fetchUserButton {
@@ -223,10 +230,13 @@ onMounted(async () => {
   border: 1px solid transparent;
   padding: 0.2em .4em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 400;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+  width: 150px;
+  margin-right: 5px;
+  box-sizing: border-box;
 }
 
 button:hover {
@@ -234,7 +244,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none
 }
 
 .leagueSelector {
@@ -243,6 +253,10 @@ button:focus-visible {
   border: 1px solid transparent;
   border-radius: 4px;
   background-color: rgba(10, 43, 16, 0.9);
+}
+
+.leagueSelector:focus {
+  outline: none
 }
 
 .profilePic {
