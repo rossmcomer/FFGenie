@@ -101,7 +101,8 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 </script>
 
 <template>
-    <div v-if="team" class="playerCardContainer">
+    <div v-if="team" class="playerCardContainer"
+    :style="`background-image: url(https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbreviation}.png)`">
         <div class="playerCardHeader">
             <div class="playerPicContainer">
                 <img :src="`https://sleepercdn.com/content/nfl/players/${player.player_id}.jpg`" class="playerPic"/>
@@ -154,6 +155,11 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     box-shadow: #000000 2px 2px 4px;
     min-height: 50px;
     margin:4px;
+    background-position: left;
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-blend-mode:soft-light;
 }
 
 .playerCardHeader {
