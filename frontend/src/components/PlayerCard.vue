@@ -124,12 +124,13 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                         alt="Weather icon"
                         @mouseover="showWeatherModal = true"
                         @mouseleave="showWeatherModal = false">
-                    <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon">
+                    <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon" class="domeImg">
                 </div>
                 <div v-if="odds" class="oddsIcon"  
                     @mouseover="showOddsModal = true"
                     @mouseleave="showOddsModal = false">
-                    O/U:{{ odds.over_under }}
+                    <div>O/U</div>
+                    <div>{{ odds.over_under }}</div>
                 </div>
             </div>
         </div>
@@ -148,7 +149,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
             </div>
             <div v-if="weather === 'dome'" class="weatherContainer">
-                <img :src="`${domeIcon}`" alt="Dome icon">
+                <img :src="`${domeIcon}`" alt="Dome icon" class="domeImg">
             </div>
         </div>
     </div>
@@ -176,7 +177,6 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     justify-content: space-between;
     width:100%;
     box-sizing: border-box;
-    margin-right: 10px;
 }
 
 .picAndDescriptionContainer {
@@ -222,17 +222,30 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 }
 
 .weatherIconContainer {
-    width: 56px;
-    border: solid #ffffff 2px;
+    width: 54px;
+    border: solid #b1b1b1 2px;
     border-radius: 50%;
     display:flex;
     justify-content: center;
+    height: 54px;
+    background-color: #505050;
 }
 
 .oddsIcon {
-    width:75px;
+    width:54px;
+    height: 54px;
+    border-radius: 50%;
     display:flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    border: solid #b1b1b1 2px;
+    align-items: center;
+    margin: 0px 10px;
+}
+
+.domeImg {
+    height:45px;
+    width:45px
 }
 
 .weatherContainer {
