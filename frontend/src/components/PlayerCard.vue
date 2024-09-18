@@ -68,23 +68,23 @@ const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
     return oddsForPlayer
 }
 
-const refreshPlayerData = async () => {
+const fetchPlayerData = async () => {
     try {
         team.value = await getPlayerTeam(props.player)
         stadium.value = await getPlayerStadium()
         weather.value = await getWeatherForPlayer()
         odds.value = await getOddsForPlayer()
     } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data for playerCard states', error)
     }
 }
 
 onMounted(() => {
-    refreshPlayerData()
+    fetchPlayerData()
 })
 
 watch(() => props.player, () => {
-    refreshPlayerData()
+    fetchPlayerData()
 }, { immediate: true })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
@@ -138,21 +138,21 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                 </div>
             </div>
         </div>
-        <div v-if="odds && showOddsModal">
+        <div v-if="odds && showOddsModal" class="oddsModal">
             <div>Start time:{{ odds.commence_time }}</div>
             <div>Home Team:{{ odds.home_team }}</div>
             <div>{{ odds.away_team }}</div>
             <div><i>last updated:</i>{{ odds.last_update }}</div>
         </div>
         <div v-if="showWeatherModal">
-            <div v-if="weather && !isString(weather)" class="weatherContainer">
+            <div v-if="weather && !isString(weather)" class="weatherModal">
                 <p v-if="stadium">@ {{ stadium?.stadium }}</p>
                 <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
                 <p>Descrtiption: {{ weather.weather[0].description }}</p>
                 <p>Wind: {{ weather.wind.speed }} mph</p>
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
             </div>
-            <div v-if="weather === 'dome'" class="weatherContainer">
+            <div v-if="weather === 'dome'" class="weatherModal">
                 <img :src="`${domeIcon}`" alt="Dome icon" class="domeImg">
             </div>
         </div>
@@ -255,10 +255,18 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     fill: #ffffff
 }
 
-.weatherContainer {
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.oddsModal, .weatherModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 100;
+  min-width: 200px;
+  text-align: center;
 }
 </style>
   
