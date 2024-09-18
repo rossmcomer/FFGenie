@@ -18,6 +18,14 @@ const odds = ref<ReducedGameInfo | undefined>(undefined)
 const showWeatherModal = ref<Boolean>(false)
 const showOddsModal = ref<Boolean>(false)
 
+const toggleWeatherModal = () => {
+  showWeatherModal.value = !showWeatherModal.value
+}
+
+const toggleOddsModal = () => {
+  showOddsModal.value = !showOddsModal.value
+}
+
 const getPlayerTeam = async (player: PlayerDetailed): Promise<TeamAbbreviation | undefined> => {
         const foundTeam = teams.find((team: TeamAbbreviation) => team.abbreviation === player.team)
 
@@ -127,12 +135,18 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                         :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
                         alt="Weather icon"
                         @mouseover="showWeatherModal = true"
-                        @mouseleave="showWeatherModal = false">
-                    <img v-if="weather === 'dome'" :src="`${domeIcon}`" alt="Dome icon" class="domeImg">
+                        @mouseleave="showWeatherModal = false"
+                        @click="toggleWeatherModal">
+                    <img v-if="weather === 'dome'" :src="`${domeIcon}`" 
+                    alt="Dome icon" 
+                    class="domeImg"
+                    @mouseover="showWeatherModal = true"
+                    @mouseleave="showWeatherModal = false">
                 </div>
                 <div v-if="odds" class="oddsIcon"  
                     @mouseover="showOddsModal = true"
-                    @mouseleave="showOddsModal = false">
+                    @mouseleave="showOddsModal = false"
+                    @click="toggleOddsModal">
                     <div>O/U</div>
                     <div>{{ odds.over_under }}</div>
                 </div>
@@ -148,12 +162,12 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
             <div v-if="weather && !isString(weather)" class="weatherModal">
                 <p v-if="stadium">@ {{ stadium?.stadium }}</p>
                 <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
-                <p>Descrtiption: {{ weather.weather[0].description }}</p>
+                <p>{{ weather.weather[0].description }}</p>
                 <p>Wind: {{ weather.wind.speed }} mph</p>
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
             </div>
             <div v-if="weather === 'dome'" class="weatherModal">
-                <img :src="`${domeIcon}`" alt="Dome icon" class="domeImg">
+                <p v-if="stadium">@ {{ stadium?.stadium }}</p>
             </div>
         </div>
     </div>
@@ -233,6 +247,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     display:flex;
     justify-content: center;
     height: 54px;
+    cursor:default;
     /* background-color: #50505096; */
 }
 
@@ -246,7 +261,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     border: solid #b1b1b1 2px;
     align-items: center;
     margin: 0px 10px;
-    
+    cursor:default;
 }
 
 .domeImg {
@@ -265,8 +280,9 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
   padding: 10px;
   border-radius: 8px;
   z-index: 100;
-  min-width: 200px;
+  width: 350px;
   text-align: center;
+  box-sizing: border-box;
 }
 </style>
   
