@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue'
 import teams from '../assets/teams.json'
 import domeIcon from '../assets/domeicon3-white.png'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation, ReducedGameInfo } from '../types'
+import { toValue } from 'vue';
 
 const props = defineProps<{
     player: PlayerDetailed
@@ -17,6 +18,7 @@ const weather = ref<WeatherResponse | string | undefined>(undefined)
 const odds = ref<ReducedGameInfo | undefined>(undefined)
 const showWeatherModal = ref<Boolean>(false)
 const showOddsModal = ref<Boolean>(false)
+const opponent = ref<TeamAbbreviation | undefined>(undefined)
 
 const toggleWeatherModal = () => {
   showWeatherModal.value = !showWeatherModal.value
@@ -82,6 +84,7 @@ const fetchPlayerData = async () => {
         stadium.value = await getPlayerStadium()
         weather.value = await getWeatherForPlayer()
         odds.value = await getOddsForPlayer()
+        opponent.value = await getOpponent(odds.value,team.value)
     } catch (error) {
         console.error('Error fetching data for playerCard states', error)
     }
@@ -103,11 +106,19 @@ const kelvinToFahrenheit = (kelvin: number): number => {
   return (kelvin - 273.15) * 9/5 + 32
 }
 
-const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
-    if (homeTeam.name == team.value?.name) {
-        return true
+const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbreviation | undefined): TeamAbbreviation | undefined => {
+    if (playerTeam?.name === odds?.home_team) {
+        const awayTeam = teams.find(team => team.name === odds?.away_team)
+        opponent.value = awayTeam
+        return awayTeam
     }
-    else return false
+    
+    const homeTeam = teams.find(team => team.name === odds?.home_team)
+
+    opponent.value = homeTeam
+    
+    return homeTeam
+    
 }
 
 </script>
@@ -129,7 +140,12 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
                     </div>
                 </div>
             </div>
-            <div class="weatherAndOddsContainer">
+            <div class="weatherOpponentAndOddsContainer">
+                <div class="opponentContainer">
+                    <div v-if="opponent?.name === odds?.away_team">vs.</div>
+                    <div v-else>@</div>
+                    <div>{{ opponent?.abbreviation }}</div>
+                </div>
                 <div class="weatherIconContainer">
                     <img v-if="weather && !isString(weather)" 
                         :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
@@ -162,7 +178,6 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
             <div v-if="weather && !isString(weather)" class="weatherModal">
                 <p v-if="stadium">@ {{ stadium?.stadium }}</p>
                 <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
-                <p>{{ weather.weather[0].description }}</p>
                 <p>Wind: {{ weather.wind.speed }} mph</p>
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
             </div>
@@ -188,6 +203,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     background-repeat: no-repeat;
     background-blend-mode:soft-light;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .playerCardHeader {
@@ -201,6 +217,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 .picAndDescriptionContainer {
     display:flex;
     align-items: center;
+    width:175px;
 }
 
 .playerDescription {
@@ -217,10 +234,6 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     font-size: 12px;
 }
 
-.position {
-    font-weight: 500;
-}
-
 .playerPicContainer {
     width:60px;
     display:flex;
@@ -233,11 +246,25 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     margin: 2px;
 }
 
-.weatherAndOddsContainer {
+.weatherOpponentAndOddsContainer {
     display:flex;
     align-items: center;
-    justify-content: flex-end;
-    width: 150px
+    justify-content: space-evenly;
+    width: 175px;
+    margin-right: 10px
+}
+
+.opponentContainer {
+    width: 54px;
+    border: solid #b1b1b1 2px;
+    border-radius: 50%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 54px;
+    cursor:default;
+    /* background-color: #50505096; */
 }
 
 .weatherIconContainer {
@@ -246,6 +273,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     border-radius: 50%;
     display:flex;
     justify-content: center;
+    align-items: center;
     height: 54px;
     cursor:default;
     /* background-color: #50505096; */
@@ -260,7 +288,6 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     justify-content: center;
     border: solid #b1b1b1 2px;
     align-items: center;
-    margin: 0px 10px;
     cursor:default;
 }
 
