@@ -232,7 +232,7 @@ onMounted(async () => {
   width: 200px;
   margin: 0px 5px;
   box-sizing: border-box;
-  box-shadow: #0000006c 1px 1px 10px;
+  box-shadow: #00000046 1px 1px 10px;
 }
 
 .usernameInput:focus {
@@ -252,7 +252,7 @@ onMounted(async () => {
   width: 150px;
   margin-right: 5px;
   box-sizing: border-box;
-  box-shadow: #0000006c 1px 1px 10px;
+  box-shadow: #00000046 1px 1px 10px;
 }
 
 button:hover {
@@ -269,7 +269,7 @@ button:focus-visible {
   border: 1px solid transparent;
   border-radius: 4px;
   background-color: rgba(10, 43, 16, 0.9);
-  box-shadow: #0000006c 1px 1px 10px;
+  box-shadow: #00000046 1px 1px 10px;
 }
 
 .leagueSelector:focus {

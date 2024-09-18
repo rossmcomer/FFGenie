@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import teams from '../assets/teams.json'
-import domeIcon from '../assets/dome-icon.png'
+import domeIcon from '../assets/domeicon3-white.png'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation, ReducedGameInfo } from '../types'
 
 const props = defineProps<{
@@ -68,20 +68,24 @@ const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
     return oddsForPlayer
 }
 
-onMounted(async () => {
+const refreshPlayerData = async () => {
     try {
         team.value = await getPlayerTeam(props.player)
-
         stadium.value = await getPlayerStadium()
-
         weather.value = await getWeatherForPlayer()
-
         odds.value = await getOddsForPlayer()
-        
     } catch (error) {
-    console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error)
     }
+}
+
+onMounted(() => {
+    refreshPlayerData()
 })
+
+watch(() => props.player, () => {
+    refreshPlayerData()
+}, { immediate: true })
 
 const isString = (data: WeatherResponse | string | undefined): data is string => {
     return typeof data === 'string'
@@ -247,7 +251,8 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 
 .domeImg {
     height:45px;
-    width:45px
+    width:45px;
+    fill: #ffffff
 }
 
 .weatherContainer {
