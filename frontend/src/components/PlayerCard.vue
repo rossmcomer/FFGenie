@@ -84,7 +84,7 @@ const fetchPlayerData = async () => {
         stadium.value = await getPlayerStadium()
         weather.value = await getWeatherForPlayer()
         odds.value = await getOddsForPlayer()
-        opponent.value = await getOpponent(odds.value,team.value)
+        opponent.value = getOpponent(odds.value,team.value)
     } catch (error) {
         console.error('Error fetching data for playerCard states', error)
     }
@@ -142,8 +142,8 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
             </div>
             <div class="weatherOpponentAndOddsContainer">
                 <div class="opponentContainer">
-                    <div v-if="opponent?.name === odds?.away_team">vs.</div>
-                    <div v-else>@</div>
+                    <div v-if="opponent?.name === odds?.away_team" style="font-size: 10px">vs.</div>
+                    <div v-else style="font-size: 10px">@</div>
                     <div>{{ opponent?.abbreviation }}</div>
                 </div>
                 <div class="weatherIconContainer">
@@ -163,7 +163,7 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
                     @mouseover="showOddsModal = true"
                     @mouseleave="showOddsModal = false"
                     @click="toggleOddsModal">
-                    <div>O/U</div>
+                    <div style="font-size: 10px">O/U</div>
                     <div>{{ odds.over_under }}</div>
                 </div>
             </div>
@@ -256,25 +256,25 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
 
 .opponentContainer {
     width: 54px;
-    border: solid #b1b1b1 2px;
+    border: dotted #b1b1b1d0 2px;
     border-radius: 50%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 54px;
     cursor:default;
+    height: 40px
     /* background-color: #50505096; */
 }
 
 .weatherIconContainer {
     width: 54px;
-    border: solid #b1b1b1 2px;
+    border: dotted #b1b1b1d0 2px;
     border-radius: 50%;
     display:flex;
     justify-content: center;
     align-items: center;
-    height: 54px;
+    height: 40px;
     cursor:default;
     /* background-color: #50505096; */
 }
@@ -286,15 +286,16 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
     display:flex;
     flex-direction: column;
     justify-content: center;
-    border: solid #b1b1b1 2px;
+    border: dotted #b1b1b1d0 2px;
     align-items: center;
     cursor:default;
+    height: 40px
 }
 
 .domeImg {
-    height:45px;
-    width:45px;
-    fill: #ffffff
+    width:40px;
+    fill: #ffffff;
+    margin-bottom: 7px;
 }
 
 .oddsModal, .weatherModal {
