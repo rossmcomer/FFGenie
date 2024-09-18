@@ -3,7 +3,6 @@ import { ref, onMounted, watch } from 'vue'
 import teams from '../assets/teams.json'
 import domeIcon from '../assets/domeicon3-white.png'
 import type { PlayerDetailed, Weather, WeatherResponse, Stadium, TeamAbbreviation, ReducedGameInfo } from '../types'
-import { toValue } from 'vue';
 
 const props = defineProps<{
     player: PlayerDetailed
@@ -78,6 +77,21 @@ const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
     return oddsForPlayer
 }
 
+const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbreviation | undefined): TeamAbbreviation | undefined => {
+    if (playerTeam?.name === odds?.home_team) {
+        const awayTeam = teams.find(team => team.name === odds?.away_team)
+        opponent.value = awayTeam
+        return awayTeam
+    }
+    
+    const homeTeam = teams.find(team => team.name === odds?.home_team)
+
+    opponent.value = homeTeam
+    
+    return homeTeam
+}
+
+
 const fetchPlayerData = async () => {
     try {
         team.value = await getPlayerTeam(props.player)
@@ -106,21 +120,17 @@ const kelvinToFahrenheit = (kelvin: number): number => {
   return (kelvin - 273.15) * 9/5 + 32
 }
 
-const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbreviation | undefined): TeamAbbreviation | undefined => {
-    if (playerTeam?.name === odds?.home_team) {
-        const awayTeam = teams.find(team => team.name === odds?.away_team)
-        opponent.value = awayTeam
-        return awayTeam
+function formatDate(dateString: Date | undefined): string | undefined {
+    if (dateString){
+    const date = new Date(dateString);
+
+    const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+    const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).toLowerCase();
+
+    return `${day} ${time}`;
     }
-    
-    const homeTeam = teams.find(team => team.name === odds?.home_team)
-
-    opponent.value = homeTeam
-    
-    return homeTeam
-    
 }
-
 </script>
 
 <template>
@@ -142,10 +152,12 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
             </div>
             <div class="weatherOpponentAndOddsContainer">
                 <div class="opponentContainer">
+                    <div style="font-size: 10px; text-align: center;">{{formatDate(odds?.commence_time)}}</div>
                     <div v-if="opponent?.name === odds?.away_team" style="font-size: 10px">vs.</div>
                     <div v-else style="font-size: 10px">@</div>
                     <div>{{ opponent?.abbreviation }}</div>
                 </div>
+                <div>|</div>
                 <div class="weatherIconContainer">
                     <img v-if="weather && !isString(weather)" 
                         :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`" 
@@ -159,6 +171,7 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
                     @mouseover="showWeatherModal = true"
                     @mouseleave="showWeatherModal = false">
                 </div>
+                <div>|</div>
                 <div v-if="odds" class="oddsIcon"  
                     @mouseover="showOddsModal = true"
                     @mouseleave="showOddsModal = false"
@@ -170,16 +183,14 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
         </div>
         <div v-if="odds && showOddsModal" class="oddsModal">
             <div>Start time:{{ odds.commence_time }}</div>
-            <div>Home Team:{{ odds.home_team }}</div>
-            <div>{{ odds.away_team }}</div>
             <div><i>last updated:</i>{{ odds.last_update }}</div>
         </div>
         <div v-if="showWeatherModal">
             <div v-if="weather && !isString(weather)" class="weatherModal">
-                <p v-if="stadium">@ {{ stadium?.stadium }}</p>
                 <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
                 <p>Wind: {{ weather.wind.speed }} mph</p>
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
+                <p v-if="stadium">@ {{ stadium?.stadium }}</p>
             </div>
             <div v-if="weather === 'dome'" class="weatherModal">
                 <p v-if="stadium">@ {{ stadium?.stadium }}</p>
@@ -204,6 +215,7 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
     background-blend-mode:soft-light;
     border-radius: 5px;
     box-sizing: border-box;
+    position: relative
 }
 
 .playerCardHeader {
@@ -255,8 +267,8 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
 }
 
 .opponentContainer {
-    width: 54px;
-    border: dotted #b1b1b1d0 2px;
+    width: 70px;
+    /* border: dotted #b1b1b1d0 2px; */
     border-radius: 50%;
     display:flex;
     flex-direction: column;
@@ -269,7 +281,7 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
 
 .weatherIconContainer {
     width: 54px;
-    border: dotted #b1b1b1d0 2px;
+    /* border: dotted #b1b1b1d0 2px; */
     border-radius: 50%;
     display:flex;
     justify-content: center;
@@ -286,7 +298,7 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
     display:flex;
     flex-direction: column;
     justify-content: center;
-    border: dotted #b1b1b1d0 2px;
+    /* border: dotted #b1b1b1d0 2px; */
     align-items: center;
     cursor:default;
     height: 40px
@@ -295,12 +307,10 @@ const getOpponent = (odds: ReducedGameInfo | undefined, playerTeam: TeamAbbrevia
 .domeImg {
     width:40px;
     fill: #ffffff;
-    margin-bottom: 7px;
 }
 
 .oddsModal, .weatherModal {
   position: absolute;
-  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.8);

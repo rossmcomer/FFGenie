@@ -270,10 +270,11 @@ button:focus-visible {
   border-radius: 4px;
   background-color: rgba(10, 43, 16, 0.9);
   box-shadow: #00000046 1px 1px 10px;
+  cursor: pointer;
 }
 
 .leagueSelector:focus {
-  outline: none
+  outline: none;
 }
 
 .leagueName {
