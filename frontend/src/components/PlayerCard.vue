@@ -159,7 +159,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
 .playerCardContainer {
     background-color: rgba(10, 43, 16, 0.9);
     width: 350px;
-    box-shadow: #000000 2px 2px 4px;
+    box-shadow: #0000006c 1px 1px 10px;
     min-height: 50px;
     margin:4px;
     display:flex;
@@ -169,6 +169,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     background-size: 50%;
     background-repeat: no-repeat;
     background-blend-mode:soft-light;
+    border-radius: 5px;
 }
 
 .playerCardHeader {
@@ -228,7 +229,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     display:flex;
     justify-content: center;
     height: 54px;
-    background-color: #50505096;
+    /* background-color: #50505096; */
 }
 
 .oddsIcon {
@@ -241,6 +242,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     border: solid #b1b1b1 2px;
     align-items: center;
     margin: 0px 10px;
+    
 }
 
 .domeImg {
