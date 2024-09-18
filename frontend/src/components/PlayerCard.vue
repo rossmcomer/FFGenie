@@ -228,7 +228,7 @@ const isHomeTeam = (homeTeam: TeamAbbreviation): Boolean => {
     display:flex;
     justify-content: center;
     height: 54px;
-    background-color: #505050;
+    background-color: #50505096;
 }
 
 .oddsIcon {
