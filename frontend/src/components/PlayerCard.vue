@@ -184,12 +184,13 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
         <div v-if="odds && showOddsModal" class="oddsModal">
             <div v-if="odds.spread[0].point < 0">{{ odds.spread[0].name }} {{ odds.spread[0].point }}</div>
             <div v-if="odds.spread[1].point < 0">{{ odds.spread[1].name }} {{ odds.spread[1].point }}</div>
-            <div><i>last updated:</i>{{ formatDate(odds.last_update) }}</div>
+            <div style="font-size: 10px;"><i>last updated:</i>{{ formatDate(odds.last_update) }}</div>
         </div>
         <div v-if="showWeatherModal">
             <div v-if="weather && !isString(weather)" class="weatherModal">
                 <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
                 <p>Wind: {{ weather.wind.speed }} mph</p>
+                <p>{{ weather.weather[0].description }}</p>
                 <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
                 <p v-if="stadium">@ {{ stadium?.stadium }}</p>
             </div>

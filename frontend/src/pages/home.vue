@@ -170,6 +170,8 @@ onMounted(async () => {
 
 <template>
   <div class="pageContainer">
+    <div v-if="sleeperUser.user_id === ''" class="instructions">Enter your Sleeper username to get started!</div>
+    <div v-if="sleeperUser.user_id !== '' && selectedLeague.league_id == ''" class="instructions">Select your league from the dropdown menu below!</div>
     <div class="userContainer">
       <form @submit.prevent="fetchUser" class="userForm">
         <input 
@@ -209,6 +211,11 @@ onMounted(async () => {
   display:flex;
   flex-direction: column;
   align-items: center;
+}
+
+.instructions {
+  font-style: italic;
+  text-shadow: rgba(10, 43, 16, 0.432) 1px 4px 20px;
 }
 
 .userContainer {
