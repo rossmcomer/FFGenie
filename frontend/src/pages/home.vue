@@ -301,10 +301,9 @@ button:focus-visible {
 
 .playerCardsContainer {
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   justify-content:center;
-  align-items: center;
+  
 }
 
 .positionContainer {
