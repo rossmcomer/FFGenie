@@ -104,8 +104,9 @@ export interface ReducedGameInfo {
   commence_time: Date
   home_team: string
   away_team: string
-  over_under: number
   last_update: Date
+  over_under: number
+  spread: Outcome[]
 }
 
 //nflOdds service end

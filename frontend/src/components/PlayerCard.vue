@@ -120,7 +120,7 @@ const kelvinToFahrenheit = (kelvin: number): number => {
   return (kelvin - 273.15) * 9/5 + 32
 }
 
-function formatDate(dateString: Date | undefined): string | undefined {
+const formatDate = (dateString: Date | undefined): string | undefined => {
     if (dateString){
     const date = new Date(dateString);
 
@@ -182,8 +182,9 @@ function formatDate(dateString: Date | undefined): string | undefined {
             </div>
         </div>
         <div v-if="odds && showOddsModal" class="oddsModal">
-            <div>Start time:{{ odds.commence_time }}</div>
-            <div><i>last updated:</i>{{ odds.last_update }}</div>
+            <div v-if="odds.spread[0].point < 0">{{ odds.spread[0].name }} {{ odds.spread[0].point }}</div>
+            <div v-if="odds.spread[1].point < 0">{{ odds.spread[1].name }} {{ odds.spread[1].point }}</div>
+            <div><i>last updated:</i>{{ formatDate(odds.last_update) }}</div>
         </div>
         <div v-if="showWeatherModal">
             <div v-if="weather && !isString(weather)" class="weatherModal">
