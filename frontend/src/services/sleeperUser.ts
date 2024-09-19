@@ -1,4 +1,4 @@
-import type {allPlayers} from '../types'
+import type {allPlayers, PlayerDetailed} from '../types'
 
 const getSleeperUser = async (username: string) => {
     const response = await fetch(`https://api.sleeper.app/v1/user/${username}`)
@@ -21,6 +21,7 @@ const getSleeperUserRosterFromLeague = async (userId: string, leagueId: string) 
     const response = await fetch (`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
     const rosters = await response.json()
     const userRoster = rosters.find((team: any) => team.owner_id == userId)
+
     const { players } = userRoster
     return { players }
 }
@@ -33,8 +34,24 @@ const getAllPlayersDetailed = async (players: string[], allPlayers: allPlayers) 
         const playerToAdd = data[players[i]]
         allPlayersDetailed.push(playerToAdd)
     }
+    console.log(allPlayersDetailed, 'allPlayersDetailed')
+
+    const positionOrder: any = {
+        QB: 1,
+        RB: 2,
+        WR: 3,
+        TE: 4,
+        K: 5,
+        DEF: 6
+    }
+
+    const sortedPlayers = allPlayersDetailed.sort((a: PlayerDetailed, b: PlayerDetailed) => {
+        const aPosition = positionOrder[a.position] || 7
+        const bPosition = positionOrder[b.position] || 7
+        return aPosition - bPosition
+    })
     
-    return allPlayersDetailed
+    return sortedPlayers
 }
 
 export default { getSleeperUser, getSleeperUserLeagues, getSleeperUserRosterFromLeague, getAllPlayersDetailed }
