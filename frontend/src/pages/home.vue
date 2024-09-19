@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import type { League, ReducedGameInfo, Stadium, InternationalGame, Weather } from '../types'
+import type { League, ReducedGameInfo, Stadium, InternationalGame, Weather, PlayerDetailed } from '../types'
 import { isWithinInterval, addDays, startOfDay, differenceInDays } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
@@ -22,6 +22,8 @@ const selectedWeek = ref<number>(1)
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
 const selectedWeather = ref<Weather[]>([])
+
+const positions = ['QB','RB','WR','TE','K','DEF']
 
 const fetchUser = () => {
   if (username.value) {
@@ -195,12 +197,16 @@ onMounted(async () => {
       </div> -->
     </div>
     <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
-        <div v-for="(player, index) in playersDetailed" :key="index">
-            <PlayerCard :player="player"
-                        :selectedWeather="selectedWeather"
-                        :selectedStadiums="selectedStadiums"
-                        :selectedGames="selectedGames"/>
+      <div v-for="(position, index) in positions" :key=index>
+        <div v-if="playersDetailed.find((p: PlayerDetailed) => p.position === position)" class="positionContainer"> {{position}}
+          <div v-for="(player, index) in playersDetailed.filter((p: PlayerDetailed) => p.position === position)" :key="index">
+              <PlayerCard :player="player"
+                          :selectedWeather="selectedWeather"
+                          :selectedStadiums="selectedStadiums"
+                          :selectedGames="selectedGames"/>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -295,8 +301,15 @@ button:focus-visible {
 
 .playerCardsContainer {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content:center;
   align-items: center;
+}
+
+.positionContainer {
+  color: rgba(10, 43, 16, 1);
+  font-weight: 500;
+  font-size: 18px;
 }
 </style>

@@ -217,7 +217,9 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
     background-blend-mode:soft-light;
     border-radius: 5px;
     box-sizing: border-box;
-    position: relative
+    position: relative;
+    color: #ffffff;
+    font-size: 14px
 }
 
 .playerCardHeader {

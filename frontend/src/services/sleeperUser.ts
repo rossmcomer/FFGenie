@@ -45,13 +45,13 @@ const getAllPlayersDetailed = async (players: string[], allPlayers: allPlayers) 
         DEF: 6
     }
 
-    const sortedPlayers = allPlayersDetailed.sort((a: PlayerDetailed, b: PlayerDetailed) => {
+    const sortedPlayersDetailed = allPlayersDetailed.sort((a: PlayerDetailed, b: PlayerDetailed) => {
         const aPosition = positionOrder[a.position] || 7
         const bPosition = positionOrder[b.position] || 7
         return aPosition - bPosition
     })
     
-    return sortedPlayers
+    return sortedPlayersDetailed
 }
 
 export default { getSleeperUser, getSleeperUserLeagues, getSleeperUserRosterFromLeague, getAllPlayersDetailed }
