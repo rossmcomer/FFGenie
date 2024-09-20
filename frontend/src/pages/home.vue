@@ -197,13 +197,16 @@ onMounted(async () => {
       </div> -->
     </div>
     <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
-      <div v-for="(position, index) in positions" :key=index>
-        <div v-if="playersDetailed.find((p: PlayerDetailed) => p.position === position)" class="positionContainer"> {{position}}
+      <div v-for="(position, index) in positions" :key=index class="positionContainerWrapper"> 
+        <div v-if="playersDetailed.find((p: PlayerDetailed) => p.position === position)" class="positionContainer"> 
+          <div class="positionHeader">{{ position }}</div>
+          <div class="playerCards">
           <div v-for="(player, index) in playersDetailed.filter((p: PlayerDetailed) => p.position === position)" :key="index">
               <PlayerCard :player="player"
                           :selectedWeather="selectedWeather"
                           :selectedStadiums="selectedStadiums"
                           :selectedGames="selectedGames"/>
+          </div>
           </div>
         </div>
       </div>
@@ -301,14 +304,29 @@ button:focus-visible {
 
 .playerCardsContainer {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content:center;
-  
+  justify-content: center;  
 }
 
 .positionContainer {
+  display:flex;
+  flex-direction: column;
+  flex-wrap:wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.positionHeader {
   color: rgba(10, 43, 16, 1);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 18px;
+}
+
+.playerCards {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 </style>
