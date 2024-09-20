@@ -224,7 +224,7 @@ onMounted(async () => {
 
 .instructions {
   font-style: italic;
-  text-shadow: rgba(10, 43, 16, 0.432) 1px 4px 20px;
+  text-shadow: rgba(0, 0, 0, 0.432) 1px 4px 20px;
 }
 
 .userContainer {
@@ -243,8 +243,10 @@ onMounted(async () => {
 .usernameInput {
   padding:5px;
   border-radius: 4px;
-  border: 1px solid transparent;
-  background-color: rgba(10, 43, 16, 0.9);
+  border: 2px solid rgba(10, 43, 16);
+  background-color: rgb(141, 141, 141);
+  color: rgba(10, 43, 16);
+  font-size: 14px;
   width: 200px;
   margin: 0px 5px;
   box-sizing: border-box;
@@ -280,11 +282,14 @@ button:focus-visible {
 }
 
 .leagueSelector {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 600;
   padding: 5px;
   border: 1px solid transparent;
   border-radius: 4px;
-  background-color: rgba(10, 43, 16, 0.9);
+  border: 2px solid rgba(10, 43, 16);
+  background-color: rgb(141, 141, 141);
+  color: rgba(10, 43, 16);
   box-shadow: #00000046 1px 1px 10px;
   cursor: pointer;
 }
