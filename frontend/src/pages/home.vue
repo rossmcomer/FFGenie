@@ -253,6 +253,10 @@ onMounted(async () => {
   box-shadow: #00000046 1px 1px 10px;
 }
 
+::placeholder {
+  color: rgba(10, 43, 16)
+}
+
 .usernameInput:focus {
   outline: none
 }
