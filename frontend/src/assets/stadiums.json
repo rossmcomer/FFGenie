@@ -1,226 +1,226 @@
 [
-    {
-        "team": "Arizona Cardinals",
-        "stadium": "State Farm Stadium",
-        "lat": 33.53,
-        "lon": -112.26,
-        "dome": true
-    },
-    {
-        "team": "Atlanta Falcons",
-        "stadium": "Mercedes-Benz Stadium",
-        "lat": 33.76,
-        "lon": -84.40,
-        "dome": true
-    },
-    {
-        "team": "Baltimore Ravens",
-        "stadium": "M&T Bank Stadium",
-        "lat": 39.28,
-        "lon": -76.62,
-        "dome": false
-    },
-    {
-        "team": "Buffalo Bills",
-        "stadium": "Highmark Stadium",
-        "lat": 42.77,
-        "lon": -78.79,
-        "dome": false
-    },
-    {
-        "team": "Carolina Panthers",
-        "stadium": "Bank of America Stadium",
-        "lat": 35.23,
-        "lon": -80.85,
-        "dome": false
-    },
-    {
-        "team": "Chicago Bears",
-        "stadium": "Soldier Field",
-        "lat": 41.86,
-        "lon": -87.62,
-        "dome": false
-    },
-    {
-        "team": "Cincinnati Bengals",
-        "stadium": "Paycor Stadium",
-        "lat": 39.10,
-        "lon": -84.52,
-        "dome": false
-    },
-    {
-        "team": "Cleveland Browns",
-        "stadium": "Cleveland Browns Stadium",
-        "lat": 41.51,
-        "lon": -81.70,
-        "dome": false
-    },
-    {
-        "team": "Dallas Cowboys",
-        "stadium": "AT&T Stadium",
-        "lat": 32.75,
-        "lon": -97.09,
-        "dome": true
-    },
-    {
-        "team": "Denver Broncos",
-        "stadium": "Empower Field at Mile High",
-        "lat": 39.74,
-        "lon": -105.02,
-        "dome": false
-    },
-    {
-        "team": "Detroit Lions",
-        "stadium": "Ford Field",
-        "lat": 42.34,
-        "lon": -83.05,
-        "dome": true
-    },
-    {
-        "team": "Green Bay Packers",
-        "stadium": "Lambeau Field",
-        "lat": 44.50,
-        "lon": -88.06,
-        "dome": false
-    },
-    {
-        "team": "Houston Texans",
-        "stadium": "NRG Stadium",
-        "lat": 29.68,
-        "lon": -95.41,
-        "dome": true
-    },
-    {
-        "team": "Indianapolis Colts",
-        "stadium": "Lucas Oil Stadium",
-        "lat": 39.76,
-        "lon": -86.16,
-        "dome": true
-    },
-    {
-        "team": "Jacksonville Jaguars",
-        "stadium": "TIAA Bank Field",
-        "lat": 30.32,
-        "lon": -81.64,
-        "dome": false
-    },
-    {
-        "team": "Kansas City Chiefs",
-        "stadium": "Arrowhead Stadium",
-        "lat": 39.05,
-        "lon": -94.48,
-        "dome": false
-    },
-    {
-        "team": "Las Vegas Raiders",
-        "stadium": "Allegiant Stadium",
-        "lat": 36.09,
-        "lon": -115.18,
-        "dome": true
-    },
-    {
-        "team": "Los Angeles Chargers",
-        "stadium": "SoFi Stadium",
-        "lat": 33.95,
-        "lon": -118.34,
-        "dome": true
-    },
-    {
-        "team": "Los Angeles Rams",
-        "stadium": "SoFi Stadium",
-        "lat": 33.95,
-        "lon": -118.34,
-        "dome": true
-    },
-    {
-        "team": "Miami Dolphins",
-        "stadium": "Hard Rock Stadium",
-        "lat": 25.96,
-        "lon": -80.24,
-        "dome": false
-    },
-    {
-        "team": "Minnesota Vikings",
-        "stadium": "U.S. Bank Stadium",
-        "lat": 44.97,
-        "lon": -93.26,
-        "dome": true
-    },
-    {
-        "team": "New England Patriots",
-        "stadium": "Gillette Stadium",
-        "lat": 42.09,
-        "lon": -71.26,
-        "dome": false
-    },
-    {
-        "team": "New Orleans Saints",
-        "stadium": "Caesars Superdome",
-        "lat": 29.95,
-        "lon": -90.08,
-        "dome": true
-    },
-    {
-        "team": "New York Giants",
-        "stadium": "MetLife Stadium",
-        "lat": 40.81,
-        "lon": -74.07,
-        "dome": false
-    },
-    {
-        "team": "New York Jets",
-        "stadium": "MetLife Stadium",
-        "lat": 40.81,
-        "lon": -74.07,
-        "dome": false
-    },
-    {
-        "team": "Philadelphia Eagles",
-        "stadium": "Lincoln Financial Field",
-        "lat": 39.90,
-        "lon": -75.17,
-        "dome": false
-    },
-    {
-        "team": "Pittsburgh Steelers",
-        "stadium": "Acrisure Stadium",
-        "lat": 40.45,
-        "lon": -80.02,
-        "dome": false
-    },
-    {
-        "team": "San Francisco 49ers",
-        "stadium": "Levi's Stadium",
-        "lat": 37.40,
-        "lon": -121.97,
-        "dome": false
-    },
-    {
-        "team": "Seattle Seahawks",
-        "stadium": "Lumen Field",
-        "lat": 47.60,
-        "lon": -122.33,
-        "dome": false
-    },
-    {
-        "team": "Tampa Bay Buccaneers",
-        "stadium": "Raymond James Stadium",
-        "lat": 27.98,
-        "lon": -82.50,
-        "dome": false
-    },
-    {
-        "team": "Tennessee Titans",
-        "stadium": "Nissan Stadium",
-        "lat": 36.17,
-        "lon": -86.77,
-        "dome": false
-    },
-    {
-        "team": "Washington Commanders",
-        "stadium": "FedExField",
-        "lat": 38.91,
-        "lon": -76.86,
-        "dome": false
-    }
+  {
+    "team": "Arizona Cardinals",
+    "stadium": "State Farm Stadium",
+    "lat": 33.53,
+    "lon": -112.26,
+    "dome": true
+  },
+  {
+    "team": "Atlanta Falcons",
+    "stadium": "Mercedes-Benz Stadium",
+    "lat": 33.76,
+    "lon": -84.4,
+    "dome": true
+  },
+  {
+    "team": "Baltimore Ravens",
+    "stadium": "M&T Bank Stadium",
+    "lat": 39.28,
+    "lon": -76.62,
+    "dome": false
+  },
+  {
+    "team": "Buffalo Bills",
+    "stadium": "Highmark Stadium",
+    "lat": 42.77,
+    "lon": -78.79,
+    "dome": false
+  },
+  {
+    "team": "Carolina Panthers",
+    "stadium": "Bank of America Stadium",
+    "lat": 35.23,
+    "lon": -80.85,
+    "dome": false
+  },
+  {
+    "team": "Chicago Bears",
+    "stadium": "Soldier Field",
+    "lat": 41.86,
+    "lon": -87.62,
+    "dome": false
+  },
+  {
+    "team": "Cincinnati Bengals",
+    "stadium": "Paycor Stadium",
+    "lat": 39.1,
+    "lon": -84.52,
+    "dome": false
+  },
+  {
+    "team": "Cleveland Browns",
+    "stadium": "Cleveland Browns Stadium",
+    "lat": 41.51,
+    "lon": -81.7,
+    "dome": false
+  },
+  {
+    "team": "Dallas Cowboys",
+    "stadium": "AT&T Stadium",
+    "lat": 32.75,
+    "lon": -97.09,
+    "dome": true
+  },
+  {
+    "team": "Denver Broncos",
+    "stadium": "Empower Field at Mile High",
+    "lat": 39.74,
+    "lon": -105.02,
+    "dome": false
+  },
+  {
+    "team": "Detroit Lions",
+    "stadium": "Ford Field",
+    "lat": 42.34,
+    "lon": -83.05,
+    "dome": true
+  },
+  {
+    "team": "Green Bay Packers",
+    "stadium": "Lambeau Field",
+    "lat": 44.5,
+    "lon": -88.06,
+    "dome": false
+  },
+  {
+    "team": "Houston Texans",
+    "stadium": "NRG Stadium",
+    "lat": 29.68,
+    "lon": -95.41,
+    "dome": true
+  },
+  {
+    "team": "Indianapolis Colts",
+    "stadium": "Lucas Oil Stadium",
+    "lat": 39.76,
+    "lon": -86.16,
+    "dome": true
+  },
+  {
+    "team": "Jacksonville Jaguars",
+    "stadium": "TIAA Bank Field",
+    "lat": 30.32,
+    "lon": -81.64,
+    "dome": false
+  },
+  {
+    "team": "Kansas City Chiefs",
+    "stadium": "Arrowhead Stadium",
+    "lat": 39.05,
+    "lon": -94.48,
+    "dome": false
+  },
+  {
+    "team": "Las Vegas Raiders",
+    "stadium": "Allegiant Stadium",
+    "lat": 36.09,
+    "lon": -115.18,
+    "dome": true
+  },
+  {
+    "team": "Los Angeles Chargers",
+    "stadium": "SoFi Stadium",
+    "lat": 33.95,
+    "lon": -118.34,
+    "dome": true
+  },
+  {
+    "team": "Los Angeles Rams",
+    "stadium": "SoFi Stadium",
+    "lat": 33.95,
+    "lon": -118.34,
+    "dome": true
+  },
+  {
+    "team": "Miami Dolphins",
+    "stadium": "Hard Rock Stadium",
+    "lat": 25.96,
+    "lon": -80.24,
+    "dome": false
+  },
+  {
+    "team": "Minnesota Vikings",
+    "stadium": "U.S. Bank Stadium",
+    "lat": 44.97,
+    "lon": -93.26,
+    "dome": true
+  },
+  {
+    "team": "New England Patriots",
+    "stadium": "Gillette Stadium",
+    "lat": 42.09,
+    "lon": -71.26,
+    "dome": false
+  },
+  {
+    "team": "New Orleans Saints",
+    "stadium": "Caesars Superdome",
+    "lat": 29.95,
+    "lon": -90.08,
+    "dome": true
+  },
+  {
+    "team": "New York Giants",
+    "stadium": "MetLife Stadium",
+    "lat": 40.81,
+    "lon": -74.07,
+    "dome": false
+  },
+  {
+    "team": "New York Jets",
+    "stadium": "MetLife Stadium",
+    "lat": 40.81,
+    "lon": -74.07,
+    "dome": false
+  },
+  {
+    "team": "Philadelphia Eagles",
+    "stadium": "Lincoln Financial Field",
+    "lat": 39.9,
+    "lon": -75.17,
+    "dome": false
+  },
+  {
+    "team": "Pittsburgh Steelers",
+    "stadium": "Acrisure Stadium",
+    "lat": 40.45,
+    "lon": -80.02,
+    "dome": false
+  },
+  {
+    "team": "San Francisco 49ers",
+    "stadium": "Levi's Stadium",
+    "lat": 37.4,
+    "lon": -121.97,
+    "dome": false
+  },
+  {
+    "team": "Seattle Seahawks",
+    "stadium": "Lumen Field",
+    "lat": 47.6,
+    "lon": -122.33,
+    "dome": false
+  },
+  {
+    "team": "Tampa Bay Buccaneers",
+    "stadium": "Raymond James Stadium",
+    "lat": 27.98,
+    "lon": -82.5,
+    "dome": false
+  },
+  {
+    "team": "Tennessee Titans",
+    "stadium": "Nissan Stadium",
+    "lat": 36.17,
+    "lon": -86.77,
+    "dome": false
+  },
+  {
+    "team": "Washington Commanders",
+    "stadium": "FedExField",
+    "lat": 38.91,
+    "lon": -76.86,
+    "dome": false
+  }
 ]

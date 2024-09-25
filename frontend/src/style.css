@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: "Libre Franklin", sans-serif;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -16,8 +16,8 @@ body {
   padding: 0;
   min-width: 344px;
   min-height: 100vh;
-  background-color: #5E9942;
-  background-image: url('./assets/FootballField.svg');
+  background-color: #5e9942;
+  background-image: url("./assets/FootballField.svg");
   background-repeat: no-repeat;
   background-size: 100% 150%;
   background-position: center;

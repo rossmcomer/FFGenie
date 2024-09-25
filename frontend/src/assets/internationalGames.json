@@ -1,47 +1,47 @@
 [
-    {
-        "gameId": "eca3b71919531e7ae0b4f3f501157e6c",
-        "home_team": "Philadelphia Eagles",
-        "away_team": "Green Bay Packers",
-        "stadium": "Corinthians Arena",
-        "lat": -23.5456,
-        "lon": -46.4745,
-        "dome": false
-    },
-    {
-        "gameId": "b782886bcc4874123d3bb50e5d1e88c3",
-        "home_team": "Minnesota Vikings",
-        "away_team": "New York Jets",
-        "stadium": "Tottenham Hotspur Stadium",
-        "lat": 51.6033,
-        "lon": -0.0657,
-        "dome": false
-    },
-    {
-        "gameId": "c1bcc8bbec33008ae587584b1b3de2d0",
-        "home_team": "Chicago Bears",
-        "away_team": "Jacksonville Jaguars",
-        "stadium": "Tottenham Hotspur Stadium",
-        "lat": 51.6033,
-        "lon": -0.0657,
-        "dome": false
-    },
-    {
-        "gameId": "964d089b9bbbf792a705da3b3f355312",
-        "home_team": "Jacksonville Jaguars",
-        "away_team": "New England Patriots",
-        "stadium": "Wembley Stadium",
-        "lat": 51.5559,
-        "lon": -0.2795,
-        "dome": false
-    },
-    {
-        "gameId": "9016850451d9e4190ec1bd178dac4849",
-        "home_team": "Carolina Panthers",
-        "away_team": "New York Giants",
-        "stadium": "Allianz Arena",
-        "lat": 48.2188,
-        "lon": 11.6247,
-        "dome": false
-    }
+  {
+    "gameId": "eca3b71919531e7ae0b4f3f501157e6c",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Green Bay Packers",
+    "stadium": "Corinthians Arena",
+    "lat": -23.5456,
+    "lon": -46.4745,
+    "dome": false
+  },
+  {
+    "gameId": "b782886bcc4874123d3bb50e5d1e88c3",
+    "home_team": "Minnesota Vikings",
+    "away_team": "New York Jets",
+    "stadium": "Tottenham Hotspur Stadium",
+    "lat": 51.6033,
+    "lon": -0.0657,
+    "dome": false
+  },
+  {
+    "gameId": "c1bcc8bbec33008ae587584b1b3de2d0",
+    "home_team": "Chicago Bears",
+    "away_team": "Jacksonville Jaguars",
+    "stadium": "Tottenham Hotspur Stadium",
+    "lat": 51.6033,
+    "lon": -0.0657,
+    "dome": false
+  },
+  {
+    "gameId": "964d089b9bbbf792a705da3b3f355312",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "New England Patriots",
+    "stadium": "Wembley Stadium",
+    "lat": 51.5559,
+    "lon": -0.2795,
+    "dome": false
+  },
+  {
+    "gameId": "9016850451d9e4190ec1bd178dac4849",
+    "home_team": "Carolina Panthers",
+    "away_team": "New York Giants",
+    "stadium": "Allianz Arena",
+    "lat": 48.2188,
+    "lon": 11.6247,
+    "dome": false
+  }
 ]
