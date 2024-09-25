@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 // defineProps<{ msg: string }>()
-export default {};
+export default {}
 </script>
 <style scoped>
 .navBarContainer {

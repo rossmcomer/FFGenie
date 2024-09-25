@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch } from "vue";
-import teams from "../assets/teams.json";
-import domeIcon from "../assets/domeicon3-white.png";
+import { ref, onMounted, watch } from "vue"
+import teams from "../assets/teams.json"
+import domeIcon from "../assets/domeicon3-white.png"
 import type {
   PlayerDetailed,
   Weather,
@@ -9,148 +9,148 @@ import type {
   Stadium,
   TeamAbbreviation,
   ReducedGameInfo,
-} from "../types";
+} from "../types"
 
 const props = defineProps<{
-  player: PlayerDetailed;
-  selectedWeather: Weather[];
-  selectedStadiums: Stadium[];
-  selectedGames: ReducedGameInfo[];
-}>();
+  player: PlayerDetailed
+  selectedWeather: Weather[]
+  selectedStadiums: Stadium[]
+  selectedGames: ReducedGameInfo[]
+}>()
 
-const team = ref<TeamAbbreviation | undefined>(undefined);
-const stadium = ref<Stadium | undefined>(undefined);
-const weather = ref<WeatherResponse | string | undefined>(undefined);
-const odds = ref<ReducedGameInfo | undefined>(undefined);
-const showWeatherModal = ref<Boolean>(false);
-const showOddsModal = ref<Boolean>(false);
-const opponent = ref<TeamAbbreviation | undefined>(undefined);
+const team = ref<TeamAbbreviation | undefined>(undefined)
+const stadium = ref<Stadium | undefined>(undefined)
+const weather = ref<WeatherResponse | string | undefined>(undefined)
+const odds = ref<ReducedGameInfo | undefined>(undefined)
+const showWeatherModal = ref<Boolean>(false)
+const showOddsModal = ref<Boolean>(false)
+const opponent = ref<TeamAbbreviation | undefined>(undefined)
 
 const toggleWeatherModal = () => {
-  showWeatherModal.value = !showWeatherModal.value;
-};
+  showWeatherModal.value = !showWeatherModal.value
+}
 
 const toggleOddsModal = () => {
-  showOddsModal.value = !showOddsModal.value;
-};
+  showOddsModal.value = !showOddsModal.value
+}
 
 const getPlayerTeam = async (
   player: PlayerDetailed,
 ): Promise<TeamAbbreviation | undefined> => {
   const foundTeam = teams.find(
     (team: TeamAbbreviation) => team.abbreviation === player.team,
-  );
+  )
 
-  return foundTeam;
-};
+  return foundTeam
+}
 
 const getPlayerStadium = async (): Promise<Stadium | undefined> => {
   return new Promise((resolve) => {
     if (!team.value) {
-      resolve(undefined);
+      resolve(undefined)
     } else {
       const foundStadium = props.selectedStadiums.find(
         (stadium: Stadium) =>
           stadium.home_team === team.value?.name ||
           stadium.away_team === team.value?.name,
-      );
-      resolve(foundStadium);
+      )
+      resolve(foundStadium)
     }
-  });
-};
+  })
+}
 
 const getWeatherForPlayer = async (): Promise<
   WeatherResponse | string | undefined
 > => {
   return new Promise((resolve) => {
     if (!team.value) {
-      resolve(undefined);
+      resolve(undefined)
     } else {
       const weatherForPlayer = props.selectedWeather.find(
         (weather) =>
           weather.home_team === team.value?.name ||
           weather.away_team === team.value?.name,
-      );
+      )
 
       if (weatherForPlayer) {
         if (weatherForPlayer.dome) {
-          resolve("dome");
+          resolve("dome")
         } else {
-          resolve(weatherForPlayer.weather);
+          resolve(weatherForPlayer.weather)
         }
       } else {
-        resolve(undefined);
+        resolve(undefined)
       }
     }
-  });
-};
+  })
+}
 
 const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
   const oddsForPlayer = props.selectedGames.find(
     (game) =>
       game.home_team === team.value?.name ||
       game.away_team === team.value?.name,
-  );
+  )
 
-  return oddsForPlayer;
-};
+  return oddsForPlayer
+}
 
 const getOpponent = (
   odds: ReducedGameInfo | undefined,
   playerTeam: TeamAbbreviation | undefined,
 ): TeamAbbreviation | undefined => {
   if (playerTeam?.name === odds?.home_team) {
-    const awayTeam = teams.find((team) => team.name === odds?.away_team);
-    opponent.value = awayTeam;
-    return awayTeam;
+    const awayTeam = teams.find((team) => team.name === odds?.away_team)
+    opponent.value = awayTeam
+    return awayTeam
   }
 
-  const homeTeam = teams.find((team) => team.name === odds?.home_team);
+  const homeTeam = teams.find((team) => team.name === odds?.home_team)
 
-  opponent.value = homeTeam;
+  opponent.value = homeTeam
 
-  return homeTeam;
-};
+  return homeTeam
+}
 
 const fetchPlayerData = async () => {
   try {
-    team.value = await getPlayerTeam(props.player);
-    stadium.value = await getPlayerStadium();
-    weather.value = await getWeatherForPlayer();
-    odds.value = await getOddsForPlayer();
-    opponent.value = getOpponent(odds.value, team.value);
+    team.value = await getPlayerTeam(props.player)
+    stadium.value = await getPlayerStadium()
+    weather.value = await getWeatherForPlayer()
+    odds.value = await getOddsForPlayer()
+    opponent.value = getOpponent(odds.value, team.value)
   } catch (error) {
-    console.error("Error fetching data for playerCard states", error);
+    console.error("Error fetching data for playerCard states", error)
   }
-};
+}
 
 onMounted(() => {
-  fetchPlayerData();
-});
+  fetchPlayerData()
+})
 
 watch(
   () => props.player,
   () => {
-    fetchPlayerData();
+    fetchPlayerData()
   },
   { immediate: true },
-);
+)
 
 const isString = (
   data: WeatherResponse | string | undefined,
 ): data is string => {
-  return typeof data === "string";
-};
+  return typeof data === "string"
+}
 
 const kelvinToFahrenheit = (kelvin: number): number => {
-  return ((kelvin - 273.15) * 9) / 5 + 32;
-};
+  return ((kelvin - 273.15) * 9) / 5 + 32
+}
 
 const formatDate = (dateString: Date | undefined): string | undefined => {
   if (dateString) {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
 
-    const day = date.toLocaleDateString("en-US", { weekday: "short" });
+    const day = date.toLocaleDateString("en-US", { weekday: "short" })
 
     const time = date
       .toLocaleTimeString("en-US", {
@@ -158,11 +158,11 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
         minute: "numeric",
         hour12: true,
       })
-      .toLowerCase();
+      .toLowerCase()
 
-    return `${day} ${time}`;
+    return `${day} ${time}`
   }
-};
+}
 </script>
 
 <template>

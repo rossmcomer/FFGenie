@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { ref, computed, onMounted } from "vue"
+import { useStore } from "vuex"
 import type {
   League,
   ReducedGameInfo,
@@ -8,41 +8,41 @@ import type {
   InternationalGame,
   Weather,
   PlayerDetailed,
-} from "../types";
-import { isWithinInterval, addDays, startOfDay } from "date-fns";
-import internationalGames from "../assets/internationalGames.json";
-import stadiums from "../assets/stadiums.json";
-import weatherService from "../services/weather";
-import PlayerCard from "../components/PlayerCard.vue";
-import getNflState from "../services/getNflState";
+} from "../types"
+import { isWithinInterval, addDays, startOfDay } from "date-fns"
+import internationalGames from "../assets/internationalGames.json"
+import stadiums from "../assets/stadiums.json"
+import weatherService from "../services/weather"
+import PlayerCard from "../components/PlayerCard.vue"
+import getNflState from "../services/getNflState"
 
-const store = useStore();
-const nflOdds = computed(() => store.state.nflOdds);
-const sleeperUser = computed(() => store.state.sleeperUser);
-const selectedRoster = computed(() => store.state.selectedRoster);
-const playersDetailed = computed(() => store.state.playersDetailed);
+const store = useStore()
+const nflOdds = computed(() => store.state.nflOdds)
+const sleeperUser = computed(() => store.state.sleeperUser)
+const selectedRoster = computed(() => store.state.selectedRoster)
+const playersDetailed = computed(() => store.state.playersDetailed)
 
-const seasonStartDate = new Date("2024-09-05T00:00:00Z");
-const username = ref<string>();
-const selectedLeague = ref<League>({ league_id: "", name: "" });
-const selectedWeek = ref<number>(1);
-const selectedGames = ref<ReducedGameInfo[]>([]);
-const selectedStadiums = ref<Stadium[]>([]);
-const selectedWeather = ref<Weather[]>([]);
+const seasonStartDate = new Date("2024-09-05T00:00:00Z")
+const username = ref<string>()
+const selectedLeague = ref<League>({ league_id: "", name: "" })
+const selectedWeek = ref<number>(1)
+const selectedGames = ref<ReducedGameInfo[]>([])
+const selectedStadiums = ref<Stadium[]>([])
+const selectedWeather = ref<Weather[]>([])
 
-const positions = ["QB", "RB", "WR", "TE", "K", "DEF"];
+const positions = ["QB", "RB", "WR", "TE", "K", "DEF"]
 
 const fetchUser = () => {
   if (username.value) {
-    store.dispatch("fetchSleeperUser", username.value);
+    store.dispatch("fetchSleeperUser", username.value)
   }
-};
+}
 
 const fetchRoster = () => {
   if (selectedLeague.value.league_id != "") {
     const league = sleeperUser.value.leagues.find(
       (l: League) => l.name === selectedLeague.value.name,
-    );
+    )
 
     if (league) {
       store
@@ -54,53 +54,53 @@ const fetchRoster = () => {
           store.dispatch("fetchPlayerDetails", {
             players: selectedRoster.value.players,
             reserve: selectedRoster.value.reserve,
-          });
+          })
         })
         .catch((error) => {
-          console.error("Failed to fetch roster or player details:", error);
-        });
+          console.error("Failed to fetch roster or player details:", error)
+        })
     }
   }
-};
+}
 
 const getWeekNumber = async (): Promise<number> => {
   try {
-    const nflState = await getNflState();
-    const weekNumber = nflState.week;
-    selectedWeek.value = weekNumber;
-    return weekNumber;
+    const nflState = await getNflState()
+    const weekNumber = nflState.week
+    selectedWeek.value = weekNumber
+    return weekNumber
   } catch (error) {
-    console.error("Error fetching NFL state:", error);
-    return -1;
+    console.error("Error fetching NFL state:", error)
+    return -1
   }
-};
+}
 
 const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
-  const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7);
-  const endOfWeekDate = addDays(startOfWeekDate, 6);
+  const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
+  const endOfWeekDate = addDays(startOfWeekDate, 6)
 
   const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
     return isWithinInterval(game.commence_time, {
       start: startOfDay(startOfWeekDate),
       end: startOfDay(endOfWeekDate),
-    });
-  });
+    })
+  })
 
-  selectedGames.value = filteredGames;
+  selectedGames.value = filteredGames
 
-  return filteredGames;
-};
+  return filteredGames
+}
 
 const fetchSelectedStadiums = async (
   games: ReducedGameInfo[],
 ): Promise<Stadium[]> => {
-  const weeklyStadiums = [];
+  const weeklyStadiums = []
 
   for (const game of games) {
     const matchedInternationalGame = internationalGames.find(
       (internationalGame: InternationalGame) =>
         internationalGame.gameId === game.id,
-    );
+    )
 
     if (matchedInternationalGame) {
       weeklyStadiums.push({
@@ -110,11 +110,11 @@ const fetchSelectedStadiums = async (
         lat: matchedInternationalGame.lat,
         lon: matchedInternationalGame.lon,
         dome: matchedInternationalGame.dome,
-      });
+      })
     } else {
       const stadium = stadiums.find(
         (stadium) => stadium.team === game.home_team,
-      );
+      )
       if (stadium) {
         weeklyStadiums.push({
           home_team: game.home_team,
@@ -123,15 +123,15 @@ const fetchSelectedStadiums = async (
           lat: stadium.lat,
           lon: stadium.lon,
           dome: stadium.dome,
-        });
+        })
       }
     }
   }
 
-  selectedStadiums.value = weeklyStadiums;
+  selectedStadiums.value = weeklyStadiums
 
-  return weeklyStadiums;
-};
+  return weeklyStadiums
+}
 
 const fetchWeatherForSelectedGames = async (
   selectedGames: ReducedGameInfo[],
@@ -141,24 +141,24 @@ const fetchWeatherForSelectedGames = async (
     selectedGames.map(async (game: ReducedGameInfo) => {
       const stadium = selectedStadiums.find(
         (stadium) => stadium.home_team === game.home_team,
-      );
+      )
 
       if (stadium && !stadium.dome) {
         try {
-          const weather = await weatherService.getWeather(stadium);
+          const weather = await weatherService.getWeather(stadium)
 
           return {
             home_team: game.home_team,
             away_team: game.away_team,
             stadium: stadium.stadium,
             weather,
-          };
+          }
         } catch (error) {
           console.error(
             `Error fetching weather for game ${game.home_team} vs ${game.away_team}:`,
             error,
-          );
-          return null;
+          )
+          return null
         }
       } else if (stadium) {
         return {
@@ -167,36 +167,36 @@ const fetchWeatherForSelectedGames = async (
           stadium: stadium.stadium,
           weather: null,
           dome: true,
-        };
+        }
       } else {
-        return null;
+        return null
       }
     }),
-  );
-  const weather = weatherData.filter((data) => data !== null) as Weather[];
-  selectedWeather.value = weather;
+  )
+  const weather = weatherData.filter((data) => data !== null) as Weather[]
+  selectedWeather.value = weather
 
-  return weather;
-};
+  return weather
+}
 
 onMounted(async () => {
   try {
-    await store.dispatch("fetchNflOdds");
+    await store.dispatch("fetchNflOdds")
 
-    await getWeekNumber();
+    await getWeekNumber()
 
-    await fetchWeeklyGames(selectedWeek.value);
+    await fetchWeeklyGames(selectedWeek.value)
 
-    await fetchSelectedStadiums(selectedGames.value);
+    await fetchSelectedStadiums(selectedGames.value)
 
     await fetchWeatherForSelectedGames(
       selectedGames.value,
       selectedStadiums.value,
-    );
+    )
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching data:", error)
   }
-});
+})
 </script>
 
 <template>
