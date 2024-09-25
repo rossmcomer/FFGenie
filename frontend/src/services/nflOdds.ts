@@ -3,8 +3,7 @@ import type { GameInfo, ReducedGameInfo } from '../types'
 const getNflOdds = async () => {
     const response = await fetch(`https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds?apiKey=${import.meta.env.VITE_ODDS_API_KEY}&bookmakers=draftkings&markets=totals,spreads`)
     const data: GameInfo[] = await response.json()
-    const filteredData: GameInfo[] = data.filter(item=> item.bookmakers[0])
-    
+    const filteredData: GameInfo[] = data.filter(item=> item.bookmakers[0])    
     
     if (data){
     const reducedData: ReducedGameInfo[] = filteredData.map((item: GameInfo) => ({

@@ -2,11 +2,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import type { League, ReducedGameInfo, Stadium, InternationalGame, Weather, PlayerDetailed } from '../types'
-import { isWithinInterval, addDays, startOfDay, differenceInDays } from 'date-fns'
+import { isWithinInterval, addDays, startOfDay } from 'date-fns'
 import internationalGames from '../assets/internationalGames.json'
 import stadiums from '../assets/stadiums.json'
 import weatherService from '../services/weather'
 import PlayerCard from '../components/PlayerCard.vue'
+import getNflState from '../services/getNflState'
 
 
 const store = useStore()
@@ -48,15 +49,15 @@ const fetchRoster = () => {
 }
 
 const getWeekNumber = async (): Promise<number> => {
-  const todaysDate = new Date()
-  const daysSinceStart = differenceInDays(todaysDate, seasonStartDate)
-  const weekNumber = Math.floor(daysSinceStart / 7) + 2
-
-  console.log(daysSinceStart, weekNumber)
-
-  selectedWeek.value = weekNumber
-
-  return weekNumber
+  try {
+        const nflState = await getNflState()
+        const weekNumber = nflState.week
+        selectedWeek.value = weekNumber
+        return weekNumber
+    } catch (error) {
+        console.error('Error fetching NFL state:', error);
+        return -1;
+    }
 }
 
 const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
@@ -64,14 +65,9 @@ const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
   const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
   const endOfWeekDate = addDays(startOfWeekDate, 6)
 
-  console.log(startOfWeekDate, endOfWeekDate)
-console.log(nflOdds.value)
-
   const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
     return isWithinInterval(game.commence_time, { start: startOfDay(startOfWeekDate), end: startOfDay(endOfWeekDate) })
   })
-
-  console.log(filteredGames)
 
   selectedGames.value = filteredGames
 

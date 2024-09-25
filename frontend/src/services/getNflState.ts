@@ -5,4 +5,4 @@ const getNflState = async () => {
     return data
 }
 
-export default { getNflState }
+export default getNflState
