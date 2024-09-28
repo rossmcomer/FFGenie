@@ -7,8 +7,14 @@ RUN npm ci
 
 COPY . .
 
+ARG VITE_ODDS_API_KEY
+ENV VITE_ODDS_API_KEY=${VITE_ODDS_API_KEY}
+
+ARG VITE_OPENWEATHERMAP_API_KEY
+ENV VITE_OPENWEATHERMAP_API_KEY=${VITE_OPENWEATHERMAP_API_KEY}
+
 RUN npm run build
 
 RUN npm install -g serve
 
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s", "dist"]
