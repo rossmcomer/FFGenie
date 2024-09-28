@@ -23,7 +23,7 @@ jobs:
       - name: Format code
         run: |
           cd frontend
-          npm run prettier
+          npm run format
   tag_release:
     needs: deployment_pipeline
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
