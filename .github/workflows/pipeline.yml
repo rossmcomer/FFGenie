@@ -21,7 +21,9 @@ jobs:
           cd frontend
           npm install
       - name: Format code
-        run: npm run prettier
+        run: |
+          cd frontend
+          npm run prettier
   tag_release:
     needs: deployment_pipeline
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
