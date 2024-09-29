@@ -342,6 +342,7 @@ onMounted(async () => {
 button:hover {
   border-color: #ffffffb6;
 }
+
 button:focus,
 button:focus-visible {
   outline: none;
