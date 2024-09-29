@@ -219,7 +219,7 @@ onMounted(async () => {
           placeholder="Sleeper username"
           class="usernameInput"
         />
-        <button type="submit" class="fetchUserButton">1 Fetch User</button>
+        <button type="submit" class="fetchUserButton">Fetch User</button>
       </form>
       <select
         v-model="selectedLeague"
