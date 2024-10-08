@@ -14,7 +14,7 @@ import internationalGames from "../assets/internationalGames.json"
 import stadiums from "../assets/stadiums.json"
 import weatherService from "../services/weather"
 import PlayerCard from "../components/PlayerCard.vue"
-import getNflState from "../services/getNflState"
+import getWeekNumber from "../services/getWeekNumber"
 
 const store = useStore()
 const nflOdds = computed(() => store.state.nflOdds)
@@ -60,18 +60,6 @@ const fetchRoster = () => {
           console.error("Failed to fetch roster or player details:", error)
         })
     }
-  }
-}
-
-const getWeekNumber = async (): Promise<number> => {
-  try {
-    const nflState = await getNflState()
-    const weekNumber = nflState.week
-    selectedWeek.value = weekNumber
-    return weekNumber
-  } catch (error) {
-    console.error("Error fetching NFL state:", error)
-    return -1
   }
 }
 
@@ -183,7 +171,7 @@ onMounted(async () => {
   try {
     await store.dispatch("fetchNflOdds")
 
-    await getWeekNumber()
+    selectedWeek.value = await getWeekNumber()
 
     await fetchWeeklyGames(selectedWeek.value)
 
