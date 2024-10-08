@@ -5,12 +5,9 @@ import type {
   League,
   ReducedGameInfo,
   Stadium,
-  InternationalGame,
   Weather,
   PlayerDetailed,
 } from "../types"
-import internationalGames from "../assets/internationalGames.json"
-import stadiums from "../assets/stadiums.json"
 import weatherService from "../services/weather"
 import PlayerCard from "../components/PlayerCard.vue"
 import getWeekNumber from "../services/getWeekNumber"
