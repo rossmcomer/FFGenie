@@ -9,12 +9,13 @@ import type {
   Weather,
   PlayerDetailed,
 } from "../types"
-import { isWithinInterval, addDays, startOfDay } from "date-fns"
 import internationalGames from "../assets/internationalGames.json"
 import stadiums from "../assets/stadiums.json"
 import weatherService from "../services/weather"
 import PlayerCard from "../components/PlayerCard.vue"
 import getWeekNumber from "../services/getWeekNumber"
+import fetchWeeklyGames from "../services/fetchWeeklyGames"
+import fetchSelectedStadiums from "../services/fetchSelectedStadiums"
 
 const store = useStore()
 const nflOdds = computed(() => store.state.nflOdds)
@@ -22,7 +23,6 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 
-const seasonStartDate = new Date("2024-09-05T00:00:00Z")
 const username = ref<string>()
 const selectedLeague = ref<League>({ league_id: "", name: "" })
 const selectedWeek = ref<number>(1)
@@ -61,64 +61,6 @@ const fetchRoster = () => {
         })
     }
   }
-}
-
-const fetchWeeklyGames = async (week: number): Promise<ReducedGameInfo[]> => {
-  const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
-  const endOfWeekDate = addDays(startOfWeekDate, 6)
-
-  const filteredGames = nflOdds.value.filter((game: ReducedGameInfo) => {
-    return isWithinInterval(game.commence_time, {
-      start: startOfDay(startOfWeekDate),
-      end: startOfDay(endOfWeekDate),
-    })
-  })
-
-  selectedGames.value = filteredGames
-
-  return filteredGames
-}
-
-const fetchSelectedStadiums = async (
-  games: ReducedGameInfo[],
-): Promise<Stadium[]> => {
-  const weeklyStadiums = []
-
-  for (const game of games) {
-    const matchedInternationalGame = internationalGames.find(
-      (internationalGame: InternationalGame) =>
-        internationalGame.gameId === game.id,
-    )
-
-    if (matchedInternationalGame) {
-      weeklyStadiums.push({
-        home_team: matchedInternationalGame.home_team,
-        away_team: matchedInternationalGame.away_team,
-        stadium: matchedInternationalGame.stadium,
-        lat: matchedInternationalGame.lat,
-        lon: matchedInternationalGame.lon,
-        dome: matchedInternationalGame.dome,
-      })
-    } else {
-      const stadium = stadiums.find(
-        (stadium) => stadium.team === game.home_team,
-      )
-      if (stadium) {
-        weeklyStadiums.push({
-          home_team: game.home_team,
-          away_team: game.away_team,
-          stadium: stadium.stadium,
-          lat: stadium.lat,
-          lon: stadium.lon,
-          dome: stadium.dome,
-        })
-      }
-    }
-  }
-
-  selectedStadiums.value = weeklyStadiums
-
-  return weeklyStadiums
 }
 
 const fetchWeatherForSelectedGames = async (
@@ -173,9 +115,9 @@ onMounted(async () => {
 
     selectedWeek.value = await getWeekNumber()
 
-    await fetchWeeklyGames(selectedWeek.value)
+    selectedGames.value = await fetchWeeklyGames(selectedWeek.value, nflOdds.value)
 
-    await fetchSelectedStadiums(selectedGames.value)
+    selectedStadiums.value = await fetchSelectedStadiums(selectedGames.value)
 
     await fetchWeatherForSelectedGames(
       selectedGames.value,
