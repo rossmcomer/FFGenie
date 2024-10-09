@@ -9,7 +9,6 @@ import type {
   PlayerDetailed,
 } from "../types"
 import PlayerCard from "../components/PlayerCard.vue"
-import getWeekNumber from "../services/getWeekNumber"
 import fetchWeeklyGames from "../services/fetchWeeklyGames"
 import fetchSelectedStadiums from "../services/fetchSelectedStadiums"
 import fetchWeatherForSelectedGames from "../services/fetchWeatherForSelectedGames"
@@ -19,10 +18,10 @@ const nflOdds = computed(() => store.state.nflOdds)
 const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
+const selectedWeek = computed(() => store.state.weekNumber)
 
 const username = ref<string>()
 const selectedLeague = ref<League>({ league_id: "", name: "" })
-const selectedWeek = ref<number>(1)
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
 const selectedWeather = ref<Weather[]>([])
@@ -63,8 +62,8 @@ const fetchRoster = () => {
 onMounted(async () => {
   try {
     await store.dispatch("fetchNflOdds")
-
-    selectedWeek.value = await getWeekNumber()
+    
+    await store.dispatch("getWeekNumber")
 
     selectedGames.value = await fetchWeeklyGames(selectedWeek.value, nflOdds.value)
 

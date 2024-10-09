@@ -16,6 +16,7 @@ interface State {
   selectedRoster: SelectedRoster
   allPlayers: allPlayers
   playersDetailed: any[]
+  weekNumber: Number
 }
 
 const store = createStore<State>({
@@ -33,6 +34,7 @@ const store = createStore<State>({
       } as SelectedRoster,
       playersDetailed: [] as PlayersDetailed,
       allPlayers: {} as allPlayers,
+      weekNumber: -1 as Number
     }
   },
   mutations: {
@@ -51,6 +53,9 @@ const store = createStore<State>({
     setPlayersDetailed(state, playersDetailed: PlayersDetailed) {
       state.playersDetailed = playersDetailed
     },
+    setWeekNumber(state, weekNumber: Number) {
+      state.weekNumber = weekNumber
+    }
   },
   actions: {
     async fetchNflOdds({ state, commit }) {
@@ -118,6 +123,17 @@ const store = createStore<State>({
         commit("setPlayersDetailed", response)
       } catch (error) {
         console.error("Failed to fetch player details from roster", error)
+      }
+    },
+    async getWeekNumber({ commit }) {
+      try {
+        const response = await fetch('https://api.sleeper.app/v1/state/nfl')
+        const data = await response.json()
+        const weekNumber = data.week
+        commit('setWeekNumber', weekNumber)
+      } catch (error) {
+        console.error('Error fetching NFL state:', error)
+        commit('setWeekNumber', -1)
       }
     },
   },
