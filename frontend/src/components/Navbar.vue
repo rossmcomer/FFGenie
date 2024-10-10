@@ -12,9 +12,7 @@ export default {}
   width: 100%;
   height: 80px;
   background-color: #5e9942;
-  position: fixed;
   min-width: 344px;
-  z-index: 1;
   top: 0;
   display: flex;
   justify-content: center;

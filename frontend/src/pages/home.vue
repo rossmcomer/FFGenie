@@ -62,7 +62,7 @@ const fetchRoster = () => {
 onMounted(async () => {
   try {
     await store.dispatch("fetchNflOdds")
-    
+
     await store.dispatch("getWeekNumber")
 
     selectedGames.value = await fetchWeeklyGames(selectedWeek.value, nflOdds.value)
