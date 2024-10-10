@@ -91,6 +91,32 @@ onMounted(async () => {
       Select your league from the dropdown menu below!
     </div>
     <div class="userContainer">
+      <form @submit.prevent="fetchUser" class="userForm">
+        <input
+          v-model="username"
+          name="usernameInput"
+          type="text"
+          placeholder="Sleeper username"
+          class="usernameInput"
+        />
+        <button type="submit" class="fetchUserButton">Fetch User</button>
+      </form>
+      <select
+        v-model="selectedLeague"
+        @change="fetchRoster"
+        name="leagueSelector"
+        class="leagueSelector"
+      >
+        <option disabled value="">Select League</option>
+        <option
+          v-for="league in sleeperUser.leagues"
+          :key="league"
+          :value="league"
+          class="leagueName"
+        >
+          {{ league.name }}
+        </option>
+      </select>
       <!-- <div v-if="sleeperUser.display_name != ''">
         <div>{{sleeperUser.display_name}}</div>
         <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>

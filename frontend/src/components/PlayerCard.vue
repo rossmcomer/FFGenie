@@ -209,7 +209,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
         </div>
         <div>|</div>
         <div class="weatherIconContainer" 
-          @mouseover="showWeatherModal = true"
+          @mouseenter="showWeatherModal = true"
           @mouseleave="showWeatherModal = false"
           @click="toggleWeatherModal">
           <img
