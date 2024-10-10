@@ -195,7 +195,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
       </div>
       <div class="weatherOpponentAndOddsContainer">
         <div class="opponentContainer">
-          <div style="font-size: 10px; text-align: center">
+          <div style="font-size: 9px; text-align: center">
             {{ formatDate(odds?.commence_time) }}
           </div>
           <div
@@ -205,39 +205,43 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
             vs.
           </div>
           <div v-else style="font-size: 10px">@</div>
-          <div>{{ opponent?.abbreviation }}</div>
+          <div style="font-size: 10px">{{ opponent?.abbreviation }}</div>
         </div>
         <div>|</div>
-        <div class="weatherIconContainer">
+        <div class="weatherIconContainer" 
+          @mouseover="showWeatherModal = true"
+          @mouseleave="showWeatherModal = false"
+          @click="toggleWeatherModal">
           <img
             v-if="weather && !isString(weather)"
             :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`"
             alt="Weather icon"
-            @mouseover="showWeatherModal = true"
-            @mouseleave="showWeatherModal = false"
-            @click="toggleWeatherModal"
           />
           <img
-            v-if="weather === 'dome'"
+            v-else-if="weather === 'dome'"
             :src="`${domeIcon}`"
             alt="Dome icon"
             class="domeImg"
-            @mouseover="showWeatherModal = true"
+            @mouseenter="showWeatherModal = true"
             @mouseleave="showWeatherModal = false"
           />
+          <div v-else>N/A</div>
         </div>
         <div>|</div>
-        <div
-          v-if="odds"
-          class="oddsIcon"
-          @mouseover="showOddsModal = true"
-          @mouseleave="showOddsModal = false"
-          @click="toggleOddsModal"
-        >
-          <div style="font-size: 10px">O/U</div>
-          <div>{{ odds.over_under }}</div>
+        <div class="oddsIconContainer"
+            @mouseenter="showOddsModal = true"
+            @mouseleave="showOddsModal = false"
+            @click="toggleOddsModal">
+          <div
+            v-if="odds"
+            class="oddsIcon"
+          >
+            <div style="font-size: 10px">O/U</div>
+            <div>{{ odds.over_under }}</div>
+          </div>
+          <div v-else class="oddsIcon">N/A</div>
         </div>
-      </div>
+    </div>
     </div>
     <div v-if="odds && showOddsModal" class="oddsModal">
       <div v-if="odds.spread[0].point < 0">
