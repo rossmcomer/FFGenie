@@ -17,6 +17,7 @@ interface State {
   allPlayers: allPlayers
   playersDetailed: any[]
   weekNumber: Number
+  positions: string[]
 }
 
 const store = createStore<State>({
@@ -34,7 +35,8 @@ const store = createStore<State>({
       } as SelectedRoster,
       playersDetailed: [] as PlayersDetailed,
       allPlayers: {} as allPlayers,
-      weekNumber: -1 as Number
+      weekNumber: -1 as Number,
+      positions: ["QB", "RB", "WR", "TE", "K", "DEF"]
     }
   },
   mutations: {
