@@ -199,12 +199,13 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
             {{ formatDate(odds?.commence_time) }}
           </div>
           <div
-            v-if="opponent?.name === odds?.away_team"
+            v-if="opponent?.name === odds?.away_team && opponent?.name"
             style="font-size: 10px"
           >
             vs.
           </div>
-          <div v-else style="font-size: 10px">@</div>
+          <div v-else-if="opponent?.name" style="font-size: 10px">@</div>
+          <div v-else style="font-size: 14px">N/A</div>
           <div style="font-size: 10px">{{ opponent?.abbreviation }}</div>
         </div>
         <div>|</div>
