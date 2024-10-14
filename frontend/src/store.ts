@@ -5,6 +5,7 @@ import type {
   SelectedRoster,
   allPlayers,
   PlayersDetailed,
+  League
 } from "./types"
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
@@ -13,6 +14,7 @@ import getAllPlayersService from "./services/getAllPlayers"
 interface State {
   nflOdds: ReducedGameInfo[]
   sleeperUser: SleeperUser
+  selectedLeague: League
   selectedRoster: SelectedRoster
   allPlayers: allPlayers
   playersDetailed: any[]
@@ -30,6 +32,10 @@ const store = createStore<State>({
         avatar: "",
         leagues: [],
       } as SleeperUser,
+      selectedLeague: {
+        league_id: "",
+        name: ""
+      } as League,
       selectedRoster: {
         players: [],
       } as SelectedRoster,
