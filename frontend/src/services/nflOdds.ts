@@ -15,8 +15,8 @@ const getNflOdds = async () => {
         away_team: item.away_team,
         commence_time: new Date(item.commence_time),
         last_update: new Date(item.bookmakers[0].last_update),
-        over_under: item.bookmakers[0].markets[1].outcomes[0].point ?? 0,
-        spread: item.bookmakers[0].markets[0].outcomes ?? {name: 'spread unavailable', price: 0, point: 0},
+        over_under: item.bookmakers[0].markets?.[1]?.outcomes?.[0]?.point ?? 0,
+        spread: item.bookmakers[0].markets?.[0]?.outcomes ?? {name: 'spread unavailable', price: 0, point: 0},
       }),
     )
     return reducedData

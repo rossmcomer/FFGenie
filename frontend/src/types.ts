@@ -62,9 +62,10 @@ export type PlayersDetailed = PlayerDetailed[]
 
 // teams.json begin
 
-export interface TeamAbbreviation {
+export interface NflTeam {
   name: string
   abbreviation: string
+  byeWeek: number
 }
 // teams.json end
 

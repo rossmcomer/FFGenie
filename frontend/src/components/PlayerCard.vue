@@ -7,7 +7,7 @@ import type {
   Weather,
   WeatherResponse,
   Stadium,
-  TeamAbbreviation,
+  NflTeam,
   ReducedGameInfo,
 } from "../types"
 
@@ -18,13 +18,13 @@ const props = defineProps<{
   selectedGames: ReducedGameInfo[]
 }>()
 
-const team = ref<TeamAbbreviation | undefined>(undefined)
+const team = ref<NflTeam | undefined>(undefined)
 const stadium = ref<Stadium | undefined>(undefined)
 const weather = ref<WeatherResponse | string | undefined>(undefined)
 const odds = ref<ReducedGameInfo | undefined>(undefined)
 const showWeatherModal = ref<Boolean>(false)
 const showOddsModal = ref<Boolean>(false)
-const opponent = ref<TeamAbbreviation | undefined>(undefined)
+const opponent = ref<NflTeam | undefined>(undefined)
 
 const toggleWeatherModal = () => {
   showWeatherModal.value = !showWeatherModal.value
@@ -35,13 +35,17 @@ const toggleOddsModal = () => {
 }
 
 const getPlayerTeam = async (
-  player: PlayerDetailed,
-): Promise<TeamAbbreviation | undefined> => {
+  player: PlayerDetailed
+): Promise<NflTeam | undefined> => {
   const foundTeam = teams.find(
-    (team: TeamAbbreviation) => team.abbreviation === player.team,
+    (team: NflTeam) => team.abbreviation === player.team,
   )
 
   return foundTeam
+}
+
+const isByeWeek = async (player: PlayerDetailed) => {
+
 }
 
 const getPlayerStadium = async (): Promise<Stadium | undefined> => {
@@ -97,17 +101,14 @@ const getOddsForPlayer = async (): Promise<ReducedGameInfo | undefined> => {
 
 const getOpponent = (
   odds: ReducedGameInfo | undefined,
-  playerTeam: TeamAbbreviation | undefined,
-): TeamAbbreviation | undefined => {
+  playerTeam: NflTeam | undefined,
+): NflTeam | undefined => {
   if (playerTeam?.name === odds?.home_team) {
     const awayTeam = teams.find((team) => team.name === odds?.away_team)
-    opponent.value = awayTeam
     return awayTeam
   }
 
   const homeTeam = teams.find((team) => team.name === odds?.home_team)
-
-  opponent.value = homeTeam
 
   return homeTeam
 }
