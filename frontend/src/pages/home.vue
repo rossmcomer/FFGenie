@@ -157,6 +157,7 @@ onMounted(async () => {
                 :selectedWeather="selectedWeather"
                 :selectedStadiums="selectedStadiums"
                 :selectedGames="selectedGames"
+                :selectedWeek="selectedWeek"
               />
             </div>
           </div>

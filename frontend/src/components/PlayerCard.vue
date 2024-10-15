@@ -16,6 +16,7 @@ const props = defineProps<{
   selectedWeather: Weather[]
   selectedStadiums: Stadium[]
   selectedGames: ReducedGameInfo[]
+  selectedWeek: number
 }>()
 
 const team = ref<NflTeam | undefined>(undefined)
@@ -24,6 +25,7 @@ const weather = ref<WeatherResponse | string | undefined>(undefined)
 const odds = ref<ReducedGameInfo | undefined>(undefined)
 const showWeatherModal = ref<Boolean>(false)
 const showOddsModal = ref<Boolean>(false)
+const isByeWeek = ref<Boolean>(false)
 const opponent = ref<NflTeam | undefined>(undefined)
 
 const toggleWeatherModal = () => {
@@ -44,8 +46,11 @@ const getPlayerTeam = async (
   return foundTeam
 }
 
-const isByeWeek = async (player: PlayerDetailed) => {
-
+const setIsByeWeek = async (): Promise<Boolean> => {
+  const team = teams.find(
+    (team: NflTeam) => team.abbreviation === props.player.team,
+  )
+    return props.selectedWeek === team?.byeWeek
 }
 
 const getPlayerStadium = async (): Promise<Stadium | undefined> => {
@@ -116,6 +121,7 @@ const getOpponent = (
 const fetchPlayerData = async () => {
   try {
     team.value = await getPlayerTeam(props.player)
+    isByeWeek.value = await setIsByeWeek(props.selectedWeek, team.value)
     stadium.value = await getPlayerStadium()
     weather.value = await getWeatherForPlayer()
     odds.value = await getOddsForPlayer()
