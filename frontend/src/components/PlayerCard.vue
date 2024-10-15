@@ -238,7 +238,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
             class="oddsIcon"
           >
             <div style="font-size: 10px">O/U</div>
-            <div>{{ odds.over_under }}</div>
+            <div v-if="odds.over_under != 0">{{ odds.over_under }}</div>
           </div>
           <div v-else class="oddsIcon">N/A</div>
         </div>
