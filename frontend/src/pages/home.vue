@@ -19,14 +19,13 @@ const sleeperUser = computed(() => store.state.sleeperUser)
 const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 const selectedWeek = computed(() => store.state.weekNumber)
+const positions = computed(() => store.state.positions)
 
 const username = ref<string>()
 const selectedLeague = ref<League>({ league_id: "", name: "" })
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
 const selectedWeather = ref<Weather[]>([])
-
-const positions = ["QB", "RB", "WR", "TE", "K", "DEF"]
 
 const fetchUser = () => {
   if (username.value) {
