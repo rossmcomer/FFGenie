@@ -20,9 +20,16 @@ const selectedRoster = computed(() => store.state.selectedRoster)
 const playersDetailed = computed(() => store.state.playersDetailed)
 const selectedWeek = computed(() => store.state.weekNumber)
 const positions = computed(() => store.state.positions)
+const selectedLeague = computed({
+  get() {
+    return store.state.selectedLeague;
+  },
+  set(value) {
+    store.dispatch('setSelectedLeague', value);
+  }
+})
 
 const username = ref<string>()
-const selectedLeague = ref<League>({ league_id: "", name: "" })
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
 const selectedWeather = ref<Weather[]>([])
@@ -34,17 +41,20 @@ const fetchUser = () => {
 }
 
 const fetchRoster = () => {
-  if (selectedLeague.value.league_id != "") {
+  store.dispatch("setSelectedLeague", selectedLeague.value)
+  .then(() => {
+    if (selectedLeague.value.league_id != "") {
     const league = sleeperUser.value.leagues.find(
       (l: League) => l.name === selectedLeague.value.name,
     )
 
     if (league) {
-      store
-        .dispatch("fetchRosterFromLeague", {
-          userId: sleeperUser.value.user_id,
-          leagueId: league.league_id,
-        })
+          store
+          .dispatch("fetchRosterFromLeague", {
+            userId: sleeperUser.value.user_id,
+            leagueId: league.league_id,
+          })
+        
         .then(() => {
           store.dispatch("fetchPlayerDetails", {
             players: selectedRoster.value.players,
@@ -56,6 +66,7 @@ const fetchRoster = () => {
         })
     }
   }
+  })
 }
 
 onMounted(async () => {
@@ -109,7 +120,7 @@ onMounted(async () => {
         <option disabled value="">Select League</option>
         <option
           v-for="league in sleeperUser.leagues"
-          :key="league"
+          :key="league.league_id"
           :value="league"
           class="leagueName"
         >

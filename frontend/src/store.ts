@@ -52,6 +52,9 @@ const store = createStore<State>({
     setSleeperUser(state, sleeperUser: SleeperUser) {
       state.sleeperUser = sleeperUser
     },
+    setSelectedLeague(state, selectedLeague: League) {
+      state.selectedLeague = selectedLeague
+    },
     setSelectedRoster(state, selectedRoster: SelectedRoster) {
       state.selectedRoster = selectedRoster
     },
@@ -93,6 +96,14 @@ const store = createStore<State>({
         commit("setSleeperUser", response)
       } catch (error) {
         console.error("Failed to fetch Sleeper user", error)
+      }
+    },
+    async setSelectedLeague({commit}, league: League){
+      try {
+        commit('setSelectedLeague', league)
+      }
+      catch (error) {
+        console.error("Error setting selectedLeague", error)
       }
     },
     async fetchRosterFromLeague(
