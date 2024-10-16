@@ -121,7 +121,7 @@ const getOpponent = (
 const fetchPlayerData = async () => {
   try {
     team.value = await getPlayerTeam(props.player)
-    isByeWeek.value = await setIsByeWeek(props.selectedWeek, team.value)
+    isByeWeek.value = await setIsByeWeek()
     stadium.value = await getPlayerStadium()
     weather.value = await getWeatherForPlayer()
     odds.value = await getOddsForPlayer()
