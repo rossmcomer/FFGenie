@@ -276,6 +276,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
             weather.weather[0].description.slice(1)
           }}
         </p>
+        <p v-if="weather.rain">{{ weather.rain?.['1h'] }}mm/h</p>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
       </div>
       <div v-if="weather === 'dome'" class="weatherModal">
