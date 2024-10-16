@@ -338,6 +338,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
 
 .playerPic {
   height: 40px;
+  width: 60px;
   margin: 2px;
 }
 
