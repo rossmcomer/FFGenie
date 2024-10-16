@@ -269,7 +269,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
       <div v-if="weather && !isString(weather)" class="weatherModal">
         <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
         <p>Wind: {{ weather.wind.speed }} mph</p>
-        <p>{{ weather.weather[0].description }}</p>
+        <p>{{ weather.weather[0].description.charAt(0).toUpperCase() + weather.weather[0].description.slice(1) }}</p>
         <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
       </div>
