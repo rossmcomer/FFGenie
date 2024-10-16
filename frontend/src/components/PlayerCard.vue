@@ -200,7 +200,8 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
           </div>
         </div>
       </div>
-      <div class="weatherOpponentAndOddsContainer">
+      <div v-if="isByeWeek" class="weatherOpponentAndOddsContainer">BYE</div>
+      <div v-else class="weatherOpponentAndOddsContainer">
         <div class="opponentContainer">
           <div style="font-size: 9px; text-align: center">
             {{ formatDate(odds?.commence_time) }}
