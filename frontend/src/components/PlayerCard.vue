@@ -270,7 +270,6 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
         <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
         <p>Wind: {{ weather.wind.speed }} mph</p>
         <p>{{ weather.weather[0].description.charAt(0).toUpperCase() + weather.weather[0].description.slice(1) }}</p>
-        <p>Cloud Coverage: {{ weather.clouds.all }}%</p>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
       </div>
       <div v-if="weather === 'dome'" class="weatherModal">
