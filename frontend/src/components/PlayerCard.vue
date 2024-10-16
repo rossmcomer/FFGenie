@@ -122,10 +122,12 @@ const fetchPlayerData = async () => {
   try {
     team.value = await getPlayerTeam(props.player)
     isByeWeek.value = await setIsByeWeek()
+    if (!isByeWeek.value) {
     stadium.value = await getPlayerStadium()
     weather.value = await getWeatherForPlayer()
     odds.value = await getOddsForPlayer()
     opponent.value = getOpponent(odds.value, team.value)
+    }
   } catch (error) {
     console.error("Error fetching data for playerCard states", error)
   }
