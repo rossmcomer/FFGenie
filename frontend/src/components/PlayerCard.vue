@@ -37,7 +37,7 @@ const toggleOddsModal = () => {
 }
 
 const getPlayerTeam = async (
-  player: PlayerDetailed
+  player: PlayerDetailed,
 ): Promise<NflTeam | undefined> => {
   const foundTeam = teams.find(
     (team: NflTeam) => team.abbreviation === player.team,
@@ -50,7 +50,7 @@ const setIsByeWeek = async (): Promise<Boolean> => {
   const team = teams.find(
     (team: NflTeam) => team.abbreviation === props.player.team,
   )
-    return props.selectedWeek === team?.byeWeek
+  return props.selectedWeek === team?.byeWeek
 }
 
 const getPlayerStadium = async (): Promise<Stadium | undefined> => {
@@ -123,10 +123,10 @@ const fetchPlayerData = async () => {
     team.value = await getPlayerTeam(props.player)
     isByeWeek.value = await setIsByeWeek()
     if (!isByeWeek.value) {
-    stadium.value = await getPlayerStadium()
-    weather.value = await getWeatherForPlayer()
-    odds.value = await getOddsForPlayer()
-    opponent.value = getOpponent(odds.value, team.value)
+      stadium.value = await getPlayerStadium()
+      weather.value = await getWeatherForPlayer()
+      odds.value = await getOddsForPlayer()
+      opponent.value = getOpponent(odds.value, team.value)
     }
   } catch (error) {
     console.error("Error fetching data for playerCard states", error)
@@ -219,10 +219,12 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
           <div style="font-size: 10px">{{ opponent?.abbreviation }}</div>
         </div>
         <div>|</div>
-        <div class="weatherIconContainer" 
+        <div
+          class="weatherIconContainer"
           @mouseenter="showWeatherModal = true"
           @mouseleave="showWeatherModal = false"
-          @click="toggleWeatherModal">
+          @click="toggleWeatherModal"
+        >
           <img
             v-if="weather && !isString(weather)"
             :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`"
@@ -239,20 +241,19 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
           <div v-else>N/A</div>
         </div>
         <div>|</div>
-        <div class="oddsIconContainer"
-            @mouseenter="showOddsModal = true"
-            @mouseleave="showOddsModal = false"
-            @click="toggleOddsModal">
-          <div
-            v-if="odds"
-            class="oddsIcon"
-          >
+        <div
+          class="oddsIconContainer"
+          @mouseenter="showOddsModal = true"
+          @mouseleave="showOddsModal = false"
+          @click="toggleOddsModal"
+        >
+          <div v-if="odds" class="oddsIcon">
             <div style="font-size: 10px">O/U</div>
             <div v-if="odds.over_under != 0">{{ odds.over_under }}</div>
           </div>
           <div v-else class="oddsIcon">N/A</div>
         </div>
-    </div>
+      </div>
     </div>
     <div v-if="odds && showOddsModal" class="oddsModal">
       <div v-if="odds.spread[0].point < 0">
@@ -269,7 +270,12 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
       <div v-if="weather && !isString(weather)" class="weatherModal">
         <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
         <p>Wind: {{ weather.wind.speed }} mph</p>
-        <p>{{ weather.weather[0].description.charAt(0).toUpperCase() + weather.weather[0].description.slice(1) }}</p>
+        <p>
+          {{
+            weather.weather[0].description.charAt(0).toUpperCase() +
+            weather.weather[0].description.slice(1)
+          }}
+        </p>
         <p v-if="stadium">@ {{ stadium?.stadium }}</p>
       </div>
       <div v-if="weather === 'dome'" class="weatherModal">

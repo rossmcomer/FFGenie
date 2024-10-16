@@ -22,11 +22,11 @@ const selectedWeek = computed(() => store.state.weekNumber)
 const positions = computed(() => store.state.positions)
 const selectedLeague = computed({
   get() {
-    return store.state.selectedLeague;
+    return store.state.selectedLeague
   },
   set(value) {
-    store.dispatch('setSelectedLeague', value);
-  }
+    store.dispatch("setSelectedLeague", value)
+  },
 })
 
 const username = ref<string>()
@@ -41,31 +41,30 @@ const fetchUser = () => {
 }
 
 const fetchRoster = () => {
-  store.dispatch("setSelectedLeague", selectedLeague.value)
-  .then(() => {
+  store.dispatch("setSelectedLeague", selectedLeague.value).then(() => {
     if (selectedLeague.value.league_id != "") {
-    const league = sleeperUser.value.leagues.find(
-      (l: League) => l.name === selectedLeague.value.name,
-    )
+      const league = sleeperUser.value.leagues.find(
+        (l: League) => l.name === selectedLeague.value.name,
+      )
 
-    if (league) {
-          store
+      if (league) {
+        store
           .dispatch("fetchRosterFromLeague", {
             userId: sleeperUser.value.user_id,
             leagueId: league.league_id,
           })
-        
-        .then(() => {
-          store.dispatch("fetchPlayerDetails", {
-            players: selectedRoster.value.players,
-            reserve: selectedRoster.value.reserve,
+
+          .then(() => {
+            store.dispatch("fetchPlayerDetails", {
+              players: selectedRoster.value.players,
+              reserve: selectedRoster.value.reserve,
+            })
           })
-        })
-        .catch((error) => {
-          console.error("Failed to fetch roster or player details:", error)
-        })
+          .catch((error) => {
+            console.error("Failed to fetch roster or player details:", error)
+          })
+      }
     }
-  }
   })
 }
 
@@ -75,13 +74,16 @@ onMounted(async () => {
 
     await store.dispatch("getWeekNumber")
 
-    selectedGames.value = await fetchWeeklyGames(selectedWeek.value, nflOdds.value)
+    selectedGames.value = await fetchWeeklyGames(
+      selectedWeek.value,
+      nflOdds.value,
+    )
 
     selectedStadiums.value = await fetchSelectedStadiums(selectedGames.value)
 
     selectedWeather.value = await fetchWeatherForSelectedGames(
       selectedGames.value,
-      selectedStadiums.value
+      selectedStadiums.value,
     )
   } catch (error) {
     console.error("Error fetching data:", error)

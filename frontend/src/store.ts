@@ -5,7 +5,7 @@ import type {
   SelectedRoster,
   allPlayers,
   PlayersDetailed,
-  League
+  League,
 } from "./types"
 import nflOddsService from "./services/nflOdds"
 import sleeperUserService from "./services/sleeperUser"
@@ -34,7 +34,7 @@ const store = createStore<State>({
       } as SleeperUser,
       selectedLeague: {
         league_id: "",
-        name: ""
+        name: "",
       } as League,
       selectedRoster: {
         players: [],
@@ -42,7 +42,7 @@ const store = createStore<State>({
       playersDetailed: [] as PlayersDetailed,
       allPlayers: {} as allPlayers,
       weekNumber: -1 as Number,
-      positions: ["QB", "RB", "WR", "TE", "K", "DEF"]
+      positions: ["QB", "RB", "WR", "TE", "K", "DEF"],
     }
   },
   mutations: {
@@ -66,7 +66,7 @@ const store = createStore<State>({
     },
     setWeekNumber(state, weekNumber: Number) {
       state.weekNumber = weekNumber
-    }
+    },
   },
   actions: {
     async fetchNflOdds({ state, commit }) {
@@ -98,11 +98,10 @@ const store = createStore<State>({
         console.error("Failed to fetch Sleeper user", error)
       }
     },
-    async setSelectedLeague({commit}, league: League){
+    async setSelectedLeague({ commit }, league: League) {
       try {
-        commit('setSelectedLeague', league)
-      }
-      catch (error) {
+        commit("setSelectedLeague", league)
+      } catch (error) {
         console.error("Error setting selectedLeague", error)
       }
     },
@@ -146,13 +145,13 @@ const store = createStore<State>({
     },
     async getWeekNumber({ commit }) {
       try {
-        const response = await fetch('https://api.sleeper.app/v1/state/nfl')
+        const response = await fetch("https://api.sleeper.app/v1/state/nfl")
         const data = await response.json()
         const weekNumber = data.week
-        commit('setWeekNumber', weekNumber)
+        commit("setWeekNumber", weekNumber)
       } catch (error) {
-        console.error('Error fetching NFL state:', error)
-        commit('setWeekNumber', -1)
+        console.error("Error fetching NFL state:", error)
+        commit("setWeekNumber", -1)
       }
     },
   },
