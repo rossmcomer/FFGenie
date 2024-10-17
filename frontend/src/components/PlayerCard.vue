@@ -268,7 +268,8 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
     </div>
     <div v-if="showWeatherModal">
       <div v-if="weather && !isString(weather)" class="weatherModal">
-        <p>Temp: {{ Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
+        <p>
+           {{Math.floor(kelvinToFahrenheit(weather.main.temp)) }}°F</p>
         <p>Wind: {{ weather.wind.speed }} mph</p>
         <p>
           {{
