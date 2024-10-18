@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import Home from '@/pages/home.vue'
+import home from '../home.vue'
 
 describe("home.vue", () => {
     let store: any
@@ -38,4 +38,16 @@ describe("home.vue", () => {
           },
         })
       })
+    
+    it("renders the input box for Sleeper username", () => {
+    const wrapper = shallowMount(home, {
+        global: {
+        plugins: [store],
+        },
+    })
+
+    const input = wrapper.find("input[name='usernameInput']")
+    expect(input.exists()).toBe(true)
+    expect(input.attributes("placeholder")).toBe("Sleeper username")
+    })
 })
