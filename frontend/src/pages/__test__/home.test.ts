@@ -50,4 +50,16 @@ describe("home.vue", () => {
     expect(input.exists()).toBe(true)
     expect(input.attributes("placeholder")).toBe("Sleeper username")
     })
+
+    it("fetches Sleeper Users leagues", () => {
+      const wrapper = shallowMount(Home, {
+          global: {
+          plugins: [store],
+          },
+      })
+  
+      const input = wrapper.find("input[name='usernameInput']")
+      expect(input.exists()).toBe(true)
+      expect(input.attributes("placeholder")).toBe("Sleeper username")
+      })
 })
