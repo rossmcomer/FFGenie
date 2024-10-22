@@ -70,7 +70,25 @@ describe("home.vue", () => {
     expect(store.dispatch).toHaveBeenCalledWith("fetchSleeperUser", "testUser")
     })
 
-  it('shows a dropdown to select the league when the user is fetched', () => {
+  it('shows a dropdown to select the league when the user is fetched', async () => {
+    store.state.sleeperUser = {
+      user_id: "12345",
+      leagues: [
+        { league_id: "1", name: "League 1" },
+        { league_id: "2", name: "League 2" },
+      ],
+      display_name: "testUser",
+      avatar: "abcdefg12345",
+    }
 
+    const wrapper = shallowMount(Home, {
+      global: {
+        plugins: [store],
+      },
+    })
+
+    const dropdown = wrapper.find("select[name='leagueSelector']")
+    expect(dropdown.exists()).toBe(true)
+    expect(dropdown.findAll("option").length).toBe(3) // 2 leagues + 1 disabled
   })
 })
