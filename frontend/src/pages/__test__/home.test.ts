@@ -70,7 +70,7 @@ describe("home.vue", () => {
     expect(store.dispatch).toHaveBeenCalledWith("fetchSleeperUser", "testUser")
     })
 
-  it('test', () => {
-    
+  it('shows a dropdown to select the league when the user is fetched', () => {
+
   })
 })
