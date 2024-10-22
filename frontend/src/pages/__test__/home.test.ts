@@ -58,7 +58,7 @@ describe("home.vue", () => {
   it("fetches the Sleeper user when the form is submitted", async () => {
     vi.spyOn(store, 'dispatch')
 
-    const wrapper = mount(Home, {
+    const wrapper = shallowMount(Home, {
       global: {
         plugins: [store],
       },
@@ -67,7 +67,6 @@ describe("home.vue", () => {
     await wrapper.find("input[name='usernameInput']").setValue("testUser")
     await wrapper.find('form').trigger('submit.prevent')
 
-    // expect(fetchUser).toHaveBeenCalled()
     expect(store.dispatch).toHaveBeenCalledWith("fetchSleeperUser", "testUser")
     })
 })
