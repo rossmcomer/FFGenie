@@ -24,6 +24,10 @@ jobs:
         run: |
           cd frontend
           npm run format
+      - name: Run tests
+        run: |
+          cd frontend
+          npm run test
   tag_release:
     needs: deployment_pipeline
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
