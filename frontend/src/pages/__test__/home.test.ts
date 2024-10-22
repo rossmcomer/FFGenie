@@ -69,4 +69,8 @@ describe("home.vue", () => {
 
     expect(store.dispatch).toHaveBeenCalledWith("fetchSleeperUser", "testUser")
     })
+
+  it('test', () => {
+    
+  })
 })
