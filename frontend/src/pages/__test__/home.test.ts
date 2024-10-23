@@ -7,7 +7,6 @@ import Home from "../home.vue"
 
 describe("home.vue", () => {
   let store: any
-  let actions
 
   beforeEach(() => {
     store = createStore({
@@ -34,12 +33,18 @@ describe("home.vue", () => {
         fetchUser: vi.fn(),
         fetchSleeperUser: vi.fn(),
         fetchNflOdds: vi.fn(),
-        setSelectedLeague: vi.fn(),
+        setSelectedLeague({ commit }, league) {
+          commit('setSelectedLeague', league);
+        },
         fetchRosterFromLeague: vi.fn(),
         fetchAllPlayers: vi.fn(),
         fetchPlayerDetails: vi.fn(),
         getWeekNumber: vi.fn(),
       },
+      mutations: {
+        setSelectedLeague(state, league) {
+          state.selectedLeague = league;
+        }}
     })
   })
 
@@ -90,5 +95,39 @@ describe("home.vue", () => {
     const dropdown = wrapper.find("select[name='leagueSelector']")
     expect(dropdown.exists()).toBe(true)
     expect(dropdown.findAll("option").length).toBe(3) // 2 leagues + 1 disabled
+  })
+
+  it("fetches the roster when a league is selected", async () => {    
+    vi.spyOn(store, 'dispatch')
+
+    store.state.sleeperUser = {
+      user_id: "12345",
+      leagues: [
+        { league_id: "1", name: "League 1" },
+        { league_id: "2", name: "League 2" },
+      ],
+      display_name: "testUser",
+      avatar: "abcdefg12345",
+    }
+
+    const wrapper = mount(Home, {
+      global: {
+        plugins: [store],
+      },
+    })
+
+    await wrapper.find("select[name='leagueSelector']").setValue(store.state.sleeperUser.leagues[0])
+
+    expect(store.dispatch).toHaveBeenCalledWith("setSelectedLeague", {
+      league_id: "1",
+      name: "League 1",
+    })
+
+    expect(store.state.selectedLeague).toEqual({ league_id: "1", name: "League 1" })
+
+    expect(store.dispatch).toHaveBeenCalledWith("fetchRosterFromLeague", {
+      userId: "12345",
+      leagueId: "1",
+    })
   })
 })
