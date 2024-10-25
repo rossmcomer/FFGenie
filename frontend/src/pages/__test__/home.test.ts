@@ -2,22 +2,16 @@ import { shallowMount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import Home from "../home.vue"
-// import fetchWeeklyGames from "../../services/fetchWeeklyGames"
-// import fetchSelectedStadiums from "../../services/fetchSelectedStadiums"
-// import fetchWeatherForSelectedGames from "../../services/fetchWeatherForSelectedGames"
-// import PlayerCard from "../../components/PlayerCard.vue"
+import fetchWeeklyGames from "../../services/fetchWeeklyGames"
+import fetchSelectedStadiums from "../../services/fetchSelectedStadiums"
+import fetchWeatherForSelectedGames from "../../services/fetchWeatherForSelectedGames"
+import PlayerCard from "../../components/PlayerCard.vue"
 
-vi.mock("../../services/fetchWeeklyGames", () => ({
-  default: vi.fn()
-}))
+vi.mock("../../services/fetchWeeklyGames")
 
-vi.mock("../../services/fetchSelectedStadiums", () => ({
-  default: vi.fn()
-}))
+vi.mock("../../services/fetchSelectedStadiums")
 
-vi.mock("../../services/fetchWeatherForSelectedGames", () => ({
-  default: vi.fn()
-}))
+vi.mock("../../services/fetchWeatherForSelectedGames")
 
 //Unit Tests, Snapshot tests, integration tests, mocking and spying, asynchronous tests
 
@@ -48,19 +42,29 @@ describe("home.vue", () => {
       actions: {
         fetchUser: vi.fn(),
         fetchSleeperUser: vi.fn(),
-        fetchNflOdds: vi.fn(),
+        fetchNflOdds({ commit }, gameInfo) {
+          commit("setNflOdds", gameInfo)
+        },
         setSelectedLeague({ commit }, league) {
           commit("setSelectedLeague", league)
         },
         fetchRosterFromLeague: vi.fn(),
         fetchAllPlayers: vi.fn(),
         fetchPlayerDetails: vi.fn(),
-        getWeekNumber: vi.fn(),
+        getWeekNumber({ commit }, weekNumber) {
+          commit("setWeekNumber", weekNumber)
+        },
       },
       mutations: {
         setSelectedLeague(state, league) {
           state.selectedLeague = league
         },
+        setNflOdds(state, nflOdds) {
+          state.nflOdds = nflOdds
+        },
+        setWeekNumber(state, weekNumber) {
+          state.weekNumber = weekNumber
+        }
       },
     })
   })
@@ -153,23 +157,39 @@ describe("home.vue", () => {
     })
   })
 
-  // it("fetches NFL odds, stadiums, and weather data on mount", async () => {
-  //   fetchWeeklyGames.mockResolvedValue([{ gameId: "game1" }])
-  //   fetchSelectedStadiums.mockResolvedValue([{ stadium: 'statdium1' }])
-  //   fetchWeatherForSelectedGames.mockResolvedValue([{ weatherId: "weather1" }])
+  it("fetches weekNumber after NflOdds are fetched on mount", async () => {
+    vi.spyOn(store, "dispatch")
 
-  //   const wrapper = shallowMount(Home, {
-  //     global: {
-  //       plugins: [store],
-  //     },
-  //   })
+    const wrapper = shallowMount(Home, {
+      global: {
+        plugins: [store],
+      },
+    })
 
-  //   await wrapper.vm.$nextTick()
+    await store.dispatch('fetchNflOdds', [{
+      id: "game123",
+      commence_time: new Date("2024-11-10T18:30:00Z"),
+      home_team: "Packers",
+      away_team: "Bears",
+      last_update: new Date("2024-11-10T12:00:00Z"),
+      over_under: 45.5,
+      spread: [
+        {
+          team: "Packers",
+          odds: -110,
+          point: -3.5,
+        },
+        {
+          team: "Bears",
+          odds: -110,
+          point: 3.5,
+        },
+      ],
+    }] )
 
-  //   expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
-  //   expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
-  //   expect(fetchWeeklyGames).toHaveBeenCalled()
-  //   expect(fetchSelectedStadiums).toHaveBeenCalled()
-  //   expect(fetchWeatherForSelectedGames).toHaveBeenCalled()
-  // })
+    await wrapper.vm.$nextTick()
+
+    expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
+    expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
+  })
 })
