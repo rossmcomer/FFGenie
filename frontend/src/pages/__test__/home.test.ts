@@ -64,7 +64,7 @@ describe("home.vue", () => {
         },
         setWeekNumber(state, weekNumber) {
           state.weekNumber = weekNumber
-        }
+        },
       },
     })
   })
@@ -166,30 +166,54 @@ describe("home.vue", () => {
       },
     })
 
-    await store.dispatch('fetchNflOdds', [{
-      id: "game123",
-      commence_time: new Date("2024-11-10T18:30:00Z"),
-      home_team: "Packers",
-      away_team: "Bears",
-      last_update: new Date("2024-11-10T12:00:00Z"),
-      over_under: 45.5,
-      spread: [
-        {
-          team: "Packers",
-          odds: -110,
-          point: -3.5,
-        },
-        {
-          team: "Bears",
-          odds: -110,
-          point: 3.5,
-        },
-      ],
-    }] )
+    await store.dispatch("fetchNflOdds", [
+      {
+        id: "game123",
+        commence_time: new Date("2024-11-10T18:30:00Z"),
+        home_team: "Packers",
+        away_team: "Bears",
+        last_update: new Date("2024-11-10T12:00:00Z"),
+        over_under: 45.5,
+        spread: [
+          {
+            team: "Packers",
+            odds: -110,
+            point: -3.5,
+          },
+          {
+            team: "Bears",
+            odds: -110,
+            point: 3.5,
+          },
+        ],
+      },
+    ])
 
     await wrapper.vm.$nextTick()
 
     expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
     expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
+  })
+
+  it("renders the expected amount of PlayerCards", async () => {
+    store.state.selectedRoster = { players: ["123", "234", "345"] }
+
+    store.state.playersDetailed = [
+      { id: "123", position: "QB" },
+      { id: "234", position: "RB" },
+      { id: "345", position: "WR" },
+    ]
+
+    const wrapper = shallowMount(Home, {
+      global: {
+        plugins: [store],
+      },
+    })
+
+    await wrapper.vm.$nextTick()
+
+    const playerCards = wrapper.findAllComponents(PlayerCard)
+
+    expect(playerCards.length).toBe(3)
   })
 })
