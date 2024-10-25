@@ -48,7 +48,6 @@ const fetchRoster = () => {
       )
 
       if (league) {
-        
         store
           .dispatch("fetchRosterFromLeague", {
             userId: sleeperUser.value.user_id,

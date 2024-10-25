@@ -191,7 +191,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
           <img
             v-if="player.position == 'DEF'"
             :src="`https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbreviation}.png`"
-            class="playerPic"
+            class="defensePic"
           />
         </div>
         <div class="playerDescription">
@@ -303,7 +303,7 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
   border-radius: 5px;
   box-sizing: border-box;
   position: relative;
-  color: #ffffff;
+  color: #f0f0f0;
   font-size: 14px;
 }
 
@@ -345,6 +345,11 @@ const formatDate = (dateString: Date | undefined): string | undefined => {
 .playerPic {
   height: 40px;
   width: 60px;
+  margin: 2px;
+}
+
+.defensePic {
+  height: 40px;
   margin: 2px;
 }
 

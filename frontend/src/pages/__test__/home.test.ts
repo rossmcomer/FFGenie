@@ -1,7 +1,23 @@
-import { shallowMount, mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import Home from "../home.vue"
+import fetchWeeklyGames from "../../services/fetchWeeklyGames"
+import fetchSelectedStadiums from "../../services/fetchSelectedStadiums"
+import fetchWeatherForSelectedGames from "../../services/fetchWeatherForSelectedGames"
+import PlayerCard from "../../components/PlayerCard.vue"
+
+vi.mock("../../services/fetchWeeklyGames", () => ({
+  default: vi.fn()
+}))
+
+vi.mock("../../services/fetchSelectedStadiums", () => ({
+  default: vi.fn()
+}))
+
+vi.mock("../../services/fetchWeatherForSelectedGames", () => ({
+  default: vi.fn()
+}))
 
 //Unit Tests, Snapshot tests, integration tests, mocking and spying, asynchronous tests
 
@@ -34,7 +50,7 @@ describe("home.vue", () => {
         fetchSleeperUser: vi.fn(),
         fetchNflOdds: vi.fn(),
         setSelectedLeague({ commit }, league) {
-          commit('setSelectedLeague', league);
+          commit("setSelectedLeague", league)
         },
         fetchRosterFromLeague: vi.fn(),
         fetchAllPlayers: vi.fn(),
@@ -43,8 +59,9 @@ describe("home.vue", () => {
       },
       mutations: {
         setSelectedLeague(state, league) {
-          state.selectedLeague = league;
-        }}
+          state.selectedLeague = league
+        },
+      },
     })
   })
 
@@ -61,7 +78,7 @@ describe("home.vue", () => {
   })
 
   it("fetches the Sleeper user when the form is submitted", async () => {
-    vi.spyOn(store, 'dispatch')
+    vi.spyOn(store, "dispatch")
 
     const wrapper = shallowMount(Home, {
       global: {
@@ -70,12 +87,12 @@ describe("home.vue", () => {
     })
 
     await wrapper.find("input[name='usernameInput']").setValue("testUser")
-    await wrapper.find('form').trigger('submit.prevent')
+    await wrapper.find("form").trigger("submit.prevent")
 
     expect(store.dispatch).toHaveBeenCalledWith("fetchSleeperUser", "testUser")
-    })
+  })
 
-  it('shows a dropdown to select the league when the user is fetched', async () => {
+  it("shows a dropdown to select the league when the user is fetched", async () => {
     store.state.sleeperUser = {
       user_id: "12345",
       leagues: [
@@ -97,8 +114,8 @@ describe("home.vue", () => {
     expect(dropdown.findAll("option").length).toBe(3) // 2 leagues + 1 disabled
   })
 
-  it("fetches the roster when a league is selected", async () => {    
-    vi.spyOn(store, 'dispatch')
+  it("fetches the roster when a league is selected", async () => {
+    vi.spyOn(store, "dispatch")
 
     store.state.sleeperUser = {
       user_id: "12345",
@@ -110,24 +127,49 @@ describe("home.vue", () => {
       avatar: "abcdefg12345",
     }
 
-    const wrapper = mount(Home, {
+    const wrapper = shallowMount(Home, {
       global: {
         plugins: [store],
       },
     })
 
-    await wrapper.find("select[name='leagueSelector']").setValue(store.state.sleeperUser.leagues[0])
+    await wrapper
+      .find("select[name='leagueSelector']")
+      .setValue(store.state.sleeperUser.leagues[0])
 
     expect(store.dispatch).toHaveBeenCalledWith("setSelectedLeague", {
       league_id: "1",
       name: "League 1",
     })
 
-    expect(store.state.selectedLeague).toEqual({ league_id: "1", name: "League 1" })
+    expect(store.state.selectedLeague).toEqual({
+      league_id: "1",
+      name: "League 1",
+    })
 
     expect(store.dispatch).toHaveBeenCalledWith("fetchRosterFromLeague", {
       userId: "12345",
       leagueId: "1",
     })
+  })
+
+  it("fetches NFL odds, stadiums, and weather data on mount", async () => {
+    fetchWeeklyGames.mockResolvedValue([{ gameId: "game1" }])
+    fetchSelectedStadiums.mockResolvedValue([{ stadium: 'statdium1' }])
+    fetchWeatherForSelectedGames.mockResolvedValue([{ weatherId: "weather1" }])
+
+    const wrapper = shallowMount(Home, {
+      global: {
+        plugins: [store],
+      },
+    })
+
+    await wrapper.vm.$nextTick()
+
+    expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
+    expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
+    expect(fetchWeeklyGames).toHaveBeenCalled()
+    expect(fetchSelectedStadiums).toHaveBeenCalled()
+    expect(fetchWeatherForSelectedGames).toHaveBeenCalled()
   })
 })
