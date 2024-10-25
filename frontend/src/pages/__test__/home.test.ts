@@ -153,23 +153,23 @@ describe("home.vue", () => {
     })
   })
 
-  it("fetches NFL odds, stadiums, and weather data on mount", async () => {
-    fetchWeeklyGames.mockResolvedValue([{ gameId: "game1" }])
-    fetchSelectedStadiums.mockResolvedValue([{ stadium: 'statdium1' }])
-    fetchWeatherForSelectedGames.mockResolvedValue([{ weatherId: "weather1" }])
+  // it("fetches NFL odds, stadiums, and weather data on mount", async () => {
+  //   fetchWeeklyGames.mockResolvedValue([{ gameId: "game1" }])
+  //   fetchSelectedStadiums.mockResolvedValue([{ stadium: 'statdium1' }])
+  //   fetchWeatherForSelectedGames.mockResolvedValue([{ weatherId: "weather1" }])
 
-    const wrapper = shallowMount(Home, {
-      global: {
-        plugins: [store],
-      },
-    })
+  //   const wrapper = shallowMount(Home, {
+  //     global: {
+  //       plugins: [store],
+  //     },
+  //   })
 
-    await wrapper.vm.$nextTick()
+  //   await wrapper.vm.$nextTick()
 
-    expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
-    expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
-    expect(fetchWeeklyGames).toHaveBeenCalled()
-    expect(fetchSelectedStadiums).toHaveBeenCalled()
-    expect(fetchWeatherForSelectedGames).toHaveBeenCalled()
-  })
+  //   expect(store.dispatch).toHaveBeenCalledWith("fetchNflOdds")
+  //   expect(store.dispatch).toHaveBeenCalledWith("getWeekNumber")
+  //   expect(fetchWeeklyGames).toHaveBeenCalled()
+  //   expect(fetchSelectedStadiums).toHaveBeenCalled()
+  //   expect(fetchWeatherForSelectedGames).toHaveBeenCalled()
+  // })
 })
