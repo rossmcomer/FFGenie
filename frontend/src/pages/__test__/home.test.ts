@@ -2,10 +2,10 @@ import { shallowMount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import Home from "../home.vue"
-import fetchWeeklyGames from "../../services/fetchWeeklyGames"
-import fetchSelectedStadiums from "../../services/fetchSelectedStadiums"
-import fetchWeatherForSelectedGames from "../../services/fetchWeatherForSelectedGames"
-import PlayerCard from "../../components/PlayerCard.vue"
+// import fetchWeeklyGames from "../../services/fetchWeeklyGames"
+// import fetchSelectedStadiums from "../../services/fetchSelectedStadiums"
+// import fetchWeatherForSelectedGames from "../../services/fetchWeatherForSelectedGames"
+// import PlayerCard from "../../components/PlayerCard.vue"
 
 vi.mock("../../services/fetchWeeklyGames", () => ({
   default: vi.fn()
