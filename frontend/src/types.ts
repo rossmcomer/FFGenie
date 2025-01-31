@@ -193,3 +193,14 @@ export type WeatherResponse = {
   cod: number
 }
 //weather end
+
+//analytics start
+export interface PositionData {
+  position: string;
+  mean: number;
+  median: number;
+  min: number;
+  max: number;
+  stdDev?: number;
+}
+//analytics end
