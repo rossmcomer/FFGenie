@@ -1,5 +1,7 @@
 .env
 Dockerfile
+src/assets/playerADP2024PPR
+src/assets/playerPoints2024PPR
 
 # Logs
 logs
