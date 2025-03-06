@@ -179,6 +179,7 @@ onMounted(async () => {
 .instructions {
   font-style: italic;
   text-shadow: rgba(0, 0, 0, 0.432) 1px 4px 20px;
+  text-align: center;
 }
 
 .userContainer {
