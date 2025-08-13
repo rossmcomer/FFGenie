@@ -5,7 +5,7 @@ const fetchWeeklyGames = async (
   week: number,
   nflOdds: ReducedGameInfo[],
 ): Promise<ReducedGameInfo[]> => {
-  const seasonStartDate = new Date("2024-09-05T00:00:00Z")
+  const seasonStartDate = new Date("2025-09-04T00:00:00Z")
   const startOfWeekDate = addDays(seasonStartDate, (week - 1) * 7)
   const endOfWeekDate = addDays(startOfWeekDate, 6)
 
