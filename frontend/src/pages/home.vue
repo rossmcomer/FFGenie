@@ -94,7 +94,7 @@ onMounted(async () => {
 <template>
   <div class="pageContainer">
     <div v-if="sleeperUser.user_id === ''" class="instructions">
-      Enter your Sleeper username to get started! If you don't have one, type "rosscomer" in the box.
+      Enter your Sleeper username to get started! If you don't have one, type "combdawg" in the box.
     </div>
     <div
       v-if="sleeperUser.user_id !== '' && selectedLeague.league_id == ''"
