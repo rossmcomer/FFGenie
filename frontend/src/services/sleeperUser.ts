@@ -9,7 +9,7 @@ const getSleeperUser = async (username: string) => {
 
 const getSleeperUserLeagues = async (userId: string) => {
   const response = await fetch(
-    `https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2024`,
+    `https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2025`,
   )
   const data = await response.json()
   const leagues = data.map((league: any) => ({
