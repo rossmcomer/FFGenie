@@ -129,10 +129,6 @@ onMounted(async () => {
           {{ league.name }}
         </option>
       </select>
-      <!-- <div v-if="sleeperUser.display_name != ''">
-        <div>{{sleeperUser.display_name}}</div>
-        <img :src="`https://sleepercdn.com/avatars/${sleeperUser.avatar}`" class="profilePic" alt="sleeper Avatar"/>
-      </div> -->
     </div>
     <div v-if="selectedRoster.players[0]" class="playerCardsContainer">
       <div
