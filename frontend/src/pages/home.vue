@@ -7,6 +7,8 @@ import type {
   Stadium,
   Weather,
   PlayerDetailed,
+  SelectedRoster,
+SleeperUser
 } from "../types"
 import PlayerCard from "../components/PlayerCard.vue"
 import fetchWeeklyGames from "../services/fetchWeeklyGames"
@@ -30,6 +32,7 @@ const selectedLeague = computed({
 })
 
 const username = ref<string>()
+const submitted = ref(false)
 const selectedGames = ref<ReducedGameInfo[]>([])
 const selectedStadiums = ref<Stadium[]>([])
 const selectedWeather = ref<Weather[]>([])
@@ -37,6 +40,28 @@ const selectedWeather = ref<Weather[]>([])
 const fetchUser = () => {
   if (username.value) {
     store.dispatch("fetchSleeperUser", username.value)
+  }
+  submitted.value = true
+}
+
+const clearUser = () => {
+  store.commit("setSleeperUser", {user_id: "",
+        display_name: "",
+        avatar: "",
+        leagues: []} as SleeperUser)
+  username.value = ""
+  submitted.value = false
+  selectedGames.value = []
+  selectedStadiums.value = []
+  selectedWeather.value = []
+  store.commit("setSelectedRoster", { players:[] } as SelectedRoster)
+}
+
+const handleSubmit = () => {
+  if (submitted.value) {
+    clearUser()
+  } else {
+    fetchUser()
   }
 }
 
@@ -103,15 +128,16 @@ onMounted(async () => {
       Select your league from the dropdown menu below!
     </div>
     <div class="userContainer">
-      <form @submit.prevent="fetchUser" class="userForm">
+      <form @submit.prevent="handleSubmit" class="userForm">
         <input
           v-model="username"
           name="usernameInput"
+          :readonly="submitted"
           type="text"
           placeholder="Sleeper username"
           class="usernameInput"
         />
-        <button type="submit" class="fetchUserButton">Fetch User</button>
+        <button type="submit" class="fetchUserButton">{{ submitted ? "Clear User" : "Fetch User" }}</button>
       </form>
       <select
         v-model="selectedLeague"
