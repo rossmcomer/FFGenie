@@ -82,12 +82,6 @@ const store = createStore<State>({
     },
     async fetchSleeperUser({ commit }, username: string) {
       try {
-        commit("setSleeperUser", {
-          user_id: "",
-          display_name: "",
-          avatar: "",
-          leagues: [],
-        })
         const response = await sleeperUserService.getSleeperUser(username)
         const leagues = await sleeperUserService.getSleeperUserLeagues(
           response.user_id,
