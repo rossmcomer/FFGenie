@@ -7,8 +7,9 @@ import type {
   Stadium,
   Weather,
   PlayerDetailed,
+  PlayersDetailed,
   SelectedRoster,
-SleeperUser
+  SleeperUser,
 } from "../types"
 import PlayerCard from "../components/PlayerCard.vue"
 import fetchWeeklyGames from "../services/fetchWeeklyGames"
@@ -45,16 +46,20 @@ const fetchUser = () => {
 }
 
 const clearUser = () => {
-  store.commit("setSleeperUser", {user_id: "",
-        display_name: "",
-        avatar: "",
-        leagues: []} as SleeperUser)
   username.value = ""
   submitted.value = false
   selectedGames.value = []
   selectedStadiums.value = []
   selectedWeather.value = []
-  store.commit("setSelectedRoster", { players:[] } as SelectedRoster)
+  store.commit("setSleeperUser", {
+    user_id: "",
+    display_name: "",
+    avatar: "",
+    leagues: [],
+  } as SleeperUser)
+  store.commit("setSelectedRoster", { players: [] } as SelectedRoster)
+  store.commit("setSelectedLeague", { league_id: "", name: "" } as League)
+  store.commit("setPlayersDetailed", [] as PlayersDetailed)
 }
 
 const handleSubmit = () => {
@@ -119,7 +124,8 @@ onMounted(async () => {
 <template>
   <div class="pageContainer">
     <div v-if="sleeperUser.user_id === ''" class="instructions">
-      Enter your Sleeper username to get started! If you don't have one, type "combdawg" in the box.
+      Enter your Sleeper username to get started! If you don't have one, type
+      "combdawg" in the box.
     </div>
     <div
       v-if="sleeperUser.user_id !== '' && selectedLeague.league_id == ''"
@@ -137,7 +143,9 @@ onMounted(async () => {
           placeholder="Sleeper username"
           class="usernameInput"
         />
-        <button type="submit" class="fetchUserButton">{{ submitted ? "Clear User" : "Fetch User" }}</button>
+        <button type="submit" class="fetchUserButton">
+          {{ submitted ? "Clear User" : "Fetch User" }}
+        </button>
       </form>
       <select
         v-model="selectedLeague"

@@ -1,128 +1,128 @@
 [
-    {
-        "position": "QB1",
-        "mean": 332.3,
-        "median": 322.2,
-        "min": 278.9,
-        "max": 411.4
-    },
-    {
-        "position": "RB1",
-        "mean": 283.15,
-        "median": 276.8,
-        "min": 241.6,
-        "max": 355.3
-    },
-    {
-        "position": "WR1",
-        "mean": 267.2,
-        "median": 252,
-        "min": 224.4,
-        "max": 377.4
-    },
-    {
-        "position": "TE1",
-        "mean": 118.8,
-        "median": 167.1,
-        "min": 145.4,
-        "max": 247.7
-    },
-    {
-        "position": "QB2",
-        "mean": 217.3,
-        "median": 224.5,
-        "min": 167.6,
-        "max": 260.4
-    },
-    {
-        "position": "RB2",
-        "mean": 208.8,
-        "median": 210.85,
-        "min": 181.3,
-        "max": 236.7
-    },
-    {
-        "position": "WR2",
-        "mean": 212.7,
-        "median": 213.5,
-        "min": 199.4,
-        "max": 222.5
-    },
-    {
-        "position": "TE2",
-        "mean": 116.2,
-        "median": 113.1,
-        "min": 101.9,
-        "max": 140.6
-    },
-    {
-        "position": "QB3",
-        "mean": 128.2,
-        "median": 122.3,
-        "min": 91.5,
-        "max": 166.3
-    },
-    {
-        "position": "RB3",
-        "mean": 151,
-        "median": 151.25,
-        "min": 125.2,
-        "max": 181.2
-    },
-    {
-        "position": "WR3",
-        "mean": 186.7,
-        "median": 188.1,
-        "min": 175,
-        "max": 198.3
-    },
-    {
-        "position": "TE3",
-        "mean": 86.3,
-        "median": 88.1,
-        "min": 66.7,
-        "max": 101.2
-    },
-    {
-        "position": "RB4",
-        "mean": 104.1,
-        "median": 99.45,
-        "min": 89.4,
-        "max": 122
-    },
-    {
-        "position": "WR4",
-        "mean": 151.6,
-        "median": 150.15,
-        "min": 140.6,
-        "max": 168.4
-    },
-    {
-        "position": "RB5",
-        "mean": 72.1,
-        "median": 70.7,
-        "min": 57.5,
-        "max": 84.3
-    },
-    {
-        "position": "WR5",
-        "mean": 129.1,
-        "median": 128.3,
-        "min": 120.8,
-        "max": 140
-    },
-    {
-        "position": "RB6",
-        "mean": 48.8,
-        "median": 49.3,
-        "min": 39.3,
-        "max": 56.9
-    },
-    {
-        "position": "WR6",
-        "mean": 111.8,
-        "median": 11.7,
-        "min": 105.3,
-        "max": 119.1
-    }
+  {
+    "position": "QB1",
+    "mean": 332.3,
+    "median": 322.2,
+    "min": 278.9,
+    "max": 411.4
+  },
+  {
+    "position": "RB1",
+    "mean": 283.15,
+    "median": 276.8,
+    "min": 241.6,
+    "max": 355.3
+  },
+  {
+    "position": "WR1",
+    "mean": 267.2,
+    "median": 252,
+    "min": 224.4,
+    "max": 377.4
+  },
+  {
+    "position": "TE1",
+    "mean": 118.8,
+    "median": 167.1,
+    "min": 145.4,
+    "max": 247.7
+  },
+  {
+    "position": "QB2",
+    "mean": 217.3,
+    "median": 224.5,
+    "min": 167.6,
+    "max": 260.4
+  },
+  {
+    "position": "RB2",
+    "mean": 208.8,
+    "median": 210.85,
+    "min": 181.3,
+    "max": 236.7
+  },
+  {
+    "position": "WR2",
+    "mean": 212.7,
+    "median": 213.5,
+    "min": 199.4,
+    "max": 222.5
+  },
+  {
+    "position": "TE2",
+    "mean": 116.2,
+    "median": 113.1,
+    "min": 101.9,
+    "max": 140.6
+  },
+  {
+    "position": "QB3",
+    "mean": 128.2,
+    "median": 122.3,
+    "min": 91.5,
+    "max": 166.3
+  },
+  {
+    "position": "RB3",
+    "mean": 151,
+    "median": 151.25,
+    "min": 125.2,
+    "max": 181.2
+  },
+  {
+    "position": "WR3",
+    "mean": 186.7,
+    "median": 188.1,
+    "min": 175,
+    "max": 198.3
+  },
+  {
+    "position": "TE3",
+    "mean": 86.3,
+    "median": 88.1,
+    "min": 66.7,
+    "max": 101.2
+  },
+  {
+    "position": "RB4",
+    "mean": 104.1,
+    "median": 99.45,
+    "min": 89.4,
+    "max": 122
+  },
+  {
+    "position": "WR4",
+    "mean": 151.6,
+    "median": 150.15,
+    "min": 140.6,
+    "max": 168.4
+  },
+  {
+    "position": "RB5",
+    "mean": 72.1,
+    "median": 70.7,
+    "min": 57.5,
+    "max": 84.3
+  },
+  {
+    "position": "WR5",
+    "mean": 129.1,
+    "median": 128.3,
+    "min": 120.8,
+    "max": 140
+  },
+  {
+    "position": "RB6",
+    "mean": 48.8,
+    "median": 49.3,
+    "min": 39.3,
+    "max": 56.9
+  },
+  {
+    "position": "WR6",
+    "mean": 111.8,
+    "median": 11.7,
+    "min": 105.3,
+    "max": 119.1
+  }
 ]

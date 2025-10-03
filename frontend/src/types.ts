@@ -196,11 +196,11 @@ export type WeatherResponse = {
 
 //analytics start
 export interface PositionData {
-  position: string;
-  mean: number;
-  median: number;
-  min: number;
-  max: number;
-  stdDev?: number;
+  position: string
+  mean: number
+  median: number
+  min: number
+  max: number
+  stdDev?: number
 }
 //analytics end

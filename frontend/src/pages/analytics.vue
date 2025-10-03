@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { PositionData } from "../types";
-import PPRData2024 from "../assets/2024positionalDataPPR.json";
+import { computed } from "vue"
+import type { PositionData } from "../types"
+import PPRData2024 from "../assets/2024positionalDataPPR.json"
 
 // Initialize the data by mapping and converting it into proper numerical values
-const data: PositionData[] = PPRData2024.map(item => ({
+const data: PositionData[] = PPRData2024.map((item) => ({
   position: item.position,
   mean: Number(item.mean),
   median: Number(item.median),
   min: Number(item.min),
-  max: Number(item.max)
-}));
+  max: Number(item.max),
+}))
 
 // Function to calculate standard deviation
-const calculateStdDev = (min: number, max: number): number => (max - min) / 4;
+const calculateStdDev = (min: number, max: number): number => (max - min) / 4
 
 // Function to determine color based on standard deviation
 const getColor = (stdDev: number): string => {
-  if (stdDev > 30) return "high"; // High deviation (red)
-  if (stdDev > 15) return "medium"; // Medium deviation (yellow)
-  return "low"; // Low deviation (green)
-};
+  if (stdDev > 30) return "high" // High deviation (red)
+  if (stdDev > 15) return "medium" // Medium deviation (yellow)
+  return "low" // Low deviation (green)
+}
 
 // Group positions into QB, RB, WR, TE categories
 const groupedData = computed(() => {
   return data.reduce<Record<string, PositionData[]>>((acc, item) => {
-    const category = item.position.match(/[A-Za-z]+/)?.[0] || "Unknown"; // Extract category (QB, RB, WR, TE)
-    if (!acc[category]) acc[category] = [];
+    const category = item.position.match(/[A-Za-z]+/)?.[0] || "Unknown" // Extract category (QB, RB, WR, TE)
+    if (!acc[category]) acc[category] = []
     acc[category].push({
       ...item,
-      stdDev: calculateStdDev(item.min, item.max)
-    });
-    return acc;
-  }, {});
-});
+      stdDev: calculateStdDev(item.min, item.max),
+    })
+    return acc
+  }, {})
+})
 </script>
 
 <template>
@@ -43,8 +43,11 @@ const groupedData = computed(() => {
     <!-- QB Section -->
     <div class="category">
       <h2>QBs</h2>
-      <div v-for="position in groupedData.QB || []" :key="position.position" 
-           :class="['position-box', getColor(position.stdDev ?? 0)]">
+      <div
+        v-for="position in groupedData.QB || []"
+        :key="position.position"
+        :class="['position-box', getColor(position.stdDev ?? 0)]"
+      >
         <h3>{{ position.position }}</h3>
         <p>Mean: {{ position.mean }}</p>
         <p>Median: {{ position.median }}</p>
@@ -57,8 +60,11 @@ const groupedData = computed(() => {
     <!-- RB Section -->
     <div class="category">
       <h2>RBs</h2>
-      <div v-for="position in groupedData.RB || []" :key="position.position" 
-           :class="['position-box', getColor(position.stdDev ?? 0)]">
+      <div
+        v-for="position in groupedData.RB || []"
+        :key="position.position"
+        :class="['position-box', getColor(position.stdDev ?? 0)]"
+      >
         <h3>{{ position.position }}</h3>
         <p>Mean: {{ position.mean }}</p>
         <p>Median: {{ position.median }}</p>
@@ -71,8 +77,11 @@ const groupedData = computed(() => {
     <!-- WR Section -->
     <div class="category">
       <h2>WRs</h2>
-      <div v-for="position in groupedData.WR || []" :key="position.position" 
-           :class="['position-box', getColor(position.stdDev ?? 0)]">
+      <div
+        v-for="position in groupedData.WR || []"
+        :key="position.position"
+        :class="['position-box', getColor(position.stdDev ?? 0)]"
+      >
         <h3>{{ position.position }}</h3>
         <p>Mean: {{ position.mean }}</p>
         <p>Median: {{ position.median }}</p>
@@ -85,8 +94,11 @@ const groupedData = computed(() => {
     <!-- TE Section -->
     <div class="category">
       <h2>TEs</h2>
-      <div v-for="position in groupedData.TE || []" :key="position.position" 
-           :class="['position-box', getColor(position.stdDev ?? 0)]">
+      <div
+        v-for="position in groupedData.TE || []"
+        :key="position.position"
+        :class="['position-box', getColor(position.stdDev ?? 0)]"
+      >
         <h3>{{ position.position }}</h3>
         <p>Mean: {{ position.mean }}</p>
         <p>Median: {{ position.median }}</p>
