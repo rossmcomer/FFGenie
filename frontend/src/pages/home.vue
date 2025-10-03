@@ -197,7 +197,7 @@ onMounted(async () => {
   border: 2px solid rgba(10, 43, 16);
   background-color: rgb(141, 141, 141);
   color: rgba(10, 43, 16);
-  font-size: 14px;
+  font-size: 16px;
   width: 200px;
   margin: 0px 5px;
   box-sizing: border-box;
