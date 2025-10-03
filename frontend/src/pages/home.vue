@@ -48,9 +48,6 @@ const fetchUser = () => {
 const clearUser = () => {
   username.value = ""
   submitted.value = false
-  selectedGames.value = []
-  selectedStadiums.value = []
-  selectedWeather.value = []
   store.commit("setSleeperUser", {
     user_id: "",
     display_name: "",
